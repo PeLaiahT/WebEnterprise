@@ -20,6 +20,9 @@ namespace WebEnterprise.Models
             CreateAt = DateTime.Now;
             Like = 0;
             View = 0;
+            FirstDate = DateTime.Today;
+            LastDate = DateTime.Today;
+        
         }
 
     }
