@@ -10,20 +10,11 @@ namespace WebEnterprise.Models
         public string Title { get; set; }
         [Required(ErrorMessage = "Please enter Content")]
         public string Content { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime FirstDate { get; set; }
-        public DateTime LastDate { get; set; }
-        public int Like { get; set; }
-        public int View { get; set; }
-        public Idea()
-        {
-            CreateAt = DateTime.Now;
-            Like = 0;
-            View = 0;
-            FirstDate = DateTime.Today;
-            LastDate = DateTime.Today;
-        
-        }
+        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime FirstDate { get; set; } = DateTime.Now;
+        public DateTime LastDate { get; set; } = DateTime.Now;
+        public int Like { get; set; } = 0;
+        public int View { get; set; } = 0;
 
     }
 }
