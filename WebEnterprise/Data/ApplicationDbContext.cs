@@ -7,6 +7,7 @@ namespace WebEnterprise.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Idea> Ideas { get; set; }
+        public DbSet<Comment> Comments { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
