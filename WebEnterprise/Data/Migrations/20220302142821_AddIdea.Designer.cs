@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebEnterprise.Data;
 
@@ -11,9 +12,10 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220302142821_AddIdea")]
+    partial class AddIdea
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,34 +226,6 @@ namespace WebEnterprise.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
-                {
-                    b.Property<int>("IdCommment")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCommment"), 1L, 1);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdeaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Like")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdCommment");
-
-                    b.HasIndex("IdeaId");
-
-                    b.ToTable("Comments");
-                });
-
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
                     b.Property<int>("IdeaID")
@@ -337,22 +311,6 @@ namespace WebEnterprise.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
-                {
-                    b.HasOne("WebEnterprise.Models.Idea", "Idea")
-                        .WithMany("Comments")
-                        .HasForeignKey("IdeaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Idea");
-                });
-
-            modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
-                {
-                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }
