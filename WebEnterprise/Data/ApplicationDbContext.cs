@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WebEnterprise.Models;
 
 namespace WebEnterprise.Data
 {
@@ -10,5 +11,6 @@ namespace WebEnterprise.Data
         {
 
         }
+        public DbSet<WebEnterprise.Models.Idea> Idea { get; set; }
     }
 }
