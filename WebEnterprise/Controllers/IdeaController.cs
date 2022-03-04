@@ -13,13 +13,21 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult Index()
         {
-            var idea1 = new List <Idea>();
-            var idea2 = new Idea();
-            var idea3 = new Idea();
-            idea1.Add(idea2);
-            idea1.Add(idea3);
-            return View(idea1);
+            IEnumerable<Idea> ideas = _db.Ideas.OrderByDescending(i => i.CreateAt);
+            return View(ideas);
         }
-
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Create(Idea idea)
+        {
+            _db.Ideas.Add(idea);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+      
     }
 }
