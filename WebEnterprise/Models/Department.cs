@@ -7,5 +7,6 @@ namespace WebEnterprise.Models
 {
     public class Department
     {
+       
     }
 }
