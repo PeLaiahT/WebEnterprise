@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
 
@@ -71,7 +72,8 @@ namespace WebEnterprise.Controllers
             }
             else
             {
-                //_db.Entry<Category>(category).State = System.Data.Entity.EntityState.Modified;
+                var courseCategory = _db.Categories;
+                _db.Entry<Category>(category).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
