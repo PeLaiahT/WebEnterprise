@@ -15,6 +15,9 @@ namespace WebEnterprise.Models
         public DateTime LastDate { get; set; } = DateTime.Now;
         public int Like { get; set; } = 0;
         public int View { get; set; } = 0;
+        public List<Comment> Comments { get; set; }
+         public int IdCategory { get; set; }
+        public Category category { get; set; }
 
     }
 }

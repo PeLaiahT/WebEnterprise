@@ -12,8 +12,8 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220301170357_SchoolContext")]
-    partial class SchoolContext
+    [Migration("20220302153050_AddComment")]
+    partial class AddComment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -224,6 +224,65 @@ namespace WebEnterprise.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
+                {
+                    b.Property<int>("IdCommment")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCommment"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdCommment");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
+                {
+                    b.Property<int>("IdeaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdeaID"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("FirstDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LastDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("View")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdeaID");
+
+                    b.ToTable("Ideas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

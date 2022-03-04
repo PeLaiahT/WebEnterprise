@@ -1,11 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebEnterprise.Data;
 using WebEnterprise.Models;
 
 namespace WebEnterprise.Controllers
 {
     public class IdeaController : Controller
     {
-        
+        private readonly ApplicationDbContext _db;
+        public IdeaController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
         public IActionResult Index()
         {
             var idea1 = new List <Idea>();
@@ -15,7 +20,6 @@ namespace WebEnterprise.Controllers
             idea1.Add(idea3);
             return View(idea1);
         }
-       
 
     }
 }

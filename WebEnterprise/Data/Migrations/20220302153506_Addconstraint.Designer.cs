@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebEnterprise.Data;
 
@@ -11,9 +12,10 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220302153506_Addconstraint")]
+    partial class Addconstraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,27 +226,6 @@ namespace WebEnterprise.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebEnterprise.Models.Category", b =>
-                {
-                    b.Property<int>("IdCategory")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategory"), 1L, 1);
-
-                    b.Property<string>("Desciption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameCategory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdCategory");
-
-                    b.ToTable("Category");
-                });
-
             modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
                 {
                     b.Property<int>("IdCommment")
@@ -260,7 +241,7 @@ namespace WebEnterprise.Data.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdeaID")
+                    b.Property<int>("IdeaId")
                         .HasColumnType("int");
 
                     b.Property<int>("Like")
@@ -268,7 +249,7 @@ namespace WebEnterprise.Data.Migrations
 
                     b.HasKey("IdCommment");
 
-                    b.HasIndex("IdeaID");
+                    b.HasIndex("IdeaId");
 
                     b.ToTable("Comments");
                 });
@@ -291,9 +272,6 @@ namespace WebEnterprise.Data.Migrations
                     b.Property<DateTime>("FirstDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdCategory")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("LastDate")
                         .HasColumnType("datetime2");
 
@@ -307,14 +285,9 @@ namespace WebEnterprise.Data.Migrations
                     b.Property<int>("View")
                         .HasColumnType("int");
 
-                    b.Property<int>("categoryIdCategory")
-                        .HasColumnType("int");
-
                     b.HasKey("IdeaID");
 
-                    b.HasIndex("categoryIdCategory");
-
-                    b.ToTable("Idea");
+                    b.ToTable("Ideas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -372,27 +345,11 @@ namespace WebEnterprise.Data.Migrations
                 {
                     b.HasOne("WebEnterprise.Models.Idea", "Idea")
                         .WithMany("Comments")
-                        .HasForeignKey("IdeaID")
+                        .HasForeignKey("IdeaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Idea");
-                });
-
-            modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
-                {
-                    b.HasOne("WebEnterprise.Models.Category", "category")
-                        .WithMany("Ideas")
-                        .HasForeignKey("categoryIdCategory")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("category");
-                });
-
-            modelBuilder.Entity("WebEnterprise.Models.Category", b =>
-                {
-                    b.Navigation("Ideas");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>

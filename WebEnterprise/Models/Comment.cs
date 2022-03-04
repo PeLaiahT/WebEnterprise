@@ -15,8 +15,8 @@ namespace WebEnterprise.Models
 
         [Required(ErrorMessage = "Please enter Content")]
         public string Content { get; set; }
-        //public int IdeaID { get; set; }
-        //public Idea Idea { get; set; }
+        public int IdeaID { get; set; }
+        public Idea Idea { get; set; }
 
 
     }
