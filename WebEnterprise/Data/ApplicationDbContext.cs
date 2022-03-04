@@ -13,6 +13,5 @@ namespace WebEnterprise.Data
             : base(options)
         {
         }
-        public DbSet<WebEnterprise.Models.Idea> Idea { get; set; }
     }
 }
