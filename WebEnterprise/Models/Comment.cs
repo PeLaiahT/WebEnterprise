@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace WebEnterprise.Models
 {
     public class Comment
     {
         [Key]
-        public int IdCommment { get; set; }
+        public int CommentID { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public int Like { get; set; } = 0;
 

@@ -3,19 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebEnterprise.Data;
 
 #nullable disable
 
-namespace WebEnterprise.Data.Migrations
+namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220304115126_AddCatgoy")]
-    partial class AddCatgoy
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,11 +226,11 @@ namespace WebEnterprise.Data.Migrations
 
             modelBuilder.Entity("WebEnterprise.Models.Category", b =>
                 {
-                    b.Property<int>("IdCategory")
+                    b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCategory"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"), 1L, 1);
 
                     b.Property<string>("Desciption")
                         .IsRequired()
@@ -242,18 +240,18 @@ namespace WebEnterprise.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("IdCategory");
+                    b.HasKey("CategoryID");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
                 {
-                    b.Property<int>("IdCommment")
+                    b.Property<int>("CommentID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCommment"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"), 1L, 1);
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -268,7 +266,7 @@ namespace WebEnterprise.Data.Migrations
                     b.Property<int>("Like")
                         .HasColumnType("int");
 
-                    b.HasKey("IdCommment");
+                    b.HasKey("CommentID");
 
                     b.HasIndex("IdeaID");
 
@@ -283,6 +281,9 @@ namespace WebEnterprise.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdeaID"), 1L, 1);
 
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -292,9 +293,6 @@ namespace WebEnterprise.Data.Migrations
 
                     b.Property<DateTime>("FirstDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("IdCategory")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastDate")
                         .HasColumnType("datetime2");
@@ -309,14 +307,11 @@ namespace WebEnterprise.Data.Migrations
                     b.Property<int>("View")
                         .HasColumnType("int");
 
-                    b.Property<int>("categoryIdCategory")
-                        .HasColumnType("int");
-
                     b.HasKey("IdeaID");
 
-                    b.HasIndex("categoryIdCategory");
+                    b.HasIndex("CategoryID");
 
-                    b.ToTable("Idea");
+                    b.ToTable("Ideas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -383,13 +378,13 @@ namespace WebEnterprise.Data.Migrations
 
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
-                    b.HasOne("WebEnterprise.Models.Category", "category")
+                    b.HasOne("WebEnterprise.Models.Category", "Category")
                         .WithMany("Ideas")
-                        .HasForeignKey("categoryIdCategory")
+                        .HasForeignKey("CategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("category");
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Category", b =>

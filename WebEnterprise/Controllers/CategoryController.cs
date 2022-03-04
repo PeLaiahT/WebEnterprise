@@ -15,7 +15,7 @@ namespace WebEnterprise.Controllers
         public IActionResult Index()
         {
             var categories = _db.Categories
-                             .OrderBy(c => c.IdCategory)
+                             .OrderBy(c => c.CategoryID)
                              .ToList();
             return View(categories);
         }
@@ -42,7 +42,7 @@ namespace WebEnterprise.Controllers
 
         public IActionResult Delete(int id)
         {
-            var courseCategory = _db.Categories.FirstOrDefault(t => t.IdCategory == id);
+            var courseCategory = _db.Categories.FirstOrDefault(t => t.CategoryID == id);
             if (courseCategory != null)
             {
                 _db.Categories.Remove(courseCategory);
@@ -53,7 +53,7 @@ namespace WebEnterprise.Controllers
         [HttpGet]
         public IActionResult Update( int id)
         {
-            var category = _db.Categories.FirstOrDefault(t => t.IdCategory == id);
+            var category = _db.Categories.FirstOrDefault(t => t.CategoryID == id);
             if (category != null)
             {
                 return View(category);
@@ -72,8 +72,7 @@ namespace WebEnterprise.Controllers
             }
             else
             {
-                var courseCategory = _db.Categories;
-                _db.Entry<Category>(category).State = EntityState.Modified;
+                _db.Entry(category).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
