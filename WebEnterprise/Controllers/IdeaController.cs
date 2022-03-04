@@ -13,6 +13,10 @@ namespace WebEnterprise.Controllers
             var categories = _db.Categories.Select(c => new SelectListItem { Text = c.NameCategory, Value = c.CategoryID.ToString() }).ToList();
             return categories;
         }
+        public IdeaController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
         private void ViewComments()
         {
             var commments = (from c in _db.Comments
@@ -25,15 +29,10 @@ namespace WebEnterprise.Controllers
                              }).ToList();
             ViewBag.Comments = commments;
         }
-        public IdeaController(ApplicationDbContext db)
-        {
-            _db = db;
-        }
         public IActionResult Index()
         {
             IEnumerable<Idea> ideas = _db.Ideas.OrderByDescending(i => i.CreateAt);
             ViewComments();
-
             return View(ideas);
         }
         [HttpGet]
