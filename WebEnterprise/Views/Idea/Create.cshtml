@@ -8,20 +8,8 @@
 
 <body>
     <form action="/" class="decor short w-50 h-25 mx-auto">
-        <div class="form-left-decoration"></div>
-        <div class="form-right-decoration"></div>
-        <div class="circle"></div>
         <div class="form-inner">
             <h1>Posts</h1>
-            <textarea placeholder="Content..." class="click" rows="5"></textarea>
-            <button type="submit" href="/">Post</button>
-        </div>
-    </form>
-    <form method="post" class="decor long w-50 h-25 mx-auto">
-        <div class="form-left-decoration"></div>
-        <div class="form-right-decoration"></div>
-        <div class="circle"></div>
-        <div class="form-inner">
             <input asp-for="Title" placeholder="Title..." class="focus" rows="1">
             <textarea asp-for="Content" placeholder="Content..." class="focus" rows="3"></textarea>
             <div class="col-md-3 mb-3">
@@ -35,28 +23,17 @@
               </div>*@
             </div>
             <a href=""><i class="fa-solid fa-file"></i></a>
-            <button type="submit" >Post</button>
+            <button type="submit" href="/">Post</button>
         </div>
     </form>
+    
 </body>
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <button type="button" class="btn btn-dark"><a asp-action="Index" class="text-decoration-none">Back To list idea</a></button>
 </div>
-<script>
-    $(".click").focus(function() {
-        $(".short").css("display", "none");
-        $(".long").css("display", "inline");
 
-    });
-    $(".focus").focusout(function() {
-        $(".short").css("display", "inline");
-        $(".long").css("display", "none");
-
-
-    });
-</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
