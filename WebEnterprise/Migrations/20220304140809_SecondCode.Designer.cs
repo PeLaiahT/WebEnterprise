@@ -9,11 +9,11 @@ using WebEnterprise.Data;
 
 #nullable disable
 
-namespace WebEnterprise.Data.Migrations
+namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220304083600_SchoolDB")]
-    partial class SchoolDB
+    [Migration("20220304140809_SecondCode")]
+    partial class SecondCode
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,36 @@ namespace WebEnterprise.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            ConcurrencyStamp = "1",
+                            Name = "Admin",
+                            NormalizedName = "admin"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            ConcurrencyStamp = "2",
+                            Name = "Assurance",
+                            NormalizedName = "assurance"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            ConcurrencyStamp = "3",
+                            Name = "Coordinator",
+                            NormalizedName = "coordinator"
+                        },
+                        new
+                        {
+                            Id = "4",
+                            ConcurrencyStamp = "4",
+                            Name = "Staff",
+                            NormalizedName = "staff"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -139,6 +169,23 @@ namespace WebEnterprise.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "e7b94cc1-fde4-4a6e-82de-821bdfba6f00",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAENsY+S2hvCwNNZMGaXuFLS8CMkeVcyqQTAc9h2CUWFnmNygn4queCBpjfMEnqyjB4Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b0aa7a41-30e4-456a-9f2d-8b4d2b5d7f56",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -203,6 +250,13 @@ namespace WebEnterprise.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "1",
+                            RoleId = "1"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -226,13 +280,34 @@ namespace WebEnterprise.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
+            modelBuilder.Entity("WebEnterprise.Models.Category", b =>
                 {
-                    b.Property<int>("IdCommment")
+                    b.Property<int>("CategoryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCommment"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryID"), 1L, 1);
+
+                    b.Property<string>("Desciption")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameCategory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
+                {
+                    b.Property<int>("CommentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"), 1L, 1);
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -241,15 +316,15 @@ namespace WebEnterprise.Data.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("IdeaId")
+                    b.Property<int>("IdeaID")
                         .HasColumnType("int");
 
                     b.Property<int>("Like")
                         .HasColumnType("int");
 
-                    b.HasKey("IdCommment");
+                    b.HasKey("CommentID");
 
-                    b.HasIndex("IdeaId");
+                    b.HasIndex("IdeaID");
 
                     b.ToTable("Comments");
                 });
@@ -261,6 +336,9 @@ namespace WebEnterprise.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdeaID"), 1L, 1);
+
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -286,6 +364,8 @@ namespace WebEnterprise.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("IdeaID");
+
+                    b.HasIndex("CategoryID");
 
                     b.ToTable("Ideas");
                 });
@@ -345,11 +425,27 @@ namespace WebEnterprise.Data.Migrations
                 {
                     b.HasOne("WebEnterprise.Models.Idea", "Idea")
                         .WithMany("Comments")
-                        .HasForeignKey("IdeaId")
+                        .HasForeignKey("IdeaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Idea");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
+                {
+                    b.HasOne("WebEnterprise.Models.Category", "Category")
+                        .WithMany("Ideas")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Category", b =>
+                {
+                    b.Navigation("Ideas");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>

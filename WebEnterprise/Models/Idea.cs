@@ -16,6 +16,8 @@ namespace WebEnterprise.Models
         public int Like { get; set; } = 0;
         public int View { get; set; } = 0;
         public List<Comment> Comments { get; set; }
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
 
     }
 }
