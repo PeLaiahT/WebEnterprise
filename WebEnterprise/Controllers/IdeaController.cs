@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
 
@@ -55,6 +56,43 @@ namespace WebEnterprise.Controllers
             }
            
         }
-      
+        public IActionResult Delete(int id)
+        {
+            var courseCategory = _db.Categories.FirstOrDefault(t => t.CategoryID == id);
+            if (courseCategory != null)
+            {
+                _db.Categories.Remove(courseCategory);
+                _db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var idea = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
+            if (idea != null)
+            {
+                return View(idea);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+        [HttpPost]
+        public IActionResult Update(Idea idea)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(idea);
+            }
+            else
+            {
+                _db.Entry(idea).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
+
     }
 }
