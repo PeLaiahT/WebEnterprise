@@ -18,7 +18,7 @@
      <div class="mb-5">
         <div class="card" style="width: 50rem;">
         <div class="card-body">
-            
+         
           <h6 class="card-subtitle mb-2 text-muted font-weight-bold">@Html.DisplayFor(model => m.Title)</h6>
           <p class="card-text">@Html.DisplayFor(model => m.Content)</p>
             <div class="d-flex justify-content-around">
@@ -28,6 +28,10 @@
                 </div>
                 <div>@Html.DisplayFor(model => m.View)<i class="fa-solid fa-eye"></i></div>
                 
+            </div>
+            <div>
+                <a asp-action="Update" asp-route-id="@m.IdeaID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@m.IdeaID">Delete</a>
             </div>
         </div>
         </div>

@@ -1,0 +1,49 @@
+﻿@model WebEnterprise.Models.Idea
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4 class="d-flex justify-content-center">Update Idea</h4>
+<hr />
+<body>
+        <form asp-action="Update" method="post" class="decor short w-50 h-25 mx-auto">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdeaID" />
+            <div class="form-inner">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            
+                <label asp-for="FirstDate" class="control-label"></label>
+                <input asp-for="FirstDate" class="form-control" />
+                <span asp-validation-for="FirstDate" class="text-danger"></span>
+            
+                <label asp-for="LastDate" class="control-label"></label>
+                <input asp-for="LastDate" class="form-control" />
+                <span asp-validation-for="LastDate" class="text-danger"></span>
+            
+                <label asp-for="CategoryID" class="control-label"></label>
+                
+                @Html.DropDownListFor(m => m.CategoryID,
+                                  (IEnumerable<SelectListItem>)ViewBag.categories)
+                
+                <input type="submit" asp-action="Update" asp-controller="Idea" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+</body>
+
+
+
+<div class="pt-5">
+    <button type="button" class="btn btn-dark"><a asp-action="Index" asp-controller="Category" class="text-decoration-none">Back To list Category</a></button>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

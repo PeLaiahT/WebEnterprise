@@ -33,15 +33,15 @@
                 </div>
             </form>
             <div class="nav-item dropdown">
-                <a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action text-light">Idea</a>
+                <a data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action text-light">Idea</a>
                 <div class="dropdown-menu">
                     <a href="#" class="dropdown-item"> Most popular idea</a>
                     <a href="#" class="dropdown-item"> Most Viewer Idea</a>
                 </div>
             </div>
-           
+            <a asp-controller="Category" class="nav-item nav-link active text-light"><span>Category</span></a>
             <div class="navbar-nav ml-auto">
-                <a href="#" class="nav-item nav-link active"><i class="fa fa-home"></i><span>Home</span></a>
+                <a asp-controller="Idea" asp-action="Index" class="nav-item nav-link active"><i class="fa fa-home"></i><span>Home</span></a>
 
                 <a href="#" class="nav-item nav-link"><i class="fa fa-bell"></i><span>Notifications</span></a>
                 <div class="nav-item dropdown">

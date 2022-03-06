@@ -7,30 +7,26 @@
 
 
 <body>
-    <form action="/" class="decor short w-50 h-25 mx-auto">
+    <form action="" method="post" class="decor short w-50 h-25 mx-auto">
         <div class="form-inner">
             <h1>Posts</h1>
             <input asp-for="Title" placeholder="Title..." class="focus" rows="1">
             <textarea asp-for="Content" placeholder="Content..." class="focus" rows="3"></textarea>
             <div class="col-md-3 mb-3">
-              @*<label for="validationCustom04">Category</label>
-              <select class="custom-select" id="validationCustom04" required>
-                <option selected disabled value="">Choose...</option>
-                <option>...</option>
-              </select>
-              <div class="invalid-feedback">
-                Please select a valid state.
-              </div>*@
+              <label for="validationCustom04">Category</label>
+                @Html.DropDownListFor(m => m.CategoryID,
+                                  (IEnumerable<SelectListItem>)ViewBag.categories)
             </div>
+            
             <a href=""><i class="fa-solid fa-file"></i></a>
-            <button type="submit" href="/">Post</button>
+            <button type="submit">Post</button>
         </div>
     </form>
     
 </body>
 
 
-<div>
+<div class="pt-5">
     <button type="button" class="btn btn-dark"><a asp-action="Index" class="text-decoration-none">Back To list idea</a></button>
 </div>
 

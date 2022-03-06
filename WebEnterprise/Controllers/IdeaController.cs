@@ -18,7 +18,7 @@ namespace WebEnterprise.Controllers
         {
             _db = db;
         }
-        private void ViewComments()
+        /*private void ViewComments()
         {
             var commments = (from c in _db.Comments
                              join i in _db.Ideas on c.IdeaID equals i.IdeaID
@@ -29,22 +29,24 @@ namespace WebEnterprise.Controllers
                                  Content = c.Content,
                              }).ToList();
             ViewBag.Comments = commments;
-        }
+        }*/
         public IActionResult Index()
         {
             IEnumerable<Idea> ideas = _db.Ideas.OrderByDescending(i => i.CreateAt);
-            ViewComments();
+            //ViewComments();
             return View(ideas);
         }
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.categories = GetDropDownCategory();
             return View();
         }
         [HttpPost]
         public IActionResult Create(Idea idea)
         {
-            if (ModelState.IsValid)
+            ViewBag.categories = GetDropDownCategory();
+            if (!ModelState.IsValid)
             {
                 _db.Ideas.Add(idea);
                 _db.SaveChanges();
@@ -58,10 +60,10 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult Delete(int id)
         {
-            var courseCategory = _db.Categories.FirstOrDefault(t => t.CategoryID == id);
+            var courseCategory = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
             if (courseCategory != null)
             {
-                _db.Categories.Remove(courseCategory);
+                _db.Ideas.Remove(courseCategory);
                 _db.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -69,6 +71,7 @@ namespace WebEnterprise.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+            ViewBag.categories = GetDropDownCategory();
             var idea = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
             if (idea != null)
             {
@@ -82,7 +85,8 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public IActionResult Update(Idea idea)
         {
-            if (!ModelState.IsValid)
+            ViewBag.categories = GetDropDownCategory();
+            if (ModelState.IsValid)
             {
                 return View(idea);
             }

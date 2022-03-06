@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebEnterprise.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="left-sidebar">
+        <div>
+            <button type="button" class="btn btn-dark"><a asp-action="Create" class="text-decoration-none">Create a new Category</a></button>
+        </div>
+    </div>
+<div class="right-sidebar">
+    <table class="styled-table">
+       <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Desciption)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+       <tbody>
+@foreach (var item in Model) {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Desciption)
+            </td>
+            <td>
+                <a asp-action="Update" asp-route-id="@item.CategoryID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.CategoryID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+    </table>
+         
+</div>
+</div>
+
+
