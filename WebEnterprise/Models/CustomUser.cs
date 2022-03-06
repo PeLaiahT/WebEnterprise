@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebEnterprise.Models
 {
     public class CustomUser: IdentityUser
     {
-        [DataType(DataType.Upload)]
+        public string ImageName { get; set; }
+        [NotMapped]
         [Display(Name = "Upload Image")]
-        public string file { get; set; }
+        public IFormFile ProfileImage { get; set; }
     }
 }

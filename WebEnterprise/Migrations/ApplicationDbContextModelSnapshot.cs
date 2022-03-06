@@ -179,14 +179,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf0758e6-f81c-4c37-8e23-73cf8115165a",
+                            ConcurrencyStamp = "e74146a7-71e7-42bc-927e-57c034f4207a",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJ938vEK8pE2hjEw1PZmyTD3bNYbx2ptLK9Zx+HRISORCezf6AO8ZBj+hIs8q2XJPg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELjkqbGaPBZUfhZJghfm/Z025Y0waHjtpwLp42Qr/7gxN52O+5eRGf0PdlCK7BG9zg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8d94dc93-7cab-4b8e-8d1a-a68fd02c4d50",
+                            SecurityStamp = "522244fc-61b8-4762-9665-2aae2f7f3706",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -378,7 +378,7 @@ namespace WebEnterprise.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("file")
+                    b.Property<string>("ImageName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
