@@ -43,11 +43,31 @@ namespace WebEnterprise.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Idea idea)
+        public async Task<IActionResult> CreateAsync(Idea idea, List <IFormFile> postedFile)
         {
             ViewBag.categories = GetDropDownCategory();
             if (!ModelState.IsValid)
             {
+                foreach(IFormFile f in postedFile)
+                {
+
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await f.CopyToAsync(dataStream);
+                        idea.Documment = dataStream.ToArray();
+                    }
+                    if(postedFile!= null)
+                    {
+                    //chi dinh duong dan se luu
+                    string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot", "MyFiles", f.FileName);
+                    using(var file = new FileStream(fullPath,FileMode.Create))
+                        {
+                            f.CopyTo(file);
+                        }
+
+                    }
+                }
                 _db.Ideas.Add(idea);
                 _db.SaveChanges();
                 return RedirectToAction("Index");
