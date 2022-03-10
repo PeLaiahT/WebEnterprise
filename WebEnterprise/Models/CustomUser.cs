@@ -6,6 +6,11 @@ namespace WebEnterprise.Models
 {
     public class CustomUser: IdentityUser
     {
+        [Required]
+        public string FullName { get; set; }
+        [Required]
+        public string Address { get; set; }
+
         public string ImageName { get; set; }
         [NotMapped]
         [Display(Name = "Upload Image")]

@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WebEnterprise.Models.CustomUser>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="left-sidebar">
+        <div>
+            <button type="button" class="btn btn-dark"><a asp-action="CreateStaff" class="text-decoration-none">Create a new Staff</a></button>
+        </div>
+    </div>
+
+<div class="right-sidebar">
+    @foreach(var m in Model)
+    {
+     <div class="mb-5">
+        <div class="card" style="width: 50rem;">
+        <div class="card-body">
+         <form action="BufferedSingleFileUploadPhysical/?handler=Upload" 
+              enctype="multipart/form-data" onsubmit="AJAXSubmit(this);return false;" 
+              method="post">
+            <dl>
+                <dt>
+                    <label for="FileUpload_FormFile">File</label>
+                </dt>
+                <dd>
+                    <input id="FileUpload_FormFile" type="file" 
+                        name="FileUpload.FormFile" />
+                </dd>
+            </dl>
+
+            <input class="btn" type="submit" value="Upload" />
+
+            <div style="margin-top:15px">
+                <output name="result"></output>
+            </div>
+        </form>
+
+
+         @* <h6 class="card-subtitle mb-2 text-muted font-weight-bold">@Html.DisplayFor(model => m.Title)</h6>
+          <p class="card-text">@Html.DisplayFor(model => m.Content)</p>
+            <div class="d-flex justify-content-around">
+                <div>
+                    @Html.DisplayFor(model => m.Like)
+                    <a href="#" class="card-link"><i class="fa-brands fa-gratipay"></i></a>
+                </div>
+                <div>@Html.DisplayFor(model => m.View)<i class="fa-solid fa-eye"></i></div>
+                
+            </div>
+            <div>
+                <a asp-action="Update" asp-route-id="@m.IdeaID">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@m.IdeaID">Delete</a>
+            </div>*@
+        </div>
+        </div>
+       
+    </div>   
+    }
+<script>
+  async function AJAXSubmit (oFormElement) {
+    var resultElement = oFormElement.elements.namedItem("result");
+    const formData = new FormData(oFormElement);
+
+    try {
+    const response = await fetch(oFormElement.action, {
+      method: 'POST',
+      body: formData
+    });
+
+    if (response.ok) {
+      window.location.href = '/';
+    }
+
+    resultElement.value = 'Result: ' + response.status + ' ' + 
+      response.statusText;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+</script>     
+</div>
+</div>
+
+
+

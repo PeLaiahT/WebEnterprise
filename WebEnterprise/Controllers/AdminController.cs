@@ -10,10 +10,10 @@ namespace WebEnterprise.Controllers
     {
         private readonly ApplicationDbContext _db;
         private UserManager<CustomUser> _userManager;
-        private RoleManager<CustomUser> _roleManager;
+        private RoleManager<IdentityRole> _roleManager;
         private readonly IWebHostEnvironment _webHostEnvironment;
         public AdminController(UserManager<CustomUser> userManager,
-            RoleManager<CustomUser> signInManager, ApplicationDbContext db, IWebHostEnvironment env)
+            RoleManager<IdentityRole> signInManager, ApplicationDbContext db, IWebHostEnvironment env)
         {
             _userManager = userManager;
             _roleManager = signInManager;
@@ -24,32 +24,34 @@ namespace WebEnterprise.Controllers
         {
             return View();
         }
+
         public IActionResult CreateStaff()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateStaff(CustomUser staff)
+        public async Task<IActionResult> CreateStaff([Bind("Id, FullName, Address ,UserName, PhoneNumber, ProfileImage")] CustomUser staff)
         {
 
-
+            
             CustomUser user = await _userManager.FindByNameAsync(staff.UserName);
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(staff.ProfileImage.FileName);
-                string extension = Path.GetExtension(staff.ProfileImage.FileName);
-                staff.ImageName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/img/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await staff.ProfileImage.CopyToAsync(fileStream);
-                }
+                
                 user = new CustomUser();
                 user.UserName = staff.UserName;
                 user.Email = staff.Email;
                 user.ImageName = staff.ImageName;
                 user.PhoneNumber = staff.PhoneNumber;
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(staff.ProfileImage.FileName);
+                string extension = Path.GetExtension(staff.ProfileImage.FileName);
+                user.ImageName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/Img/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await staff.ProfileImage.CopyToAsync(fileStream);
+                }
                 IdentityResult result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
                 {
