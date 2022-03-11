@@ -164,7 +164,7 @@ namespace WebEnterprise.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, "Coordinator");
                 }
-                return RedirectToAction("Viewall");
+                return RedirectToAction("ViewAllCoordinator");
             }
             return View("ViewAllCoordinator");
         }
@@ -173,11 +173,11 @@ namespace WebEnterprise.Controllers
             var coor = _db.Users.FirstOrDefault(u => u.Id == id);
             if (coor == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewAllCoordinator");
             }
             _db.Remove(coor);
             _db.SaveChanges();
-            return RedirectToAction("ViewAllStaff");
+            return RedirectToAction("ViewAllCoordinator");
         }
         public IActionResult EditCoor(string id)
         {
@@ -192,7 +192,7 @@ namespace WebEnterprise.Controllers
                 }).FirstOrDefault();
             if (coor == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewAllCoordinator");
             }
             return View(coor);
         }
@@ -214,7 +214,7 @@ namespace WebEnterprise.Controllers
                     newcoor.FullName = staff.FullName;
                     _db.SaveChanges();
                 }
-                return RedirectToAction("ViewAllStaff");
+                return RedirectToAction("ViewAllCoordinator");
             }
             return View(staff);
         }
@@ -257,7 +257,7 @@ namespace WebEnterprise.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, "Assurance");
                 }
-                return RedirectToAction("Viewall");
+                return RedirectToAction("ViewAllManager");
             }
             return View("ViewAllManager");
         }
@@ -266,7 +266,7 @@ namespace WebEnterprise.Controllers
             var manager = _db.Users.FirstOrDefault(u => u.Id == id);
             if (manager == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewAllManager");
             }
             _db.Remove(manager);
             _db.SaveChanges();
@@ -285,7 +285,7 @@ namespace WebEnterprise.Controllers
                 }).FirstOrDefault();
             if (manager == null)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("ViewAllManager");
             }
             return View(manager);
         }

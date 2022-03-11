@@ -1,16 +1,19 @@
 ﻿@model IEnumerable<WebEnterprise.Models.DTO.CustomUserDTO>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ViewAllCoordinator";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="container">
+    <div class="left-sidebar">
+        <div>
+            <button type="button" class="btn btn-dark"><a asp-action="CreateCoor" class="text-decoration-none">Create a new Coor</a></button>
+        </div>
+    </div>
+<div class="right-sidebar">
+    <table class="styled-table">
+       <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
@@ -27,7 +30,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+      <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -43,11 +46,14 @@
                 @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="EditCoor" asp-route-id="@item.Id">Edit</a> |
+             
+                <a asp-action="DeleteCoor" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
-</table>
+    </table>
+         
+</div>
+</div>

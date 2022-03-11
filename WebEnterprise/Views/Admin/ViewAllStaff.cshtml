@@ -3,14 +3,15 @@
 @{
     ViewData["Title"] = "ViewAllStaff";
 }
-
-<h1>ViewAllStaff</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="container">
+    <div class="left-sidebar">
+        <div>
+            <button type="button" class="btn btn-dark"><a asp-action="CreateStaff" class="text-decoration-none">Create a new Staff</a></button>
+        </div>
+    </div>
+<div class="right-sidebar">
+    <table class="styled-table">
+       <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
@@ -27,7 +28,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
+       <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -44,10 +45,14 @@
             </td>
             <td>
                 <a asp-action="EditStaff" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                
                 <a asp-action="DeleteStaff" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
-</table>
+    </table>
+         
+</div>
+</div>
+

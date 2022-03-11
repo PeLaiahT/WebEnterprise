@@ -51,5 +51,6 @@ namespace WebEnterprise.Data
         {
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string> { RoleId = "1", UserId = "1", });
         }
+        public DbSet<WebEnterprise.Models.DTO.CustomUserDTO> CustomUserDTO { get; set; }
     }
 }
