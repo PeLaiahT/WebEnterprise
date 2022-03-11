@@ -15,20 +15,21 @@
 <div class="right-sidebar">
     @foreach(var m in Model)
     {
-@*    string imgSrc = null;
+    string imgSrc = null;
     //if the current product has image
     if (m.Documment != null)
     {
         var base64 = Convert.ToBase64String(m.Documment);
         imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-    }*@
+    }
      <div class="mb-5">
         <div class="card" style="width: 50rem;">
         <div class="card-body">
          
           <h6 class="card-subtitle mb-2 text-muted font-weight-bold">@Html.DisplayFor(model => m.Title)</h6>
           <p class="card-text">@Html.DisplayFor(model => m.Content)</p>
-  
+          @*<div>@htmlString</div>*@
+          <img style="width: 100%; padding-top:50%;" src="@imgSrc"/>
             <div class="d-flex justify-content-around">
                 <div>
                     @Html.DisplayFor(model => m.Like)
