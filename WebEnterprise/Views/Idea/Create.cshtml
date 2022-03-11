@@ -7,7 +7,7 @@
 
 
 <body>
-    <form action="" method="post" class="decor short w-50 h-25 mx-auto">
+    <form action="" method="post" enctype="multipart/form-data" class="decor short w-50 h-25 mx-auto">
         <div class="form-inner">
             <h1>Posts</h1>
             <input asp-for="Title" placeholder="Title..." class="focus" rows="1">
@@ -17,8 +17,9 @@
                 @Html.DropDownListFor(m => m.CategoryID,
                                   (IEnumerable<SelectListItem>)ViewBag.categories)
             </div>
-            
-            <a href=""><i class="fa-solid fa-file"></i></a>
+             <label asp-for="Documment" class="control-label"></label>
+            <input type="file" multiple asp-for="Documment" name = "postedFile" placeholder="Name Documment." class="focus" rows="1">
+            <span asp-validation-for="Documment" class="text-danger"></span>
             <button type="submit">Post</button>
         </div>
     </form>
