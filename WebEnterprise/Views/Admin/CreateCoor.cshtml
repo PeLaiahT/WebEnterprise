@@ -1,24 +1,26 @@
 ﻿@model WebEnterprise.Models.DTO.CustomUserDTO
+
 @{
-    ViewData["Title"] = "CreateStaff";
+    ViewData["Title"] = "CreateCoor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h4 class="d-flex justify-content-center">Create a new Staff</h4>
+<h4 class="d-flex justify-content-center">Create a new Coor</h4>
 <hr />
 <body>
-    <form asp-action="CreateStaff" enctype="multipart/form-data" asp-controller="Admin" method="post" class="decor short w-50 h-25 mx-auto">
+    <form asp-action="CreateCoor" enctype="multipart/form-data" asp-controller="Admin" method="post" class="decor short w-50 h-25 mx-auto">
         <div class="form-inner">
             <label asp-for="FullName" class="control-label"></label>
-            <input asp-for="FullName" placeholder="Name Staff..." class="focus" rows="1">
+            <input asp-for="FullName" placeholder="Name Coor..." class="focus" rows="1">
             <span asp-validation-for="FullName" class="text-danger"></span>
             <label asp-for="Email" class="control-label"></label>
-            <input asp-for="Email" placeholder="Email Staff..." class="focus" rows="1">
+            <input asp-for="Email" placeholder="Email Coor..." class="focus" rows="1">
             <span asp-validation-for="Email" class="text-danger"></span>
             <label asp-for="UserName" class="control-label"></label>
-            <input asp-for="UserName" placeholder="UserName Staff..." class="focus" rows="1">
+            <input asp-for="UserName" placeholder="UserName Coor..." class="focus" rows="1">
             <span asp-validation-for="UserName" class="text-danger"></span>
             <label asp-for="PhoneNumber" class="control-label"></label>
-            <input asp-for="PhoneNumber" placeholder="PhoneNumber Staff..." class="focus" rows="1">
+            <input asp-for="PhoneNumber" placeholder="PhoneNumber Coor..." class="focus" rows="1">
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             <button type="submit" >Create</button>
         </div>
@@ -28,10 +30,9 @@
 
 
 <div class="pt-5">
-    <button type="button" class="btn btn-dark"><a asp-action="ViewAllStaff" asp-controller="Admin" class="text-decoration-none">Back To list</a></button>
+    <button type="button" class="btn btn-dark"><a asp-action="ViewAllCoordinator" asp-controller="Admin" class="text-decoration-none">Back To list</a></button>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-

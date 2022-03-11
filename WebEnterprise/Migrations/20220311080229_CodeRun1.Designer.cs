@@ -12,8 +12,8 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220306100917_FixProperty")]
-    partial class FixProperty
+    [Migration("20220311080229_CodeRun1")]
+    partial class CodeRun1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -181,14 +181,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e74146a7-71e7-42bc-927e-57c034f4207a",
+                            ConcurrencyStamp = "3b802f04-c166-4831-90d5-a922484b38c9",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELjkqbGaPBZUfhZJghfm/Z025Y0waHjtpwLp42Qr/7gxN52O+5eRGf0PdlCK7BG9zg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENZEHYmNtBaSRttEuV215kNnHRvTJA71ACgMiGA/0xoQIFUWl9jlpnf/bCkojgIJXw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "522244fc-61b8-4762-9665-2aae2f7f3706",
+                            SecurityStamp = "be3e542b-82c0-42e5-9811-45de86d970b6",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -353,6 +353,10 @@ namespace WebEnterprise.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<byte[]>("Documment")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<DateTime>("FirstDate")
                         .HasColumnType("datetime2");
 
@@ -380,8 +384,11 @@ namespace WebEnterprise.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("ImageName")
+                    b.Property<string>("Address")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("CustomUser");
