@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
+using WebEnterprise.Models.DTO;
 
 namespace WebEnterprise.Controllers
 {
@@ -10,55 +12,302 @@ namespace WebEnterprise.Controllers
     {
         private readonly ApplicationDbContext _db;
         private UserManager<CustomUser> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-        public AdminController(UserManager<CustomUser> userManager,
-            RoleManager<IdentityRole> signInManager, ApplicationDbContext db, IWebHostEnvironment env)
+
+        public AdminController(UserManager<CustomUser> userManager, ApplicationDbContext db)
         {
             _userManager = userManager;
-            _roleManager = signInManager;
-            _webHostEnvironment = env;
             _db = db;
         }
         public IActionResult Index()
         {
-            return View();
+            var admins = (from u in _db.Users join ur in _db.UserRoles on u.Id equals ur.UserId
+                          join r in _db.Roles on ur.RoleId equals r.Id where r.Name == "Admin"
+                          select new CustomUserDTO
+                          {
+                              Id = u.Id,
+                              UserName = u.UserName,
+                              Email = u.Email,
+                              PhoneNumber = u.PhoneNumber,
+                          }
+                          ).ToList();
+            return View(admins);
         }
 
+        public IActionResult ViewAllStaff()
+        {
+            var staffs = (from u in _db.CustomUsers
+                          join ur in _db.UserRoles on u.Id equals ur.UserId
+                          join r in _db.Roles on ur.RoleId equals r.Id
+                          where r.Name == "Staff"
+                          select new CustomUserDTO
+                          {
+                              Id = u.Id,
+                              UserName = u.UserName,
+                              Email = u.Email,
+                              PhoneNumber = u.PhoneNumber,
+                              FullName = u.FullName,
+                          }
+                          ).ToList();
+            return View(staffs);
+        }
         public IActionResult CreateStaff()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateStaff([Bind("Id, FullName, Address ,UserName, PhoneNumber, ProfileImage")] CustomUser staff)
+        public async Task<IActionResult> CreateStaff(CustomUserDTO staff)
         {
-
-            
-            CustomUser user = await _userManager.FindByNameAsync(staff.UserName);
             if (ModelState.IsValid)
             {
-                
-                user = new CustomUser();
-                user.UserName = staff.UserName;
-                user.Email = staff.Email;
-                user.ImageName = staff.ImageName;
-                user.PhoneNumber = staff.PhoneNumber;
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(staff.ProfileImage.FileName);
-                string extension = Path.GetExtension(staff.ProfileImage.FileName);
-                user.ImageName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/Img/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                var user = new CustomUser
                 {
-                    await staff.ProfileImage.CopyToAsync(fileStream);
-                }
-                IdentityResult result = await _userManager.CreateAsync(user, "Staff123!");
+                    UserName = staff.UserName,
+                    FullName = staff.FullName,
+                    Email = staff.Email,
+                    PhoneNumber = staff.PhoneNumber,
+                };
+                var result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
                 {
-                    _userManager.AddToRoleAsync(user, "Staff").Wait();
+                    await _userManager.AddToRoleAsync(user, "Staff");
                 }
-                ViewBag.Message = "User was created";
+                return RedirectToAction("ViewAllStaff");
+            }
+            return View(staff);
+        }
+        public IActionResult DeleteStaff(string id)
+        {
+            var staff = _db.Users.FirstOrDefault(u => u.Id == id);
+            if(staff == null)
+            {
                 return RedirectToAction("Index");
+            }
+            _db.Remove(staff);
+            _db.SaveChanges();
+            return RedirectToAction("ViewAllStaff");
+        }
+        public IActionResult EditStaff(string id)
+        {
+            var staff = _db.CustomUsers.Where(s => s.Id == id).
+                Select(u => new CustomUserDTO
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    FullName = u.FullName
+                }).FirstOrDefault();
+            if (staff == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(staff);
+        }
+        [HttpPost]
+        public IActionResult EditStaff(CustomUserDTO staff)
+        {
+            if (ModelState.IsValid)
+            {
+                var newstaff = _db.CustomUsers.Find(staff.Id);
+                if (newstaff == null)
+                {
+                    return View(staff);
+                }
+                else
+                {
+                    newstaff.UserName = staff.UserName;
+                    newstaff.Email = staff.Email;
+                    newstaff.PhoneNumber = staff.PhoneNumber;
+                    newstaff.FullName = staff.FullName;
+                    _db.SaveChanges();
+                }
+                return RedirectToAction("ViewAllStaff");
+            }
+            return View(staff);
+        }
+
+        public IActionResult ViewAllCoordinator()
+        {
+            var coor = (from u in _db.CustomUsers
+                          join ur in _db.UserRoles on u.Id equals ur.UserId
+                          join r in _db.Roles on ur.RoleId equals r.Id
+                          where r.Name == "Coordinator"
+                          select new CustomUserDTO
+                          {
+                              Id = u.Id,
+                              UserName = u.UserName,
+                              Email = u.Email,
+                              PhoneNumber = u.PhoneNumber,
+                              FullName = u.FullName,
+                          }
+                          ).ToList();
+            return View(coor);
+        }
+        public IActionResult CreateCoor()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateCoor(CustomUserDTO coor)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new CustomUser
+                {
+                    UserName = coor.UserName,
+                    FullName = coor.FullName,
+                    Email = coor.Email,
+                    PhoneNumber = coor.PhoneNumber,
+                };
+                var result = await _userManager.CreateAsync(user, "Coor123!");
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Coordinator");
+                }
+                return RedirectToAction("Viewall");
+            }
+            return View("ViewAllCoordinator");
+        }
+        public IActionResult DeleteCoor(string id)
+        {
+            var coor = _db.Users.FirstOrDefault(u => u.Id == id);
+            if (coor == null)
+            {
+                return RedirectToAction("Index");
+            }
+            _db.Remove(coor);
+            _db.SaveChanges();
+            return RedirectToAction("ViewAllStaff");
+        }
+        public IActionResult EditCoor(string id)
+        {
+            var coor = _db.CustomUsers.Where(s => s.Id == id).
+                Select(u => new CustomUserDTO
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    FullName = u.FullName
+                }).FirstOrDefault();
+            if (coor == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(coor);
+        }
+        [HttpPost]
+        public IActionResult EditCoor(CustomUserDTO staff)
+        {
+            if (ModelState.IsValid)
+            {
+                var newcoor = _db.CustomUsers.Find(staff.Id);
+                if (newcoor == null)
+                {
+                    return View(staff);
+                }
+                else
+                {
+                    newcoor.UserName = staff.UserName;
+                    newcoor.Email = staff.Email;
+                    newcoor.PhoneNumber = staff.PhoneNumber;
+                    newcoor.FullName = staff.FullName;
+                    _db.SaveChanges();
+                }
+                return RedirectToAction("ViewAllStaff");
+            }
+            return View(staff);
+        }
+
+        public IActionResult ViewAllManager()
+        {
+            var manager = (from u in _db.CustomUsers
+                        join ur in _db.UserRoles on u.Id equals ur.UserId
+                        join r in _db.Roles on ur.RoleId equals r.Id
+                        where r.Name == "Assurance"
+                        select new CustomUserDTO
+                        {
+                            Id = u.Id,
+                            UserName = u.UserName,
+                            Email = u.Email,
+                            PhoneNumber = u.PhoneNumber,
+                            FullName = u.FullName,
+                        }
+                          ).ToList();
+            return View(manager);
+        }
+        public IActionResult CreateManager()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateManager(CustomUserDTO coor)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new CustomUser
+                {
+                    UserName = coor.UserName,
+                    FullName = coor.FullName,
+                    Email = coor.Email,
+                    PhoneNumber = coor.PhoneNumber,
+                };
+                var result = await _userManager.CreateAsync(user, "Manager123!");
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Assurance");
+                }
+                return RedirectToAction("Viewall");
+            }
+            return View("ViewAllManager");
+        }
+        public IActionResult DeleteManager(string id)
+        {
+            var manager = _db.Users.FirstOrDefault(u => u.Id == id);
+            if (manager == null)
+            {
+                return RedirectToAction("Index");
+            }
+            _db.Remove(manager);
+            _db.SaveChanges();
+            return RedirectToAction("ViewAllManager");
+        }
+        public IActionResult EditManager(string id)
+        {
+            var manager = _db.CustomUsers.Where(s => s.Id == id).
+                Select(u => new CustomUserDTO
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    FullName = u.FullName
+                }).FirstOrDefault();
+            if (manager == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(manager);
+        }
+        [HttpPost]
+        public IActionResult EditManager(CustomUserDTO staff)
+        {
+            if (ModelState.IsValid)
+            {
+                var newManager = _db.CustomUsers.Find(staff.Id);
+                if (newManager == null)
+                {
+                    return View(staff);
+                }
+                else
+                {
+                    newManager.UserName = staff.UserName;
+                    newManager.Email = staff.Email;
+                    newManager.PhoneNumber = staff.PhoneNumber;
+                    newManager.FullName = staff.FullName;
+                    _db.SaveChanges();
+                }
+                return RedirectToAction("ViewAllManager");
             }
             return View(staff);
         }

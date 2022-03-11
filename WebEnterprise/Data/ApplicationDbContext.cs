@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Models;
+using WebEnterprise.Models.DTO;
 
 namespace WebEnterprise.Data
 {

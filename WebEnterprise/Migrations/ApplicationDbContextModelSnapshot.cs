@@ -179,14 +179,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a348adac-05a9-4734-9ca5-e23ad019563b",
+                            ConcurrencyStamp = "3b802f04-c166-4831-90d5-a922484b38c9",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC///4aZs2gHokbn9eFLDn2yRex+zQ3rKSysZ/sDUoi5hUYnGbdYqosuhlWwWPuNyA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENZEHYmNtBaSRttEuV215kNnHRvTJA71ACgMiGA/0xoQIFUWl9jlpnf/bCkojgIJXw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "06928078-d455-4921-a389-80b11a1d866e",
+                            SecurityStamp = "be3e542b-82c0-42e5-9811-45de86d970b6",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -387,11 +387,6 @@ namespace WebEnterprise.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("CustomUser");
