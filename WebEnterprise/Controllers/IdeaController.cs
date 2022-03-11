@@ -13,7 +13,8 @@ namespace WebEnterprise.Controllers
         {
             var categories = _db.Categories.Select(c => new SelectListItem { Text = c.NameCategory, Value = c.CategoryID.ToString() }).ToList();
             return categories;
-        }
+        }   
+        
         public IdeaController(ApplicationDbContext db)
         {
             _db = db;
