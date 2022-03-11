@@ -50,8 +50,8 @@ button.accept-policy {
 
 
 .navbar {
-    color: #fff;
-    background: #926dde !important;
+    color: #000;
+    background: #DEB887 !important;
     padding: 5px 16px;
     border-radius: 0;
     border: none;
@@ -66,7 +66,7 @@ button.accept-policy {
     }
 
     .navbar .navbar-brand {
-        color: #efe5ff;
+        color: #000;
         padding-left: 0;
         padding-right: 50px;
         font-size: 24px;
@@ -74,7 +74,7 @@ button.accept-policy {
 
         .navbar .navbar-brand:hover,
         .navbar .navbar-brand:focus {
-            color: #fff;
+            color: #000;
         }
 
         .navbar .navbar-brand i {
@@ -117,15 +117,17 @@ button.accept-policy {
 
 .navbar .nav-item i {
     font-size: 18px;
+    color:#000;
 }
 
 .navbar .nav-item span {
     position: relative;
     top: 3px;
+    color: #000;
 }
 
 .navbar .navbar-nav > a {
-    color: #efe5ff;
+    color: #000;
     padding: 8px 15px;
     font-size: 14px;
 }
@@ -167,7 +169,7 @@ button.accept-policy {
 }
 
     .navbar .dropdown-menu a {
-        color: #777 !important;
+        color: #ccc !important;
         padding: 8px 20px;
         line-height: normal;
         font-size: 15px;

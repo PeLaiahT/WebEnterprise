@@ -121,14 +121,14 @@ button {
     border-radius: 20px;
     border: none;
     border-bottom: 4px solid #3e4f24;
-    background: #926dde !important;
+    background: #DEB887 !important;
     font-size: 16px;
     font-weight: 400;
     color: #fff;
 }
 
     button:hover {
-        background: #150633 !important;
+        background: #A9A9A9 !important;
         transition: 1s;
     }
 
@@ -167,7 +167,7 @@ button {
 }
 
     .styled-table thead tr {
-        background-color: #926dde !important;
+        background-color: #DEB887 !important;
         color: #ffffff;
         text-align: left;
     }
@@ -191,6 +191,6 @@ button {
 
         .styled-table tbody tr.active-row {
             font-weight: bold;
-            color: #926dde !important;
+            color: #DEB887 !important;
         }
 
