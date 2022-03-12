@@ -23,27 +23,47 @@
         var base64 = Convert.ToBase64String(m.Documment);
         imgSrc = String.Format("data:image/gif;base64,{0}", base64);
     }
-    <div class="card mb-3">
-  <img src="@imgSrc" class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">@Html.DisplayFor(model => m.Title)</h5>
-    <h5 class="card-title">@ViewBag.fileName</h5>
-    <p class="card-text">@Html.DisplayFor(model => m.Content)</p>
-    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-    <div class="d-flex justify-content-around">
-                <div>
-                    @Html.DisplayFor(model => m.Like)
-                    <a href="#" class="card-link"><i class="fa-brands fa-gratipay"></i></a>
+    <div class="f-card">
+        <div class="header">
+            <div class="options">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                    Settings
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <span><a asp-action="Update" asp-route-id="@m.IdeaID" class="text-decoration-none text-black dropdown-item">Edit</a></span>
+                      <span><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none text-black dropdown-item">Delete</a></span>
+                    
+                  </div>
                 </div>
-                <div>@Html.DisplayFor(model => m.View)<i class="fa-solid fa-eye"></i></div>
-                <div>
-                    <button type="button" class="btn btn-primary"><a asp-action="Update" asp-route-id="@m.IdeaID" class="text-decoration-none text-white">Edit</a></button>
-                    <button type="button" class="btn btn-danger"><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none text-white">Delete</a></button>
+</div>
+            <img class="co-logo" src="https://scontent-hkt1-1.xx.fbcdn.net/v/t39.30808-6/271137085_1896104500572993_6215605768756482514_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=In29gkvkUgUAX8jAMS5&_nc_ht=scontent-hkt1-1.xx&oh=00_AT8bjDV6GIFrvA-qR-PhnHoa3SYODgz36Ix9ebEQLyHKFA&oe=6230C1DC" />
+            <div class="co-name"><a href="#">tên User</a></div>
+            <div class="time"><a href="#">2hrs</a> · <i class="fa fa-globe"></i></div>
+        </div>
+        <div class="content">
+            <p>Tên file</p>
+        </div>
+
+        <div class="reference">
+            <img class="reference-thumb" src="@imgSrc" />
+            <div class="reference-content">
+                <div class="reference-title">@Html.DisplayFor(model => m.Title)</div>
+                <div class="reference-subtitle">@Html.DisplayFor(model => m.Content)</div>
+
+            </div>
+        </div>
+        <div class="social">
+            <div class="social-content"></div>
+            <div class="social-buttons">
+                <span><i class="fa fa-thumbs-up"></i>Like</span>
+                <span><i class="fa fa-comment"></i>Comment</span>
                 
             </div>
-            </div>
-  </div>
-</div>
+        </div>
+    </div>
+    
+
     }      
 </div>
 </div>
