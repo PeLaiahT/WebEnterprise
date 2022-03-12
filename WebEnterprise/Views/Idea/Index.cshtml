@@ -6,9 +6,10 @@
 }
 
 <div class="container">
-    <div class="left-sidebar">
+    <div class="left-sidebar d-flex">
         <div>
-            <button type="button" class="btn"><a asp-action="Create" class="text-decoration-none">Create a new idea</a></button>
+            
+            <button type="button" class="btn btn-primary"><a asp-action="Create" class="text-decoration-none text-white">Create a new idea</a></button>
         </div>
     </div>
 
@@ -22,31 +23,27 @@
         var base64 = Convert.ToBase64String(m.Documment);
         imgSrc = String.Format("data:image/gif;base64,{0}", base64);
     }
-     <div class="mb-5">
-        <div class="card" style="width: 50rem;">
-        <div class="card-body">
-         
-          <h6 class="card-subtitle mb-2 text-muted font-weight-bold">@Html.DisplayFor(model => m.Title)</h6>
-          <p class="card-text">@Html.DisplayFor(model => m.Content)</p>
-          @*<div>@htmlString</div>*@
-          <img style="width: 100%; padding-top:50%;" src="@imgSrc"/>
-            <div class="d-flex justify-content-around">
+    <div class="card mb-3">
+  <img src="@imgSrc" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">@Html.DisplayFor(model => m.Title)</h5>
+    <h5 class="card-title">@ViewBag.fileName</h5>
+    <p class="card-text">@Html.DisplayFor(model => m.Content)</p>
+    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+    <div class="d-flex justify-content-around">
                 <div>
                     @Html.DisplayFor(model => m.Like)
                     <a href="#" class="card-link"><i class="fa-brands fa-gratipay"></i></a>
                 </div>
                 <div>@Html.DisplayFor(model => m.View)<i class="fa-solid fa-eye"></i></div>
+                <div>
+                    <button type="button" class="btn btn-primary"><a asp-action="Update" asp-route-id="@m.IdeaID" class="text-decoration-none text-white">Edit</a></button>
+                    <button type="button" class="btn btn-danger"><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none text-white">Delete</a></button>
                 
             </div>
-            <div>
-                <a asp-action="Update" asp-route-id="@m.IdeaID">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@m.IdeaID">Delete</a>
             </div>
-            
-        </div>
-        </div>
-       
-    </div>   
+  </div>
+</div>
     }      
 </div>
 </div>

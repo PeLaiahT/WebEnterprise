@@ -62,6 +62,7 @@ namespace WebEnterprise.Controllers
                     //chi dinh duong dan se luu
                     string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot", "MyFiles", f.FileName);
+                        ViewBag.fileName = f.FileName;
                     using(var file = new FileStream(fullPath,FileMode.Create))
                         {
                             f.CopyTo(file);

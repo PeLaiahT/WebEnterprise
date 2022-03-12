@@ -6,30 +6,42 @@
 }
 
 
-<body>
-    <form action="" method="post" enctype="multipart/form-data" class="decor short w-50 h-25 mx-auto">
-        <div class="form-inner">
-            <h1>Posts</h1>
-            <input asp-for="Title" placeholder="Title..." class="focus" rows="1">
-            <textarea asp-for="Content" placeholder="Content..." class="focus" rows="3"></textarea>
-            <div class="col-md-3 mb-3">
-              <label for="validationCustom04">Category</label>
+
+
+<div class="container">
+    <h4 class="d-flex justify-content-center">Create a new Idea</h4>
+<hr />
+
+
+<form action="" method="post" enctype="multipart/form-data">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label asp-for="Title"></label>
+      <input asp-for="Title" placeholder="Title..." class="form-control" id="inputEmail4">
+    </div>
+    <div class="col-md-3 mb-3">
+            <label for="validationCustom04" asp-for="CategoryID">Category</label>
                 @Html.DropDownListFor(m => m.CategoryID,
                                   (IEnumerable<SelectListItem>)ViewBag.categories)
             </div>
-             <label asp-for="Documment" class="control-label"></label>
-            <input type="file" multiple asp-for="Documment" name = "postedFile" placeholder="Name Documment." class="focus" rows="1">
-            <span asp-validation-for="Documment" class="text-danger"></span>
-            <button type="submit">Post</button>
-        </div>
-    </form>
-    
-</body>
-
-
+    </div>
+  <label asp-for="Documment" class="control-label"></label>
+  <input type="file" asp-for="Documment" name = "postedFile" placeholder="Name Documment." class="form-control">
+  <span asp-validation-for="Documment" class="text-danger"></span>
+  <div class="form-group">
+    <label asp-for="Content"></label>
+    <textarea asp-for="Content" placeholder="Content..." class="form-control" rows="3"></textarea>
+  </div>
+  
+  
+  
+  <button type="submit" class="btn btn-primary">Post</button>
+</form>
 <div class="pt-5">
-    <button type="button" class="btn btn-dark"><a asp-action="Index" class="text-decoration-none">Back To list idea</a></button>
+    <button type="button" class="btn btn-danger"><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
 </div>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
