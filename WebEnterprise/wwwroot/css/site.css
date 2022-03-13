@@ -145,14 +145,14 @@ button {
 }
 
 .left-sidebar {
-    flex-basis: 20%;
+    flex-basis: 10%;
     position: sticky;
     top: 70px;
     height: 100vh;
 }
 
 .right-sidebar {
-    flex-basis: 70%;
+    flex-basis: 80%;
     position: sticky;
     top: 70px;
     height: 100vh;

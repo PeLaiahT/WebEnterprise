@@ -6,31 +6,40 @@
 }
 
 
-<div class="container">
-    <h4 class="d-flex justify-content-center">Create a new Category</h4>
-<hr />
-
-
-<form action="" method="post">
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label asp-for="NameCategory"></label>
-      <input asp-for="NameCategory" placeholder="Name Category..." class="form-control" id="inputEmail4">
+<div class="container tm-mt-big tm-mb-big">
+      <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="d-flex justify-content-center font-weight-bold">Create Category</h2>
+              </div>
+            </div>
+            <div class="row tm-edit-product-row d-inline">
+              <div class="col-xl-6 col-lg-6 col-md-12 mw-100">
+                <form method="post" enctype="multipart/form-data" class="tm-edit-product-form">
+                  <div class="form-group mb-3">
+                    <label asp-for="NameCategory"></label>
+                    <input asp-for="NameCategory" placeholder="NameCategory..." class="form-control" id="inputEmail4">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label asp-for="Desciption" class="control-label"></label>
+                    <textarea asp-for="Desciption" placeholder="Desciption..." class="form-control" rows="4"></textarea>
+                  </div>               
+              
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-block text-uppercase">Save</button>
+              </div>
+              <hr />
+              <div class="col-12">
+                    <button type="button" class="btn btn-danger btn-block text-uppercase"><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
-  </div>
-  <div class="form-group">
-    <label asp-for="Desciption"></label>
-    <textarea asp-for="Desciption" placeholder="Description ..." class="form-control" rows="2"></textarea>
-  </div>
-  
-  
-  
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-<div class="pt-5">
-    <button type="button" class="btn btn-danger"><a asp-action="Index" asp-controller="Category" class="text-decoration-none text-white">Back To list Category</a></button>
-</div>
 </div>
 
 @section Scripts {
