@@ -55,7 +55,7 @@ namespace WebEnterprise.Controllers
                     using (var dataStream = new MemoryStream())
                     {
                         await f.CopyToAsync(dataStream);
-                        idea.Documment = dataStream.ToArray();
+                        //idea.Documment = dataStream.ToArray();
                     }
                     if(postedFile!= null)
                     {

@@ -8,6 +8,7 @@ namespace WebEnterprise.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        public DbSet<Documment> Documments { get; set; }
         public DbSet<Idea> Ideas { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Category> Categories { get; set; }
