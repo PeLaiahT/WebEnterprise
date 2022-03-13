@@ -8,7 +8,7 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h3 class="m-0 font-weight-bold text-primary">View Categories</h3>
-                            <button type="button" class="btn btn-primary"><a asp-action="Create" class="text-decoration-none text-white">Create new Categories</a></button>
+                            <button type="button" class="btn btn-secondary"><a asp-action="Create" class="text-decoration-none text-white">Create new Categories</a></button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -40,7 +40,7 @@
                                                     </td>
                                                     <td class="text-center">
                                                         
-                                                        <button type="button" class="btn btn-primary"><a asp-action="Update" asp-route-id="@item.CategoryID" class="text-decoration-none text-white">Edit</a></button>
+                                                        <button type="button" class="btn btn-info"><a asp-action="Update" asp-route-id="@item.CategoryID" class="text-decoration-none text-white">Edit</a></button>
                                                         
              
                                                          <button type="button" class="btn btn-danger"><a asp-action="Delete" asp-route-id="@item.CategoryID" class="text-decoration-none text-white">Delete</a></button>

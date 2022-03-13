@@ -9,7 +9,7 @@
     <div class="left-sidebar">
         <div>
             
-            <button type="button" class="btn btn-primary"><a asp-action="Create" class="text-decoration-none text-white">Create a new idea</a></button>
+            <button type="button" class="btn btn-secondary"><a asp-action="Create" class="text-decoration-none text-white">Create a new idea</a></button>
         </div>
     </div>
 
@@ -31,8 +31,8 @@
                     Settings
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <span><a asp-action="Update" asp-route-id="@m.IdeaID" class="text-decoration-none text-black dropdown-item">Edit</a></span>
-                      <span><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none text-black dropdown-item">Delete</a></span>
+                      <span><a asp-action="Update" asp-route-id="@m.IdeaID" class="text-decoration-none bg-info text-white dropdown-item">Edit</a></span>
+                      <span><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none bg-danger text-white dropdown-item">Delete</a></span>
                     
                   </div>
                 </div>

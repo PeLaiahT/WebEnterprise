@@ -6,15 +6,10 @@
 
 
 <div class="container-fluid w-75">
-
- 
-                   
-
-                    <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h3 class="m-0 font-weight-bold text-primary">Staff</h3>
-                            <button type="button" class="btn btn-primary"><a asp-action="CreateStaff" class="text-decoration-none text-white">Create new Staff</a></button>
+                            <button type="button" class="btn btn-secondary"><a asp-action="CreateStaff" class="text-decoration-none text-white">Create new Staff</a></button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -54,7 +49,7 @@
                                                         @Html.DisplayFor(modelItem => item.PhoneNumber)
                                                     </td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-primary"><a asp-action="EditStaff" asp-route-id="@item.Id" class="text-decoration-none text-white">Edit</a></button>
+                                                        <button type="button" class="btn btn-info"><a asp-action="EditStaff" asp-route-id="@item.Id" class="text-decoration-none text-white">Edit</a></button>
                                                         
              
                                                         
