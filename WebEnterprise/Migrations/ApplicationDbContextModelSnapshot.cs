@@ -179,14 +179,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "cbc00fe9-e4e1-4d57-b7b9-09fff98c45e7",
+                            ConcurrencyStamp = "e7f9845a-6ee6-4a95-b858-a214cd8173b3",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENmjW1OK0GK/ARLY33IHO1FmpDxoHM6OEFV1DlNdW7HHK/h5NqHleqCedz3i3+XyAw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBlnxisGHYsW6DY69DjLfQ2NbK8vXH57/JciGVFXlcIvgJldAAvt3r9cxDsRwPzTrA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "07614bf8-7694-4f22-b823-e5472f02609e",
+                            SecurityStamp = "a9bd7183-f567-4f9e-869c-a3df95f8d4c0",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -333,6 +333,35 @@ namespace WebEnterprise.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
+                {
+                    b.Property<int>("DocummentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocummentID"), 1L, 1);
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("IdeaID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DocummentID");
+
+                    b.HasIndex("IdeaID");
+
+                    b.ToTable("Documments");
+                });
+
             modelBuilder.Entity("WebEnterprise.Models.DTO.CustomUserDTO", b =>
                 {
                     b.Property<string>("Id")
@@ -388,6 +417,10 @@ namespace WebEnterprise.Migrations
 
                     b.Property<int>("Like")
                         .HasColumnType("int");
+
+                    b.Property<string>("NameDocumment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -472,6 +505,17 @@ namespace WebEnterprise.Migrations
                 {
                     b.HasOne("WebEnterprise.Models.Idea", "Idea")
                         .WithMany("Comments")
+                        .HasForeignKey("IdeaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Idea");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
+                {
+                    b.HasOne("WebEnterprise.Models.Idea", "Idea")
+                        .WithMany()
                         .HasForeignKey("IdeaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

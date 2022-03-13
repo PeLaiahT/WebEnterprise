@@ -12,6 +12,7 @@ namespace WebEnterprise.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CustomUser> CustomUsers { get; set; }
+        public DbSet<Documment> Documments { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

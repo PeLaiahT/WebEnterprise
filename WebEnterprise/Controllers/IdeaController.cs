@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
@@ -44,8 +45,9 @@ namespace WebEnterprise.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(Idea idea, List <IFormFile> postedFile)
+        public async Task<IActionResult> CreateAsync(Idea idea, List <IFormFile> postedFile, Documment docs)
         {
+            int count = 0;
             ViewBag.categories = GetDropDownCategory();
             if (!ModelState.IsValid)
             {
@@ -56,6 +58,7 @@ namespace WebEnterprise.Controllers
                     {
                         await f.CopyToAsync(dataStream);
                         idea.Documment = dataStream.ToArray();
+                       
                     }
                     if(postedFile!= null)
                     {
@@ -66,19 +69,66 @@ namespace WebEnterprise.Controllers
                     using(var file = new FileStream(fullPath,FileMode.Create))
                         {
                             f.CopyTo(file);
-                        }
+                            //var documment = new Documment
+                            //{
+                            //    FileName = f.FileName,
 
+
+                            //    ContentType = f.ContentType,
+                            //    FileSize = f.Length
+
+                            //};
+
+                            //_db.Documments.Add(documment);
+                            docs.FileName = f.FileName;
+                            docs.ContentType = f.ContentType;
+                            docs.FileSize = f.Length;
+                            docs.IdeaID = count;
+                            _db.Documments.Add(docs);
+                            count++;
+                        }
+                        
+                        idea.NameDocumment = f.FileName;
                     }
                 }
                 _db.Ideas.Add(idea);
+               
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
             {
                 return View(idea);
+            } 
+        }
+        [HttpPost]
+        public async Task<IActionResult> Download(int id)
+        {
+            var provider = new FileExtensionContentTypeProvider();
+            var documment = await _db.Documments.FindAsync(id);
+            if(documment == null)
+            {
+                return NotFound();
             }
-           
+            var file = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot", "MyFiles", documment.FileName);
+            string contentType;
+            if(!provider.TryGetContentType(file ,out contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            byte[] fileBytes;
+            if (System.IO.File.Exists(file)) 
+            {
+                fileBytes = System.IO.File.ReadAllBytes(file);
+            }
+            else
+            {
+                return NotFound();
+            }
+            return File(fileBytes, contentType, documment.FileName);
+
+
         }
         public IActionResult Delete(int id)
         {
