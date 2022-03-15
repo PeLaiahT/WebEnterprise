@@ -1,5 +1,4 @@
-﻿@model IEnumerable<WebEnterprise.Models.Idea>
-
+﻿@model IEnumerable<WebEnterprise.Models.DTO.DocsIdea>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,13 +15,13 @@
 <div class="right-sidebar">
     @foreach(var m in Model)
     {
-    string imgSrc = null;
+@*    string imgSrc = null;
     //if the current product has image
     if (m.Documment != null)
     {
         var base64 = Convert.ToBase64String(m.Documment);
         imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-    }
+    }*@
     <div class="f-card">
         <div class="header">
             <div class="options">
@@ -42,12 +41,16 @@
             <div class="time"><a href="#">2hrs</a> · <i class="fa fa-globe"></i></div>
         </div>
         <div class="content">
-            <p>@m.NameDocumment</p>
-
+       
+             <div class="reference-title" style="color:black;">@Html.DisplayFor(model => m.CategoryName)</div>
+        </div>
+            <div class="content">
+       
+             <div class="reference-title" style="color:black;">@Html.DisplayFor(model => m.FileName)</div>
         </div>
 
         <div class="reference">
-            <img class="reference-thumb" src="@imgSrc" />
+           
             <div class="reference-content">
                 <div class="reference-title" style="color:black;">@Html.DisplayFor(model => m.Title)</div>
                 <div class="reference-subtitle">@Html.DisplayFor(model => m.Content)</div>

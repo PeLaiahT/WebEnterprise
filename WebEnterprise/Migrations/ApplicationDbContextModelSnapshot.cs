@@ -316,6 +316,35 @@ namespace WebEnterprise.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
+                {
+                    b.Property<int>("DocummentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocummentID"), 1L, 1);
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long?>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("IdeaID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DocummentID");
+
+                    b.HasIndex("IdeaID");
+
+                    b.ToTable("Documments");
+                });
+
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
                     b.Property<int>("IdeaID")
@@ -324,7 +353,7 @@ namespace WebEnterprise.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdeaID"), 1L, 1);
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int?>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -333,10 +362,6 @@ namespace WebEnterprise.Migrations
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Documment")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("FirstDate")
                         .HasColumnType("datetime2");
@@ -368,8 +393,14 @@ namespace WebEnterprise.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasDiscriminator().HasValue("CustomUser");
 
@@ -378,14 +409,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "60bdf3a3-a4d5-4339-b653-36f80332444d",
+                            ConcurrencyStamp = "4c26708f-481c-4ec8-9322-541745fe8489",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELDFpmZlY5yzfGZbbhMJloXVtDhq9YV41S+OW9y4hIFa1ex3Q2PJi/Z85wtHLJ6gRA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPdeqjePxbaLu5fcryjmaZne2tOermJNEb+fQWwJRtNP9HVtg1QkShGAVEQf16pdzQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f79b7af9-0274-4601-bc8c-8b611aa9d5f3",
+                            SecurityStamp = "b9f4ede8-d618-4bbd-8bd4-7a37d9d3215b",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -453,13 +484,22 @@ namespace WebEnterprise.Migrations
                     b.Navigation("Idea");
                 });
 
+            modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
+                {
+                    b.HasOne("WebEnterprise.Models.Idea", "Idea")
+                        .WithMany("Documments")
+                        .HasForeignKey("IdeaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Idea");
+                });
+
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
                     b.HasOne("WebEnterprise.Models.Category", "Category")
                         .WithMany("Ideas")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryID");
 
                     b.Navigation("Category");
                 });
@@ -472,6 +512,8 @@ namespace WebEnterprise.Migrations
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Documments");
                 });
 #pragma warning restore 612, 618
         }

@@ -18,6 +18,7 @@ namespace WebEnterprise.Controllers
             _userManager = userManager;
             _db = db;
         }
+
         public IActionResult Index()
         {
             var admins = (from u in _db.Users join ur in _db.UserRoles on u.Id equals ur.UserId
@@ -32,7 +33,70 @@ namespace WebEnterprise.Controllers
                           ).ToList();
             return View(admins);
         }
+        [HttpGet]
+        public IActionResult Update(string id)
+        {
+            var admin = _db.CustomUsers.Where(s => s.Id == id).
+            Select(u => new CustomUserDTO
+            {
+                Id = u.Id,
+                UserName = u.UserName,
+                Email = u.Email,
+                PhoneNumber = u.PhoneNumber,
+                FullName = u.FullName,
+                //Image = u.Image,
+            }).FirstOrDefault();
+            if (admin == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(admin);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(CustomUserDTO admin , List<IFormFile> postedFile)
+        {
+            if (ModelState.IsValid)
+            {
 
+                //foreach (IFormFile f in postedFile)
+                //{
+
+                //    using (var dataStream = new MemoryStream())
+                //    {
+                //        await f.CopyToAsync(dataStream);
+                //        admin.Image = dataStream.ToArray();
+                //    }
+                //    if (postedFile != null)
+                //    {
+                //        //chi dinh duong dan se luu
+                //        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                //            "wwwroot", "MyFiles", f.FileName);
+                //        ViewBag.fileName = f.FileName;
+                //        using (var file = new FileStream(fullPath, FileMode.Create))
+                //        {
+                //            f.CopyTo(file);
+                //        }
+                //    }
+                //}
+                var newAdmin = _db.CustomUsers.Find(admin.Id);
+                if (newAdmin == null)
+                {
+                    return View(admin);
+                }
+                else
+                {
+                    newAdmin.UserName = admin.UserName;
+                    newAdmin.Email = admin.Email;
+                    newAdmin.PhoneNumber = admin.PhoneNumber;
+                    newAdmin.FullName = admin.FullName;
+                    //newAdmin.Image = admin.Image;
+                   
+                    _db.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+            return View(admin);
+        }
         public IActionResult ViewAllStaff()
         {
             var staffs = (from u in _db.CustomUsers
@@ -55,17 +119,41 @@ namespace WebEnterprise.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateStaff(CustomUserDTO staff)
+        public async Task<IActionResult> CreateStaff(CustomUserDTO staff , List<IFormFile> postedFile)
         {
             if (ModelState.IsValid)
             {
+                foreach (IFormFile f in postedFile)
+                {
+
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await f.CopyToAsync(dataStream);
+                        staff.Image = dataStream.ToArray();
+                    }
+                    if (postedFile != null)
+                    {
+                        //chi dinh duong dan se luu
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "Img", f.FileName);
+                        staff.FileName = f.FileName;
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                            f.CopyTo(file);
+                        }
+                    }
+                }
                 var user = new CustomUser
                 {
                     UserName = staff.UserName,
                     FullName = staff.FullName,
                     Email = staff.Email,
                     PhoneNumber = staff.PhoneNumber,
+                    Image = staff.Image,
+                    FileName = staff.FileName,
+                    
                 };
+
                 var result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
                 {
@@ -95,7 +183,10 @@ namespace WebEnterprise.Controllers
                     UserName = u.UserName,
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
-                    FullName = u.FullName
+                    FullName = u.FullName,
+                    //Image = u.Image
+                    
+                    
                 }).FirstOrDefault();
             if (staff == null)
             {
@@ -148,10 +239,29 @@ namespace WebEnterprise.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCoor(CustomUserDTO coor)
+        public async Task<IActionResult> CreateCoor(CustomUserDTO coor , List<IFormFile> postedFile)
         {
             if (ModelState.IsValid)
             {
+                foreach (IFormFile f in postedFile)
+                {
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await f.CopyToAsync(dataStream);
+                        coor.Image = dataStream.ToArray();
+                    }
+                    if (postedFile != null)
+                    {
+                        //chi dinh duong dan se luu
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "Img", f.FileName);
+                        ViewBag.fileName = f.FileName;
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                            f.CopyTo(file);
+                        }
+                    }
+                }
                 var user = new CustomUser
                 {
                     UserName = coor.UserName,
@@ -241,10 +351,30 @@ namespace WebEnterprise.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateManager(CustomUserDTO coor)
+        public async Task<IActionResult> CreateManager(CustomUserDTO coor , List<IFormFile> postedFile)
         {
             if (ModelState.IsValid)
             {
+                foreach (IFormFile f in postedFile)
+                {
+
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await f.CopyToAsync(dataStream);
+                        coor.Image = dataStream.ToArray();
+                    }
+                    if (postedFile != null)
+                    {
+                        //chi dinh duong dan se luu
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "Img", f.FileName);
+                        ViewBag.fileName = f.FileName;
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                            f.CopyTo(file);
+                        }
+                    }
+                }
                 var user = new CustomUser
                 {
                     UserName = coor.UserName,
