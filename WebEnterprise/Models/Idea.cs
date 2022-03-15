@@ -15,11 +15,13 @@ namespace WebEnterprise.Models
         public DateTime LastDate { get; set; } = DateTime.Now;
         public int Like { get; set; } = 0;
         public int View { get; set; } = 0;
-        public byte[] Documment { get; set; }
-        public string NameDocumment { get; set; }
+  
         public List<Comment> Comments { get; set; }
-        public int CategoryID { get; set; }
+        public int? CategoryID { get; set; }
         public Category Category { get; set; }
+        public List<Documment> Documments { get; set; }
+
+
 
     }
 }

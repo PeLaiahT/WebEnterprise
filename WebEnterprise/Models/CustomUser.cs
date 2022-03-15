@@ -8,5 +8,7 @@ namespace WebEnterprise.Models
     {
         public string? FullName { get; set; }
         public string? Address { get; set; }
+        public byte[]? Image { get; set; }
+        public string? FileName { get; set; } 
     }
 }

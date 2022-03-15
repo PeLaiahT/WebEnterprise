@@ -1,4 +1,4 @@
-﻿@model WebEnterprise.Models.Idea
+﻿@model WebEnterprise.Models.DTO.DocsIdea   
 
 @{
     ViewData["Title"] = "Update";
@@ -30,9 +30,9 @@
                                   </div>
                   </div>
                   <div class="form-group mb-3">
-                    <label asp-for="Documment" class="control-label"></label>
-                    <input type="file" asp-for="Documment" name = "postedFile" placeholder="Documment." class="form-control">
-                    <span asp-validation-for="Documment" class="text-danger"></span>
+                    <label asp-for="Documments" class="control-label"></label>
+                    <input type="file" asp-for="Documments" name = "postedFile" placeholder="Documment." class="form-control">
+                    <span asp-validation-for="Documments" class="text-danger"></span>
                   </div>
                   <div class="form-group mb-3">
                     <label asp-for="Content" class="control-label"></label>
