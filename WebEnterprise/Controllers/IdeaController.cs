@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ namespace WebEnterprise.Controllers
                              }).ToList();
             ViewBag.Comments = commments;
         }*/
+        [Authorize]
         public IActionResult Index()
         {
             IEnumerable<Idea> ideas = _db.Ideas.OrderByDescending(i => i.CreateAt);

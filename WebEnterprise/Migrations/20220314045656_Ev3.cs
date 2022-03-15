@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebEnterprise.Migrations
 {
-    public partial class all : Migration
+    public partial class Ev3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,21 +63,6 @@ namespace WebEnterprise.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CustomUserDTO",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomUserDTO", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,7 +185,6 @@ namespace WebEnterprise.Migrations
                     Like = table.Column<int>(type: "int", nullable: false),
                     View = table.Column<int>(type: "int", nullable: false),
                     Documment = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    NameDocumment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -236,28 +220,6 @@ namespace WebEnterprise.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Documments",
-                columns: table => new
-                {
-                    DocummentID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdeaID = table.Column<int>(type: "int", nullable: false),
-                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileSize = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Documments", x => x.DocummentID);
-                    table.ForeignKey(
-                        name: "FK_Documments_Ideas_IdeaID",
-                        column: x => x.IdeaID,
-                        principalTable: "Ideas",
-                        principalColumn: "IdeaID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -271,8 +233,8 @@ namespace WebEnterprise.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "e7f9845a-6ee6-4a95-b858-a214cd8173b3", "IdentityUser", "admin@gmail.com", true, true, null, null, "admin", "AQAAAAEAACcQAAAAEBlnxisGHYsW6DY69DjLfQ2NbK8vXH57/JciGVFXlcIvgJldAAvt3r9cxDsRwPzTrA==", null, false, "a9bd7183-f567-4f9e-869c-a3df95f8d4c0", false, "Admin" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "1", 0, null, "60bdf3a3-a4d5-4339-b653-36f80332444d", "CustomUser", "admin@gmail.com", true, null, true, null, null, "admin", "AQAAAAEAACcQAAAAELDFpmZlY5yzfGZbbhMJloXVtDhq9YV41S+OW9y4hIFa1ex3Q2PJi/Z85wtHLJ6gRA==", null, false, "f79b7af9-0274-4601-bc8c-8b611aa9d5f3", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -324,11 +286,6 @@ namespace WebEnterprise.Migrations
                 column: "IdeaID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Documments_IdeaID",
-                table: "Documments",
-                column: "IdeaID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Ideas_CategoryID",
                 table: "Ideas",
                 column: "CategoryID");
@@ -353,12 +310,6 @@ namespace WebEnterprise.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
-
-            migrationBuilder.DropTable(
-                name: "CustomUserDTO");
-
-            migrationBuilder.DropTable(
-                name: "Documments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

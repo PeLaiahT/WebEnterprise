@@ -12,8 +12,8 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220313174430_all")]
-    partial class all
+    [Migration("20220314045656_Ev3")]
+    partial class Ev3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,23 +175,6 @@ namespace WebEnterprise.Migrations
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e7f9845a-6ee6-4a95-b858-a214cd8173b3",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = true,
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBlnxisGHYsW6DY69DjLfQ2NbK8vXH57/JciGVFXlcIvgJldAAvt3r9cxDsRwPzTrA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "a9bd7183-f567-4f9e-869c-a3df95f8d4c0",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -335,60 +318,6 @@ namespace WebEnterprise.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
-                {
-                    b.Property<int>("DocummentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocummentID"), 1L, 1);
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long?>("FileSize")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("IdeaID")
-                        .HasColumnType("int");
-
-                    b.HasKey("DocummentID");
-
-                    b.HasIndex("IdeaID");
-
-                    b.ToTable("Documments");
-                });
-
-            modelBuilder.Entity("WebEnterprise.Models.DTO.CustomUserDTO", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomUserDTO");
-                });
-
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
                     b.Property<int>("IdeaID")
@@ -420,10 +349,6 @@ namespace WebEnterprise.Migrations
                     b.Property<int>("Like")
                         .HasColumnType("int");
 
-                    b.Property<string>("NameDocumment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -443,13 +368,29 @@ namespace WebEnterprise.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("CustomUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "60bdf3a3-a4d5-4339-b653-36f80332444d",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAELDFpmZlY5yzfGZbbhMJloXVtDhq9YV41S+OW9y4hIFa1ex3Q2PJi/Z85wtHLJ6gRA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f79b7af9-0274-4601-bc8c-8b611aa9d5f3",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -507,17 +448,6 @@ namespace WebEnterprise.Migrations
                 {
                     b.HasOne("WebEnterprise.Models.Idea", "Idea")
                         .WithMany("Comments")
-                        .HasForeignKey("IdeaID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Idea");
-                });
-
-            modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
-                {
-                    b.HasOne("WebEnterprise.Models.Idea", "Idea")
-                        .WithMany()
                         .HasForeignKey("IdeaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
