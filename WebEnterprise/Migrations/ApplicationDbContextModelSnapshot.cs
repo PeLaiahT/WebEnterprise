@@ -173,23 +173,6 @@ namespace WebEnterprise.Migrations
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "cbc00fe9-e4e1-4d57-b7b9-09fff98c45e7",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = true,
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENmjW1OK0GK/ARLY33IHO1FmpDxoHM6OEFV1DlNdW7HHK/h5NqHleqCedz3i3+XyAw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "07614bf8-7694-4f22-b823-e5472f02609e",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -333,31 +316,6 @@ namespace WebEnterprise.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("WebEnterprise.Models.DTO.CustomUserDTO", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CustomUserDTO");
-                });
-
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
                     b.Property<int>("IdeaID")
@@ -408,13 +366,29 @@ namespace WebEnterprise.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("CustomUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "60bdf3a3-a4d5-4339-b653-36f80332444d",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAELDFpmZlY5yzfGZbbhMJloXVtDhq9YV41S+OW9y4hIFa1ex3Q2PJi/Z85wtHLJ6gRA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f79b7af9-0274-4601-bc8c-8b611aa9d5f3",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

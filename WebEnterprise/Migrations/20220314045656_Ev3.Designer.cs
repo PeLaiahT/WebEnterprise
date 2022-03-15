@@ -12,8 +12,8 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220311080229_CodeRun1")]
-    partial class CodeRun1
+    [Migration("20220314045656_Ev3")]
+    partial class Ev3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -175,23 +175,6 @@ namespace WebEnterprise.Migrations
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "3b802f04-c166-4831-90d5-a922484b38c9",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = true,
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENZEHYmNtBaSRttEuV215kNnHRvTJA71ACgMiGA/0xoQIFUWl9jlpnf/bCkojgIJXw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "be3e542b-82c0-42e5-9811-45de86d970b6",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -385,13 +368,29 @@ namespace WebEnterprise.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("CustomUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "60bdf3a3-a4d5-4339-b653-36f80332444d",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAELDFpmZlY5yzfGZbbhMJloXVtDhq9YV41S+OW9y4hIFa1ex3Q2PJi/Z85wtHLJ6gRA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f79b7af9-0274-4601-bc8c-8b611aa9d5f3",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

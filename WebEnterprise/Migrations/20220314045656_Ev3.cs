@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebEnterprise.Migrations
 {
-    public partial class CodeRun1 : Migration
+    public partial class Ev3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -233,8 +233,8 @@ namespace WebEnterprise.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "3b802f04-c166-4831-90d5-a922484b38c9", "IdentityUser", "admin@gmail.com", true, true, null, null, "admin", "AQAAAAEAACcQAAAAENZEHYmNtBaSRttEuV215kNnHRvTJA71ACgMiGA/0xoQIFUWl9jlpnf/bCkojgIJXw==", null, false, "be3e542b-82c0-42e5-9811-45de86d970b6", false, "Admin" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FullName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "1", 0, null, "60bdf3a3-a4d5-4339-b653-36f80332444d", "CustomUser", "admin@gmail.com", true, null, true, null, null, "admin", "AQAAAAEAACcQAAAAELDFpmZlY5yzfGZbbhMJloXVtDhq9YV41S+OW9y4hIFa1ex3Q2PJi/Z85wtHLJ6gRA==", null, false, "f79b7af9-0274-4601-bc8c-8b611aa9d5f3", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
