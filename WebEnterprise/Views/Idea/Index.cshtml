@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebEnterprise.Models.DTO.DocsIdea>
+﻿@model IEnumerable<WebEnterprise.Models.Idea>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -31,8 +31,7 @@
                   </button>
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <span><a asp-action="Update" asp-route-id="@m.IdeaID" class="text-decoration-none bg-info text-white dropdown-item">Edit</a></span>
-                      <span><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none bg-danger text-white dropdown-item">Delete</a></span>
-                    
+                      <span><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none bg-danger text-white dropdown-item">Delete</a></span>                   
                   </div>
                 </div>
 </div>
@@ -42,15 +41,17 @@
         </div>
         <div class="content">
        
-             <div class="reference-title" style="color:black;">@Html.DisplayFor(model => m.CategoryName)</div>
+             @*<div class="reference-title" style="color:black;">@Html.DisplayFor(model => m.Category.NameCategory)</div>*@
         </div>
-            <div class="content">
-       
-             <div class="reference-title" style="color:black;">@Html.DisplayFor(model => m.FileName)</div>
+            <div class="content">   
+             <div class="reference-title" style="color:black;"> 
+                 @foreach( var n in ViewBag.FileName)
+                        {
+                            @n.FileName;
+                        }
+                    </div>
         </div>
-
-        <div class="reference">
-           
+        <div class="reference">      
             <div class="reference-content">
                 <div class="reference-title" style="color:black;">@Html.DisplayFor(model => m.Title)</div>
                 <div class="reference-subtitle">@Html.DisplayFor(model => m.Content)</div>

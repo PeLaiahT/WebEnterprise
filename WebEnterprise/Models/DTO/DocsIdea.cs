@@ -16,8 +16,12 @@
         public int? IdeaID { get; set; }
         public string? CategoryName { get; set; }
         public string? Title { get; set; }
-       
-        public long? FileSize { get; set; }
 
+        public long? FileSize { get; set; }
+        public DocsIdea()
+            {
+                 List<Documment> docs = new List<Documment>();
+                 
+            }
     }
 }

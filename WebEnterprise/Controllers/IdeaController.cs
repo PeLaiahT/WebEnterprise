@@ -17,6 +17,8 @@ namespace WebEnterprise.Controllers
             var categories = _db.Categories.Select(c => new SelectListItem { Text = c.NameCategory, Value = c.CategoryID.ToString() }).ToList();
             return categories;
         }   
+
+
         
         public IdeaController(ApplicationDbContext db)
         {
@@ -38,18 +40,20 @@ namespace WebEnterprise.Controllers
         public IActionResult Index()
         {
             //IEnumerable<Idea> ideas = _db.Ideas.OrderByDescending(i => i.CreateAt);
-            var ideas = (from i in _db.Ideas
-                         join d in _db.Documments on i.IdeaID equals d.IdeaID
-                         join c in _db.Categories on i.CategoryID equals c.CategoryID
-                         orderby i.CreateAt descending
-                         select new DocsIdea
-                         {
-                             FileName = d.FileName,
-                             Content = i.Content,
-                             CategoryName = c.NameCategory,
-                             IdeaID = i.IdeaID
-                         }).ToList();
-            return View(ideas);
+            //var ideas = (from i in _db.Ideas
+            //             join d in _db.Documments on i.IdeaID equals d.IdeaID
+            //             join c in _db.Categories on i.CategoryID equals c.CategoryID
+            //             orderby i.CreateAt descending
+            //             select new DocsIdea
+            //             {
+            //                 FileName = d.FileName,
+            //                 Content = i.Content,
+            //                 CategoryName = c.NameCategory,
+            //                 IdeaID = i.IdeaID
+            //             }).ToList();
+            var ideaList = _db.Ideas.Include(d => d.Category).ToList();
+            ViewBag.FileName = ideaList.Select(i => i.Documments.Select(n => n.FileName)).ToList();
+            return View(ideaList);
         }
         [HttpGet]
         public IActionResult Create()
@@ -80,10 +84,10 @@ namespace WebEnterprise.Controllers
                     //chi dinh duong dan se luu
                     string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot", "MyFiles", f.FileName);
-                        ViewBag.fileName = f.FileName;
+
                         using (var file = new FileStream(fullPath, FileMode.Create))
                         {
-                            f.CopyTo(file);
+                           await f.CopyToAsync(file);
                         }
                     }
                     var docs = new Documment
