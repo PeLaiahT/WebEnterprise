@@ -389,9 +389,6 @@ namespace WebEnterprise.Migrations
                     b.Property<DateTime>("LastDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Like")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -413,7 +410,7 @@ namespace WebEnterprise.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DepartmentID")
+                    b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
@@ -434,17 +431,16 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7e579a0f-a707-4c0b-b9d9-24a470f0ddf4",
+                            ConcurrencyStamp = "1de09f47-c092-4911-befd-79a079e0d49b",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMIaO+EXMgnLzts/Bla7D2nBrT18kD2mG7uoc6EtSk0Ed/gOub9yWPiyvuQsbi/NSQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPDM+XtSCDA+xERdtRE9MnmIBJPWSs3lpeWTdXmjjgOALGUse+GNQtzp/o23U9/kyQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b7780bea-8336-426c-8985-e50bd6f8a19b",
+                            SecurityStamp = "6c4b3f6e-5c60-4ea4-b119-81594fecc2b7",
                             TwoFactorEnabled = false,
-                            UserName = "Admin",
-                            DepartmentID = 0
+                            UserName = "Admin"
                         });
                 });
 
@@ -534,9 +530,7 @@ namespace WebEnterprise.Migrations
                 {
                     b.HasOne("WebEnterprise.Models.Department", "Department")
                         .WithMany("CustomUsers")
-                        .HasForeignKey("DepartmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DepartmentID");
 
                     b.Navigation("Department");
                 });

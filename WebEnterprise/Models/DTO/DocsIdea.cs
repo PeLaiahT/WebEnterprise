@@ -6,7 +6,6 @@
         public string? FileName { get; set; }
         public string? ContentType { get; set; }
         public string? Content { get; set; }
-        public int? Like { get; set; } = 0;
         public int? View { get; set; } = 0;
         public List<Comment>? Comments { get; set; }
         public int? CategoryID { get; set; }

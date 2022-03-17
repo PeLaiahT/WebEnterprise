@@ -1,7 +1,10 @@
-﻿namespace WebEnterprise.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace WebEnterprise.Models
 {
     public class Department
     {
+        [Key]
         public int DepartmentID { get; set; }
         public string NameDepartment { get; set; }
         public string? Description { get; set; }

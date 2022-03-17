@@ -83,7 +83,7 @@ namespace WebEnterprise.Controllers
                     };
                     _db.Documments.Add(docs);
                     _db.SaveChanges();
-                }            
+                }
                 return RedirectToAction("Index");
             }
             else
@@ -159,7 +159,6 @@ namespace WebEnterprise.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-        }        
-
+        }
     }
 }

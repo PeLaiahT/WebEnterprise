@@ -12,8 +12,8 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220315171445_fixx")]
-    partial class fixx
+    [Migration("20220317182041_Run1")]
+    partial class Run1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -318,6 +318,26 @@ namespace WebEnterprise.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("WebEnterprise.Models.Department", b =>
+                {
+                    b.Property<int>("DepartmentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentID"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameDepartment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DepartmentID");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
                 {
                     b.Property<int>("DocummentID")
@@ -371,9 +391,6 @@ namespace WebEnterprise.Migrations
                     b.Property<DateTime>("LastDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Like")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -395,6 +412,9 @@ namespace WebEnterprise.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
+
                     b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
@@ -404,6 +424,8 @@ namespace WebEnterprise.Migrations
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
 
+                    b.HasIndex("DepartmentID");
+
                     b.HasDiscriminator().HasValue("CustomUser");
 
                     b.HasData(
@@ -411,14 +433,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4c26708f-481c-4ec8-9322-541745fe8489",
+                            ConcurrencyStamp = "1de09f47-c092-4911-befd-79a079e0d49b",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPdeqjePxbaLu5fcryjmaZne2tOermJNEb+fQWwJRtNP9HVtg1QkShGAVEQf16pdzQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPDM+XtSCDA+xERdtRE9MnmIBJPWSs3lpeWTdXmjjgOALGUse+GNQtzp/o23U9/kyQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b9f4ede8-d618-4bbd-8bd4-7a37d9d3215b",
+                            SecurityStamp = "6c4b3f6e-5c60-4ea4-b119-81594fecc2b7",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -506,9 +528,23 @@ namespace WebEnterprise.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
+                {
+                    b.HasOne("WebEnterprise.Models.Department", "Department")
+                        .WithMany("CustomUsers")
+                        .HasForeignKey("DepartmentID");
+
+                    b.Navigation("Department");
+                });
+
             modelBuilder.Entity("WebEnterprise.Models.Category", b =>
                 {
                     b.Navigation("Ideas");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Department", b =>
+                {
+                    b.Navigation("CustomUsers");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
