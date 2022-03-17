@@ -40,20 +40,19 @@ namespace WebEnterprise.Controllers
         public IActionResult Index()
         {
             //IEnumerable<Idea> ideas = _db.Ideas.OrderByDescending(i => i.CreateAt);
-            //var ideas = (from i in _db.Ideas
-            //             join d in _db.Documments on i.IdeaID equals d.IdeaID
-            //             join c in _db.Categories on i.CategoryID equals c.CategoryID
-            //             orderby i.CreateAt descending
-            //             select new DocsIdea
-            //             {
-            //                 FileName = d.FileName,
-            //                 Content = i.Content,
-            //                 CategoryName = c.NameCategory,
-            //                 IdeaID = i.IdeaID
-            //             }).ToList();
-            var ideaList = _db.Ideas.Include(d => d.Documments).ToList();
-            ViewBag.FileName = ideaList.Select(i => i.Documments.Select(n => n.FileName)).ToList();
-            return View(ideaList);
+            var ideas = (from i in _db.Ideas
+                         join d in _db.Documments on i.IdeaID equals d.IdeaID
+                         join c in _db.Categories on i.CategoryID equals c.CategoryID
+                         orderby i.CreateAt descending
+                         select new DocsIdea
+                         {
+                             FileName = d.FileName,
+                             Content = i.Content,
+                             Title = i.Title,
+                             CategoryName = c.NameCategory,
+                             IdeaID = i.IdeaID
+                         }).ToList();
+            return View(ideas);
         }
         [HttpGet]
         public IActionResult Create()

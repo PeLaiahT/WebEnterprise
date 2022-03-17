@@ -144,19 +144,6 @@ button {
     justify-content: space-between;
 }
 
-.left-sidebar {
-    flex-basis: 10%;
-    position: sticky;
-    top: 70px;
-    height: 100vh;
-}
-
-.right-sidebar {
-    flex-basis: 80%;
-    position: sticky;
-    top: 70px;
-    height: 100vh;
-}
 .styled-table {
     border-collapse: collapse;
     margin: 25px 0;
