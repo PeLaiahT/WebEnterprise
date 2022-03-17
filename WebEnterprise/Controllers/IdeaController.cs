@@ -51,7 +51,7 @@ namespace WebEnterprise.Controllers
             //                 CategoryName = c.NameCategory,
             //                 IdeaID = i.IdeaID
             //             }).ToList();
-            var ideaList = _db.Ideas.Include(d => d.Category).ToList();
+            var ideaList = _db.Ideas.Include(d => d.Documments).ToList();
             ViewBag.FileName = ideaList.Select(i => i.Documments.Select(n => n.FileName)).ToList();
             return View(ideaList);
         }
