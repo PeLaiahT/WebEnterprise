@@ -80,7 +80,9 @@ namespace WebEnterprise.Controllers
                     //chi dinh duong dan se luu
                     string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot", "MyFiles", f.FileName);
-                        ViewBag.fileName = f.FileName;                                             
+                        ViewBag.fileName = f.FileName;
+                        var save = new FileStream(fullPath, FileMode.Create);
+                        await f.CopyToAsync(save);
                     }
                     var docs = new Documment
                     {
@@ -88,7 +90,6 @@ namespace WebEnterprise.Controllers
                         ContentType = f.ContentType,
                         IdeaID = idea1.IdeaID
                     };
-
                     _db.Documments.Add(docs);
                     _db.SaveChanges();
                 }            
@@ -99,6 +100,7 @@ namespace WebEnterprise.Controllers
                 return View(idea2);
             } 
         }
+
         [HttpPost]
         public async Task<IActionResult> Download(int id)
         {
