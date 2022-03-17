@@ -173,23 +173,6 @@ namespace WebEnterprise.Migrations
                     b.ToTable("AspNetUsers", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "cbc00fe9-e4e1-4d57-b7b9-09fff98c45e7",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = true,
-                            NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENmjW1OK0GK/ARLY33IHO1FmpDxoHM6OEFV1DlNdW7HHK/h5NqHleqCedz3i3+XyAw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "07614bf8-7694-4f22-b823-e5472f02609e",
-                            TwoFactorEnabled = false,
-                            UserName = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -333,29 +316,33 @@ namespace WebEnterprise.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("WebEnterprise.Models.DTO.CustomUserDTO", b =>
+            modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("DocummentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("Email")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocummentID"), 1L, 1);
+
+                    b.Property<string>("ContentType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long?>("FileSize")
+                        .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                    b.Property<int>("IdeaID")
+                        .HasColumnType("int");
 
-                    b.ToTable("CustomUserDTO");
+                    b.HasKey("DocummentID");
+
+                    b.HasIndex("IdeaID");
+
+                    b.ToTable("Documments");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
@@ -366,7 +353,7 @@ namespace WebEnterprise.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdeaID"), 1L, 1);
 
-                    b.Property<int>("CategoryID")
+                    b.Property<int?>("CategoryID")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -375,10 +362,6 @@ namespace WebEnterprise.Migrations
 
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<byte[]>("Documment")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTime>("FirstDate")
                         .HasColumnType("datetime2");
@@ -408,13 +391,35 @@ namespace WebEnterprise.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Address")
-                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.HasDiscriminator().HasValue("CustomUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4c26708f-481c-4ec8-9322-541745fe8489",
+                            Email = "admin@gmail.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = true,
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPdeqjePxbaLu5fcryjmaZne2tOermJNEb+fQWwJRtNP9HVtg1QkShGAVEQf16pdzQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b9f4ede8-d618-4bbd-8bd4-7a37d9d3215b",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -479,13 +484,22 @@ namespace WebEnterprise.Migrations
                     b.Navigation("Idea");
                 });
 
+            modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
+                {
+                    b.HasOne("WebEnterprise.Models.Idea", "Idea")
+                        .WithMany("Documments")
+                        .HasForeignKey("IdeaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Idea");
+                });
+
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
                     b.HasOne("WebEnterprise.Models.Category", "Category")
                         .WithMany("Ideas")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryID");
 
                     b.Navigation("Category");
                 });
@@ -498,6 +512,8 @@ namespace WebEnterprise.Migrations
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Documments");
                 });
 #pragma warning restore 612, 618
         }

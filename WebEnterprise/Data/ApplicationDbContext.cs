@@ -12,6 +12,7 @@ namespace WebEnterprise.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CustomUser> CustomUsers { get; set; }
+        public DbSet<Documment> Documments { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -25,18 +26,18 @@ namespace WebEnterprise.Data
         }
         private void CreateAdmin(ModelBuilder builder)
         {
-            var passwordHaser = new PasswordHasher<IdentityUser>();
-            var admin = new IdentityUser()
+            var passwordHaser = new PasswordHasher<CustomUser>();
+            var admin = new CustomUser()
             {
                 Id = "1",
                 UserName = "Admin",
                 Email = "admin@gmail.com",
                 NormalizedUserName = "admin",
-                PasswordHash = passwordHaser.HashPassword(null, "Abc@123"),
+                PasswordHash = passwordHaser.HashPassword(null, "Abc@12345"),
                 LockoutEnabled = true,
                 EmailConfirmed = true,
             };
-            builder.Entity<IdentityUser>().HasData(admin);
+            builder.Entity<CustomUser>().HasData(admin);
         }
         private void SeedRoles(ModelBuilder builder)
         {
@@ -51,6 +52,5 @@ namespace WebEnterprise.Data
         {
             builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string> { RoleId = "1", UserId = "1", });
         }
-        public DbSet<WebEnterprise.Models.DTO.CustomUserDTO> CustomUserDTO { get; set; }
     }
 }

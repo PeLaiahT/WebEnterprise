@@ -7,7 +7,8 @@ namespace WebEnterprise.Models
     public class CustomUser: IdentityUser
     {
         public string? FullName { get; set; }
-        [Required]
-        public string Address { get; set; }
+        public string? Address { get; set; }
+        public byte[]? Image { get; set; }
+        public string? FileName { get; set; } 
     }
 }

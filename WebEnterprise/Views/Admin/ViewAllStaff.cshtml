@@ -35,6 +35,13 @@
                                     
                                     <tbody>
                                         @foreach (var item in Model) {
+                                                string imgSrc = null;
+                                                //if the current product has image
+                                                if (item.Image != null)
+                                                {
+                                                    var base64 = Convert.ToBase64String(item.Image);
+                                                    imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                                }
                                                 <tr>
                                                     <td class="text-center">
                                                         @Html.DisplayFor(modelItem => item.UserName)
@@ -46,8 +53,13 @@
                                                         @Html.DisplayFor(modelItem => item.Email)
                                                     </td>
                                                     <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                                    </td>
+                                                        //@Html.DisplayFor(modelItem => item.PhoneNumber)
+                                                        <img  src="@imgSrc"  style = "width = 150px ; height = 150px"/>
+                                                        <img  src="~/Img/@item.Image"  style = "width = 150px ; height = 150px"/>
+                                                         <img  src="~/Img/@item.FileName     "/>
+
+                                                        @Html.DisplayFor(modelItem => item.Image)
+                                                    </td>                                                     
                                                     <td class="text-center">
                                                         <button type="button" class="btn btn-info"><a asp-action="EditStaff" asp-route-id="@item.Id" class="text-decoration-none text-white">Edit</a></button>
                                                         

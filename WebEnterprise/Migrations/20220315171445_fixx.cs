@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebEnterprise.Migrations
 {
-    public partial class CodeRun1 : Migration
+    public partial class fixx : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,6 +31,8 @@ namespace WebEnterprise.Migrations
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -184,8 +186,7 @@ namespace WebEnterprise.Migrations
                     LastDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Like = table.Column<int>(type: "int", nullable: false),
                     View = table.Column<int>(type: "int", nullable: false),
-                    Documment = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false)
+                    CategoryID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,8 +195,7 @@ namespace WebEnterprise.Migrations
                         name: "FK_Ideas_Categories_CategoryID",
                         column: x => x.CategoryID,
                         principalTable: "Categories",
-                        principalColumn: "CategoryID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "CategoryID");
                 });
 
             migrationBuilder.CreateTable(
@@ -220,6 +220,28 @@ namespace WebEnterprise.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Documments",
+                columns: table => new
+                {
+                    DocummentID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdeaID = table.Column<int>(type: "int", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileSize = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Documments", x => x.DocummentID);
+                    table.ForeignKey(
+                        name: "FK_Documments_Ideas_IdeaID",
+                        column: x => x.IdeaID,
+                        principalTable: "Ideas",
+                        principalColumn: "IdeaID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -233,8 +255,8 @@ namespace WebEnterprise.Migrations
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, "3b802f04-c166-4831-90d5-a922484b38c9", "IdentityUser", "admin@gmail.com", true, true, null, null, "admin", "AQAAAAEAACcQAAAAENZEHYmNtBaSRttEuV215kNnHRvTJA71ACgMiGA/0xoQIFUWl9jlpnf/bCkojgIJXw==", null, false, "be3e542b-82c0-42e5-9811-45de86d970b6", false, "Admin" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FileName", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "1", 0, null, "4c26708f-481c-4ec8-9322-541745fe8489", "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAEPdeqjePxbaLu5fcryjmaZne2tOermJNEb+fQWwJRtNP9HVtg1QkShGAVEQf16pdzQ==", null, false, "b9f4ede8-d618-4bbd-8bd4-7a37d9d3215b", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -286,6 +308,11 @@ namespace WebEnterprise.Migrations
                 column: "IdeaID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Documments_IdeaID",
+                table: "Documments",
+                column: "IdeaID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ideas_CategoryID",
                 table: "Ideas",
                 column: "CategoryID");
@@ -310,6 +337,9 @@ namespace WebEnterprise.Migrations
 
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Documments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
