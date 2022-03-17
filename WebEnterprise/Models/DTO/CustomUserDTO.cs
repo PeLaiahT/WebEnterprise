@@ -13,5 +13,7 @@ namespace WebEnterprise.Models.DTO
         public string PhoneNumber { get; set; }
         public byte[]? Image { get; set; }
         public string? FileName { get; set; }
+        public Department Department { get; set; }
+        public int DepartmentID { get; set; }
     }
 }

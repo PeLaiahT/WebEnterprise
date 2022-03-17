@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
@@ -17,6 +18,11 @@ namespace WebEnterprise.Controllers
         {
             _userManager = userManager;
             _db = db;
+        }
+        private List<SelectListItem> GetDropDownDepartment()
+        {
+            var departments = _db.Departments.Select(c => new SelectListItem { Text = c.NameDepartment, Value = c.DepartmentID.ToString() }).ToList();
+            return departments;
         }
 
         public IActionResult Index()
@@ -52,6 +58,7 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult CreateStaff()
         {
+            ViewBag.departments = GetDropDownDepartment();
             return View();
         }
         [HttpPost]
