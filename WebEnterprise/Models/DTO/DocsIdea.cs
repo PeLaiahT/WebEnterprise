@@ -19,9 +19,8 @@
 
         public long? FileSize { get; set; }
         public DocsIdea()
-            {
-                 List<Documment> docs = new List<Documment>();
-                 
-            }
+        {
+            Documments = new List<Documment>();
+        }
     }
 }
