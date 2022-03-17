@@ -17,6 +17,8 @@ namespace WebEnterprise.Controllers
             var categories = _db.Categories.Select(c => new SelectListItem { Text = c.NameCategory, Value = c.CategoryID.ToString() }).ToList();
             return categories;
         }   
+
+
         
         public IdeaController(ApplicationDbContext db)
         {
@@ -81,7 +83,11 @@ namespace WebEnterprise.Controllers
                     //chi dinh duong dan se luu
                     string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot", "MyFiles", f.FileName);
-                        ViewBag.fileName = f.FileName;                                             
+
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                           await f.CopyToAsync(file);
+                        }
                     }
                     var docs = new Documment
                     {
@@ -89,7 +95,6 @@ namespace WebEnterprise.Controllers
                         ContentType = f.ContentType,
                         IdeaID = idea1.IdeaID
                     };
-
                     _db.Documments.Add(docs);
                     _db.SaveChanges();
                 }            
@@ -100,6 +105,7 @@ namespace WebEnterprise.Controllers
                 return View(idea2);
             } 
         }
+
         [HttpPost]
         public async Task<IActionResult> Download(int id)
         {
