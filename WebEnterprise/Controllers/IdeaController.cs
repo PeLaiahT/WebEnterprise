@@ -81,8 +81,10 @@ namespace WebEnterprise.Controllers
                     string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot", "MyFiles", f.FileName);
                         ViewBag.fileName = f.FileName;
-                        var save = new FileStream(fullPath, FileMode.Create);
-                        await f.CopyToAsync(save);
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                            f.CopyTo(file);
+                        }
                     }
                     var docs = new Documment
                     {
