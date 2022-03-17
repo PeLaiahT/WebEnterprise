@@ -10,5 +10,7 @@ namespace WebEnterprise.Models
         public string? Address { get; set; }
         public byte[]? Image { get; set; }
         public string? FileName { get; set; } 
+        public int DepartmentID { get; set; }
+        public Department Department { get; set; }
     }
 }
