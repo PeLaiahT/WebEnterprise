@@ -5,12 +5,22 @@
 }
 
 
-<div class="container-fluid w-75">
+<div class="container-fluid w-75">               
                     <div class="card shadow mb-4">
+                        
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h3 class="m-0 font-weight-bold text-primary">View Admin</h3>
-                           
-                        </div>
+                                <h3 class="m-0 font-weight-bold text-primary">View Admin</h3>
+                                <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                    Create
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <span><a asp-action="CreateStaff" class="text-decoration-none bg-info text-white dropdown-item">Staff</a></span>
+                                    <span><a asp-action="CreateManager"  class="text-decoration-none bg-info text-white dropdown-item">Manager</a></span>
+                                    <span><a asp-action="CreateCoor"  class="text-decoration-none bg-info text-white dropdown-item">Coordinator</a></span>
+                                </div>
+                            </div>
+                        </div>                       
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">

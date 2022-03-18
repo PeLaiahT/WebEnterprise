@@ -2,38 +2,46 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<div class="container tm-mt-big tm-mb-big">
+      <div class="row">
+        <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+          <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+            <div class="row">
+              <div class="col-12">
+                <h2 class="d-flex justify-content-center font-weight-bold">Update Department</h2>
+              </div>
+            </div>
+            <div class="row tm-edit-product-row d-inline">
+              <div class="col-xl-6 col-lg-6 col-md-12 mw-100">
+                <form method="post" enctype="multipart/form-data" class="tm-edit-product-form">
+                  <div class="form-group mb-3">
+                    <label class="font-weight-bold" asp-for="NameDepartment"></label>
+                    <input asp-for="NameDepartment" placeholder="NameCategory..." class="form-control" id="inputEmail4">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label asp-for="Description" class="control-label font-weight-bold"></label>
+                    <textarea asp-for="Description" placeholder="Desciption..." class="form-control" rows="4"></textarea>
+                  </div>               
+              <div class="d-flex">
+                  <div class="col-6">
+                    <button type="submit" class="btn btn-info btn-block text-uppercase">Save</button>
+                  </div>
+                  <hr />
+                  <div class="col-6">
+                        <button type="button" class="btn btn-danger btn-block text-uppercase"><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
+                  </div>
+              </div>
 
-<h4>Department</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="DepartmentID" />
-            <div class="form-group">
-                <label asp-for="NameDepartment" class="control-label"></label>
-                <input asp-for="NameDepartment" class="form-control" />
-                <span asp-validation-for="NameDepartment" class="text-danger"></span>
+            </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+          </div>
+        </div>
+      </div>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

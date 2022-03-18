@@ -57,7 +57,7 @@ namespace WebEnterprise.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DepartmentID,NameDepartment,Description")] Department department)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 _context.Add(department);
                 await _context.SaveChangesAsync();
@@ -89,12 +89,12 @@ namespace WebEnterprise.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("DepartmentID,NameDepartment,Description")] Department department)
         {
-            if (id != department.DepartmentID)
+            /*if (id != department.DepartmentID)
             {
                 return NotFound();
-            }
+            }*/
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -136,9 +136,9 @@ namespace WebEnterprise.Controllers
         }
 
         // POST: Departments/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var department = await _context.Departments.FindAsync(id);
             _context.Departments.Remove(department);

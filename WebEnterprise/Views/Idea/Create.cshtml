@@ -5,6 +5,7 @@
 }
 
 <div class="container tm-mt-big tm-mb-big">
+    <div class="card o-hidden border-0 shadow-lg my-3">
       <div class="row">
         <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
@@ -17,38 +18,41 @@
               <div class="col-xl-6 col-lg-6 col-md-12 mw-100">
                 <form method="post" enctype="multipart/form-data" class="tm-edit-product-form">
                   <div class="form-group mb-3">
-                    <label asp-for="Title"></label>
+                    <label class="font-weight-bold" asp-for="Title"></label>
                     <input asp-for="Title" placeholder="Title..." class="form-control" id="inputEmail4">
                   </div>
                   <div class="form-group mb-3">
-                    <label for="validationCustom04" asp-for="CategoryID">Category</label>
+                    <label class="font-weight-bold" for="validationCustom04" asp-for="CategoryID">Category</label>
                     <div >@Html.DropDownListFor(m => m.CategoryID,
                                   (IEnumerable<SelectListItem>)ViewBag.categories,
                                     htmlAttributes:new{@class ="form-control"})
                                   </div>
                   </div>
                   <div class="form-group mb-3">
-                    <label asp-for="Documments" class="control-label"></label>
+                    <label asp-for="Documments" class="control-label font-weight-bold"></label>
                     <input type="file" asp-for="Documments" multiple name = "postedFile" placeholder="Documment." class="form-control">
                     <span asp-validation-for="Documments" class="text-danger"></span>
                   </div>
                   <div class="form-group mb-3">
-                    <label asp-for="Content" class="control-label"></label>
+                    <label asp-for="Content" class="control-label font-weight-bold"></label>
                     <textarea asp-for="Content" placeholder="Content..." class="form-control" rows="3"></textarea>
                   </div>               
-                    
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-block text-uppercase">Post</button>
-              </div>
-              <hr />
-              <div class="col-12">
-                    <button type="button" class="btn btn-danger btn-block text-uppercase"><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
-              </div>
+              <div class="d-flex">
+                  <div class="col-6">
+                    <button type="submit" class="btn btn-info btn-block text-uppercase ">Post</button>
+                  </div>
+                  <hr />
+                  <div class="col-6">
+                        <button type="button" class="btn btn-danger btn-block text-uppercase "><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
+                  </div>
+              </div>   
+
             </form>
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
 </div>
 
