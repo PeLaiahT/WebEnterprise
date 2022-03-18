@@ -12,8 +12,8 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220315171445_fixx")]
-    partial class fixx
+    [Migration("20220317181924_a")]
+    partial class a
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -318,6 +318,26 @@ namespace WebEnterprise.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("WebEnterprise.Models.Department", b =>
+                {
+                    b.Property<int>("DepartmentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentID"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NameDepartment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DepartmentID");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
                 {
                     b.Property<int>("DocummentID")
@@ -395,6 +415,9 @@ namespace WebEnterprise.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("DepartmentID")
+                        .HasColumnType("int");
+
                     b.Property<string>("FileName")
                         .HasColumnType("nvarchar(max)");
 
@@ -404,6 +427,8 @@ namespace WebEnterprise.Migrations
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
 
+                    b.HasIndex("DepartmentID");
+
                     b.HasDiscriminator().HasValue("CustomUser");
 
                     b.HasData(
@@ -411,14 +436,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4c26708f-481c-4ec8-9322-541745fe8489",
+                            ConcurrencyStamp = "75201b57-1d88-4c67-88af-faae7bf2b900",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPdeqjePxbaLu5fcryjmaZne2tOermJNEb+fQWwJRtNP9HVtg1QkShGAVEQf16pdzQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDNJ0kCQzoLgkBph0pOkEYCABaswlCev670PoNEu3vOLN9xBIYVLbsg8HAI8y+al7g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b9f4ede8-d618-4bbd-8bd4-7a37d9d3215b",
+                            SecurityStamp = "b6bddd31-0243-43ed-a63e-790d2cbd35ef",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -506,9 +531,21 @@ namespace WebEnterprise.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
+                {
+                    b.HasOne("WebEnterprise.Models.Department", null)
+                        .WithMany("CustomUsers")
+                        .HasForeignKey("DepartmentID");
+                });
+
             modelBuilder.Entity("WebEnterprise.Models.Category", b =>
                 {
                     b.Navigation("Ideas");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Department", b =>
+                {
+                    b.Navigation("CustomUsers");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Idea", b =>

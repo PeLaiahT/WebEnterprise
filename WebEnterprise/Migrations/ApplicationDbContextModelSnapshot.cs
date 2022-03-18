@@ -413,7 +413,7 @@ namespace WebEnterprise.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DepartmentID")
+                    b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
@@ -434,17 +434,16 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7e579a0f-a707-4c0b-b9d9-24a470f0ddf4",
+                            ConcurrencyStamp = "75201b57-1d88-4c67-88af-faae7bf2b900",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMIaO+EXMgnLzts/Bla7D2nBrT18kD2mG7uoc6EtSk0Ed/gOub9yWPiyvuQsbi/NSQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDNJ0kCQzoLgkBph0pOkEYCABaswlCev670PoNEu3vOLN9xBIYVLbsg8HAI8y+al7g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b7780bea-8336-426c-8985-e50bd6f8a19b",
+                            SecurityStamp = "b6bddd31-0243-43ed-a63e-790d2cbd35ef",
                             TwoFactorEnabled = false,
-                            UserName = "Admin",
-                            DepartmentID = 0
+                            UserName = "Admin"
                         });
                 });
 
@@ -532,13 +531,9 @@ namespace WebEnterprise.Migrations
 
             modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
                 {
-                    b.HasOne("WebEnterprise.Models.Department", "Department")
+                    b.HasOne("WebEnterprise.Models.Department", null)
                         .WithMany("CustomUsers")
-                        .HasForeignKey("DepartmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
+                        .HasForeignKey("DepartmentID");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Category", b =>
