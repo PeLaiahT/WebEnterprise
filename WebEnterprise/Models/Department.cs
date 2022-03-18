@@ -6,9 +6,10 @@ namespace WebEnterprise.Models
     {
         [Key]
         public int DepartmentID { get; set; }
+        [Required]
         public string NameDepartment { get; set; }
         public string? Description { get; set; }
-        public List<CustomUser> CustomUsers { get; set; }
+        public List<CustomUser>? CustomUsers { get; set; }
 
     }
 }

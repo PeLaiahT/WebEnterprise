@@ -64,7 +64,6 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateStaff(CustomUserDTO staff , List<IFormFile> postedFile)
         {
-            ViewBag.departments = GetDropDownDepartment();
             if (ModelState.IsValid)
             {
                 foreach (IFormFile f in postedFile)
@@ -103,7 +102,12 @@ namespace WebEnterprise.Controllers
                 }
                 return RedirectToAction("ViewAllStaff");
             }
-            return View(staff);
+            else
+            {
+                ViewBag.departments = GetDropDownDepartment();
+                return View(staff);
+            }
+            
         }
         public IActionResult DeleteStaff(string id)
         {
