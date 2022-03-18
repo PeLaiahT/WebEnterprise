@@ -66,7 +66,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public IActionResult Update(Category category)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 return View(category);
             }

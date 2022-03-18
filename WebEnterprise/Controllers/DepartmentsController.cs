@@ -13,142 +13,75 @@ namespace WebEnterprise.Controllers
 {
     public class DepartmentsController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public DepartmentsController(ApplicationDbContext context)
+        private readonly ApplicationDbContext _db;
+        public DepartmentsController(ApplicationDbContext db)
         {
-            _context = context;
+            _db = db;
         }
-
-        // GET: Departments
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Departments.ToListAsync());
+            var departments = _db.Departments
+                             .OrderBy(c => c.DepartmentID)
+                             .ToList();
+            return View(departments);
         }
-
-        // GET: Departments/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var department = await _context.Departments
-        //        .FirstOrDefaultAsync(m => m.DepartmentID == id);
-        //    if (department == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(department);
-        //}
-
-        // GET: Departments/Create
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Departments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DepartmentID,NameDepartment,Description")] Department department)
+        public IActionResult Create(Department department)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(department);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(department);
             }
-            return View(department);
+            else
+            {
+                _db.Departments.Add(department);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
         }
 
-        // GET: Departments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Delete(int id)
         {
-            if (id == null)
+            var department = _db.Departments.FirstOrDefault(t => t.DepartmentID == id);
+            if (department != null)
             {
-                return NotFound();
+                _db.Departments.Remove(department);
+                _db.SaveChanges();
             }
-
-            var department = await _context.Departments.FindAsync(id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-            return View(department);
+            return RedirectToAction("Index");
         }
-
-        // POST: Departments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            var department = _db.Departments.FirstOrDefault(t => t.DepartmentID == id);
+            if (department != null)
+            {
+                return View(department);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DepartmentID,NameDepartment,Description")] Department department)
+        public IActionResult Update(Department department)
         {
-            if (id != department.DepartmentID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(department);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DepartmentExists(department.DepartmentID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View(department);
             }
-            return View(department);
-        }
-
-        // GET: Departments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+            else
             {
-                return NotFound();
+                _db.Entry(department).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
             }
-
-            var department = await _context.Departments
-                .FirstOrDefaultAsync(m => m.DepartmentID == id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-
-            return View(department);
-        }
-
-        // POST: Departments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var department = await _context.Departments.FindAsync(id);
-            _context.Departments.Remove(department);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool DepartmentExists(int id)
-        {
-            return _context.Departments.Any(e => e.DepartmentID == id);
         }
     }
 }

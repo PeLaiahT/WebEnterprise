@@ -12,8 +12,8 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220317181924_a")]
-    partial class a
+    [Migration("20220318094135_all")]
+    partial class all
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -436,14 +436,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "75201b57-1d88-4c67-88af-faae7bf2b900",
+                            ConcurrencyStamp = "30f43449-b19c-4603-8d4f-275d7280723b",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDNJ0kCQzoLgkBph0pOkEYCABaswlCev670PoNEu3vOLN9xBIYVLbsg8HAI8y+al7g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECOtzvvoXcaPBsYHiPAsk3JUmKYs+hZsOGtByuYoE7CDqhFLrrbgni7XLoiQjcl5yw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b6bddd31-0243-43ed-a63e-790d2cbd35ef",
+                            SecurityStamp = "ec71c219-b341-41ca-a352-8d1d7f342b1b",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -533,9 +533,11 @@ namespace WebEnterprise.Migrations
 
             modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
                 {
-                    b.HasOne("WebEnterprise.Models.Department", null)
+                    b.HasOne("WebEnterprise.Models.Department", "Department")
                         .WithMany("CustomUsers")
                         .HasForeignKey("DepartmentID");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Category", b =>

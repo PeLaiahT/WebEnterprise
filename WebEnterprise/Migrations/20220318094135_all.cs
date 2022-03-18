@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebEnterprise.Migrations
 {
-    public partial class a : Migration
+    public partial class all : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,6 +36,7 @@ namespace WebEnterprise.Migrations
                 {
                     table.PrimaryKey("PK_Categories", x => x.CategoryID);
                 });
+
             migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
@@ -275,7 +276,7 @@ namespace WebEnterprise.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DepartmentID", "Discriminator", "Email", "EmailConfirmed", "FileName", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, null, "75201b57-1d88-4c67-88af-faae7bf2b900", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAEDNJ0kCQzoLgkBph0pOkEYCABaswlCev670PoNEu3vOLN9xBIYVLbsg8HAI8y+al7g==", null, false, "b6bddd31-0243-43ed-a63e-790d2cbd35ef", false, "Admin" });
+                values: new object[] { "1", 0, null, "30f43449-b19c-4603-8d4f-275d7280723b", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAECOtzvvoXcaPBsYHiPAsk3JUmKYs+hZsOGtByuYoE7CDqhFLrrbgni7XLoiQjcl5yw==", null, false, "ec71c219-b341-41ca-a352-8d1d7f342b1b", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
