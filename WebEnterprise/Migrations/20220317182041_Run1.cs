@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebEnterprise.Migrations
 {
-    public partial class Department : Migration
+    public partial class Run1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -83,7 +83,6 @@ namespace WebEnterprise.Migrations
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FirstDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Like = table.Column<int>(type: "int", nullable: false),
                     View = table.Column<int>(type: "int", nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: true)
                 },
@@ -130,8 +129,7 @@ namespace WebEnterprise.Migrations
                         name: "FK_AspNetUsers_Departments_DepartmentID",
                         column: x => x.DepartmentID,
                         principalTable: "Departments",
-                        principalColumn: "DepartmentID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "DepartmentID");
                 });
 
             migrationBuilder.CreateTable(
@@ -277,7 +275,7 @@ namespace WebEnterprise.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DepartmentID", "Discriminator", "Email", "EmailConfirmed", "FileName", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, null, "7e579a0f-a707-4c0b-b9d9-24a470f0ddf4", 0, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAEMIaO+EXMgnLzts/Bla7D2nBrT18kD2mG7uoc6EtSk0Ed/gOub9yWPiyvuQsbi/NSQ==", null, false, "b7780bea-8336-426c-8985-e50bd6f8a19b", false, "Admin" });
+                values: new object[] { "1", 0, null, "1de09f47-c092-4911-befd-79a079e0d49b", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAEPDM+XtSCDA+xERdtRE9MnmIBJPWSs3lpeWTdXmjjgOALGUse+GNQtzp/o23U9/kyQ==", null, false, "6c4b3f6e-5c60-4ea4-b119-81594fecc2b7", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

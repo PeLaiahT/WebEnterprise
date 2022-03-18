@@ -94,7 +94,7 @@ namespace WebEnterprise.Controllers
                     PhoneNumber = staff.PhoneNumber,
                     Image = staff.Image,
                     FileName = staff.FileName,
-                    
+                    Department = staff.Department
                 };
 
                 var result = await _userManager.CreateAsync(user, "Staff123!");
@@ -119,6 +119,7 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult EditStaff(string id)
         {
+            ViewBag.departments = GetDropDownDepartment();
             var staff = _db.CustomUsers.Where(s => s.Id == id).
                 Select(u => new CustomUserDTO
                 {
@@ -127,9 +128,7 @@ namespace WebEnterprise.Controllers
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
                     FullName = u.FullName,
-                    //Image = u.Image
-                    
-                    
+                    Department = u.Department
                 }).FirstOrDefault();
             if (staff == null)
             {
@@ -145,6 +144,7 @@ namespace WebEnterprise.Controllers
                 var newstaff = _db.CustomUsers.Find(staff.Id);
                 if (newstaff == null)
                 {
+                    ViewBag.departments = GetDropDownDepartment();
                     return View(staff);
                 }
                 else

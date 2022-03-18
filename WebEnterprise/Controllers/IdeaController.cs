@@ -17,9 +17,6 @@ namespace WebEnterprise.Controllers
             var categories = _db.Categories.Select(c => new SelectListItem { Text = c.NameCategory, Value = c.CategoryID.ToString() }).ToList();
             return categories;
         }   
-
-
-        
         public IdeaController(ApplicationDbContext db)
         {
             _db = db;
@@ -39,20 +36,9 @@ namespace WebEnterprise.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            //IEnumerable<Idea> ideas = _db.Ideas.OrderByDescending(i => i.CreateAt);
-            var ideas = (from i in _db.Ideas
-                         join d in _db.Documments on i.IdeaID equals d.IdeaID
-                         join c in _db.Categories on i.CategoryID equals c.CategoryID
-                         orderby i.CreateAt descending
-                         select new DocsIdea
-                         {
-                             FileName = d.FileName,
-                             Content = i.Content,
-                             Title = i.Title,
-                             CategoryName = c.NameCategory,
-                             IdeaID = i.IdeaID
-                         }).ToList();
-            return View(ideas);
+            var listIdea = _db.Ideas.Include(i => i.Category)
+                .OrderByDescending(i => i.CreateAt).ToList();
+            return View(listIdea);
         }
         [HttpGet]
         public IActionResult Create()
@@ -97,7 +83,7 @@ namespace WebEnterprise.Controllers
                     };
                     _db.Documments.Add(docs);
                     _db.SaveChanges();
-                }            
+                }
                 return RedirectToAction("Index");
             }
             else
@@ -137,10 +123,10 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult Delete(int id)
         {
-            var courseCategory = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
-            if (courseCategory != null)
+            var idea = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
+            if (idea != null)
             {
-                _db.Ideas.Remove(courseCategory);
+                _db.Ideas.Remove(idea);
                 _db.SaveChanges();
             }
             return RedirectToAction("Index");
@@ -173,7 +159,6 @@ namespace WebEnterprise.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-        }        
-
+        }
     }
 }
