@@ -64,11 +64,11 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateStaff(CustomUserDTO staff , List<IFormFile> postedFile)
         {
+            ViewBag.departments = GetDropDownDepartment();
             if (ModelState.IsValid)
             {
                 foreach (IFormFile f in postedFile)
                 {
-
                     using (var dataStream = new MemoryStream())
                     {
                         await f.CopyToAsync(dataStream);
@@ -94,9 +94,8 @@ namespace WebEnterprise.Controllers
                     PhoneNumber = staff.PhoneNumber,
                     Image = staff.Image,
                     FileName = staff.FileName,
-                    Department = staff.Department
+                    DepartmentID = staff.DepartmentID                
                 };
-
                 var result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
                 {
@@ -120,6 +119,7 @@ namespace WebEnterprise.Controllers
         public IActionResult EditStaff(string id)
         {
             ViewBag.departments = GetDropDownDepartment();
+
             var staff = _db.CustomUsers.Where(s => s.Id == id).
                 Select(u => new CustomUserDTO
                 {
@@ -139,6 +139,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public IActionResult EditStaff(CustomUserDTO staff)
         {
+            ViewBag.departments = GetDropDownDepartment();
             if (ModelState.IsValid)
             {
                 var newstaff = _db.CustomUsers.Find(staff.Id);
