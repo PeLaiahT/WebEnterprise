@@ -12,7 +12,7 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220318114132_Run1")]
+    [Migration("20220318152456_Run1")]
     partial class Run1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -311,9 +311,15 @@ namespace WebEnterprise.Migrations
                     b.Property<int>("Like")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("CommentID");
 
                     b.HasIndex("IdeaID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Comments");
                 });
@@ -433,14 +439,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4e5ab9e-4f36-4447-9c42-1654ea7391d0",
+                            ConcurrencyStamp = "98e7a144-8d75-409c-9b56-7e9d9cb9b185",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGRJLYjv2d47vWMzIxltdBIoTyAWOz0xxyHbQW7b5UsGI+6zXAeCYOHbS2uIaAnuAg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENAPAy6zPWV/Or1x0briZi/3hza1R66ScCdtAvMEpmXRyoXsl3tIfilo6yslsKMD4w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ff1d9a27-9900-49ec-9ad1-248e108cb0d9",
+                            SecurityStamp = "9d62f0cb-89b8-4f41-904e-12948516d193",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -505,7 +511,15 @@ namespace WebEnterprise.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebEnterprise.Models.CustomUser", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Idea");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
@@ -552,6 +566,11 @@ namespace WebEnterprise.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Documments");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

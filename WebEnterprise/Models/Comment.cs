@@ -15,6 +15,8 @@ namespace WebEnterprise.Models
         public string Content { get; set; }
         public int IdeaID { get; set; }
         public Idea Idea { get; set; }
+        public string UserID { get; set; }
+        public CustomUser User { get; set; }
 
 
     }

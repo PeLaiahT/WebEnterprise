@@ -133,28 +133,6 @@ namespace WebEnterprise.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    CommentID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Like = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdeaID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.CommentID);
-                    table.ForeignKey(
-                        name: "FK_Comments_Ideas_IdeaID",
-                        column: x => x.IdeaID,
-                        principalTable: "Ideas",
-                        principalColumn: "IdeaID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Documments",
                 columns: table => new
                 {
@@ -261,6 +239,35 @@ namespace WebEnterprise.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    CommentID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Like = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdeaID = table.Column<int>(type: "int", nullable: false),
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.CommentID);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserID",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Ideas_IdeaID",
+                        column: x => x.IdeaID,
+                        principalTable: "Ideas",
+                        principalColumn: "IdeaID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -275,7 +282,7 @@ namespace WebEnterprise.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DepartmentID", "Discriminator", "Email", "EmailConfirmed", "FileName", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, null, "e4e5ab9e-4f36-4447-9c42-1654ea7391d0", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAEGRJLYjv2d47vWMzIxltdBIoTyAWOz0xxyHbQW7b5UsGI+6zXAeCYOHbS2uIaAnuAg==", null, false, "ff1d9a27-9900-49ec-9ad1-248e108cb0d9", false, "Admin" });
+                values: new object[] { "1", 0, null, "98e7a144-8d75-409c-9b56-7e9d9cb9b185", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAENAPAy6zPWV/Or1x0briZi/3hza1R66ScCdtAvMEpmXRyoXsl3tIfilo6yslsKMD4w==", null, false, "9d62f0cb-89b8-4f41-904e-12948516d193", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -330,6 +337,11 @@ namespace WebEnterprise.Migrations
                 name: "IX_Comments_IdeaID",
                 table: "Comments",
                 column: "IdeaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserID",
+                table: "Comments",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documments_IdeaID",

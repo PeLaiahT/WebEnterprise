@@ -12,5 +12,6 @@ namespace WebEnterprise.Models
         public string? FileName { get; set; } 
         public int? DepartmentID { get; set; }
         public Department? Department { get; set; }
+        public List<Comment>? Comments { get; set; }
     }
 }
