@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Detail";
-	Layout = "~/Views/Shared/_LayoutStaff.cshtml";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container">
 <div class="f-card w-100" style="border-radius:3px">
@@ -94,28 +94,7 @@
 				</div>
 			</div>
 			<div class="body_comment">
-    @using (Html.BeginForm("Create", "Comment", FormMethod.Post))
-    {
-		<div class="row">
-					<div class="avatar_comment col-md-1">
-					  <img src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar"/>
-					</div>
-					<div class="box_comment col-md-11">
-					  @Html.TextArea("NoiDung", new { @class = "commentar" })
-					  <div class="box_post">
-						
-						<div class="pull-right">
-						  
-						  
-						  <button type="submit" value="Post">Post</button>
-						</div>
-					  </div>
-					</div>
-				</div>
-        
-        @Html.Hidden("IdeaID", Model.IdeaID)
-        
-    }
+    
 </div>
 <div>
     @foreach (var comment in Model.Comments)
@@ -154,7 +133,7 @@
 		</div>
 
 <div class="col-3 mx-auto">
-   <button type="button" class="btn btn-danger btn-block text-uppercase "><a asp-action="IndexUser" class="text-decoration-none text-white">Back To list Idea</a></button>
+   <button type="button" class="btn btn-danger btn-block text-uppercase "><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
 </div>
 </div>
 @section Scripts{

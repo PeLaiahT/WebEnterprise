@@ -29,6 +29,7 @@ namespace WebEnterprise.Controllers
                 .OrderByDescending(i => i.CreateAt).ToList();
             return View(listIdea);
         }
+        [Authorize]
         public IActionResult IndexUser()
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
@@ -156,6 +157,14 @@ namespace WebEnterprise.Controllers
             }
         }
         public IActionResult Detail(int id)
+        {
+            var idea = _db.Ideas.
+                Include(i => i.Category).
+                FirstOrDefault(i => i.IdeaID == id);
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.User).OrderBy(x => x.CreateAt).ToList();
+            return View(idea);
+        }
+        public IActionResult DetailForAdmin(int id)
         {
             var idea = _db.Ideas.
                 Include(i => i.Category).

@@ -10,9 +10,7 @@
             <div>
                 <h3 class="m-0 font-weight-bold text-primary">List All Idea</h3>
             </div>
-            <div>
-                <button type="button" class="btn btn-info"><a asp-action="Create" class="text-decoration-none text-white">Post</a></button>
-            </div>
+            
         </div>
     </div>
 
@@ -42,8 +40,7 @@
                         </div>
                     </div>
                     <img class="co-logo" src="https://static2.yan.vn/YanNews/2167221/202112/nhung-ve-si-khong-lo-cua-johnny-dang-co-nguoi-cao-hon-2m-6faabfc9.jpeg" />
-                    <div class="co-name"><a href="#">tên User</a></div>
-                    <div class="time"><a href="#">2hrs</a> · <i class="fa fa-globe"></i></div>
+                    <div class="co-name"><a>@User.Identity?.Name!</a></div>
                 </div>
                  <div class="reference">
                     <div class="reference-content">
@@ -60,7 +57,7 @@
                 <div class="social">
                     <div class="social-buttons ">
                         <span><i class="fa fa-thumbs-up"></i>Like</span>
-                        <span><a asp-action="Detail" asp-route-id="@m.IdeaID" class="text-decoration-none" style="color:#7F7F7F;"><i class="fa fa-comment"></i>Comment</a></span>
+                        <span><a asp-action="DetailForAdmin" asp-route-id="@m.IdeaID" class="text-decoration-none" style="color:#7F7F7F;"><i class="fa fa-comment"></i>Comment</a></span>
                         
                     </div>
                 </div>
