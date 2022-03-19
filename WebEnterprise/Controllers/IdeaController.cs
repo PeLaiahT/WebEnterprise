@@ -29,6 +29,12 @@ namespace WebEnterprise.Controllers
                 .OrderByDescending(i => i.CreateAt).ToList();
             return View(listIdea);
         }
+        public IActionResult IndexUser()
+        {
+            var listIdea = _db.Ideas.Include(i => i.Category)
+                .OrderByDescending(i => i.CreateAt).ToList();
+            return View(listIdea);
+        }
         [HttpGet]
         public IActionResult Create()
         {
