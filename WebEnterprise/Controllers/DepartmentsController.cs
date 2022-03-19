@@ -89,10 +89,10 @@ namespace WebEnterprise.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("DepartmentID,NameDepartment,Description")] Department department)
         {
-            /*if (id != department.DepartmentID)
+            if (id != department.DepartmentID)
             {
                 return NotFound();
-            }*/
+            }
 
             if (!ModelState.IsValid)
             {
