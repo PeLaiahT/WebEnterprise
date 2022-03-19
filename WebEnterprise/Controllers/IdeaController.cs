@@ -21,18 +21,7 @@ namespace WebEnterprise.Controllers
         {
             _db = db;
         }
-        /*private void ViewComments()
-        {
-            var commments = (from c in _db.Comments
-                             join i in _db.Ideas on c.IdeaID equals i.IdeaID
-                             orderby c.CreateAt descending
-                             select new Comment
-                             {
-                                 CommentID = c.CommentID,
-                                 Content = c.Content,
-                             }).ToList();
-            ViewBag.Comments = commments;
-        }*/
+        
         [Authorize]
         public IActionResult Index()
         {
@@ -159,6 +148,14 @@ namespace WebEnterprise.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
+        }
+        public IActionResult Detail(int id)
+        {
+            var idea = _db.Ideas.
+                Include(i => i.Category).
+                FirstOrDefault(i => i.IdeaID == id);
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.User).OrderBy(x => x.CreateAt).ToList();
+            return View(idea);
         }
     }
 }

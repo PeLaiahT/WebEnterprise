@@ -8,7 +8,7 @@
     <div class="write-post w-100">
         <div class="f-card d-flex justify-content-between">
             <div>
-                <h3 class="m-0 font-weight-bold text-primary">View Idea</h3>
+                <h3 class="m-0 font-weight-bold text-primary">List All Idea</h3>
             </div>
             <div>
                 <button type="button" class="btn btn-info"><a asp-action="Create" class="text-decoration-none text-white">Post</a></button>
@@ -37,6 +37,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <span><a asp-action="Update" asp-route-id="@m.IdeaID" class="text-decoration-none bg-info text-white dropdown-item">Edit</a></span>
                                 <span><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none bg-danger text-white dropdown-item">Delete</a></span>
+                                <span><a asp-action="Detail" asp-route-id="@m.IdeaID" class="text-decoration-none bg-danger text-white dropdown-item">Detail</a></span>
                             </div>
                         </div>
                     </div>
@@ -57,11 +58,9 @@
                     </div>
                 </div>
                 <div class="social">
-                    <div class="social-content"></div>
                     <div class="social-buttons ">
                         <span><i class="fa fa-thumbs-up"></i>Like</span>
                         <span><i class="fa fa-comment"></i>Comment</span>
-
                     </div>
                 </div>
             </div>
@@ -70,5 +69,4 @@
         }
     </div>
 </div>
-
 

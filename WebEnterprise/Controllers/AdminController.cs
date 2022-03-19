@@ -44,6 +44,7 @@ namespace WebEnterprise.Controllers
             var staffs = (from u in _db.CustomUsers
                           join ur in _db.UserRoles on u.Id equals ur.UserId
                           join r in _db.Roles on ur.RoleId equals r.Id
+                          join d in _db.Departments on u.DepartmentID equals d.DepartmentID
                           where r.Name == "Staff"
                           select new CustomUserDTO
                           {
@@ -52,6 +53,7 @@ namespace WebEnterprise.Controllers
                               Email = u.Email,
                               PhoneNumber = u.PhoneNumber,
                               FullName = u.FullName,
+                              DepartmentID = d.DepartmentID,
                           }
                           ).ToList();
             return View(staffs);
@@ -68,7 +70,6 @@ namespace WebEnterprise.Controllers
             {
                 foreach (IFormFile f in postedFile)
                 {
-
                     using (var dataStream = new MemoryStream())
                     {
                         await f.CopyToAsync(dataStream);
@@ -94,9 +95,8 @@ namespace WebEnterprise.Controllers
                     PhoneNumber = staff.PhoneNumber,
                     Image = staff.Image,
                     FileName = staff.FileName,
-                    Department = staff.Department
+                    DepartmentID = staff.DepartmentID                
                 };
-
                 var result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
                 {
@@ -104,7 +104,12 @@ namespace WebEnterprise.Controllers
                 }
                 return RedirectToAction("ViewAllStaff");
             }
-            return View(staff);
+            else
+            {
+                ViewBag.departments = GetDropDownDepartment();
+                return View(staff);
+            }
+            
         }
         public IActionResult DeleteStaff(string id)
         {
@@ -120,6 +125,7 @@ namespace WebEnterprise.Controllers
         public IActionResult EditStaff(string id)
         {
             ViewBag.departments = GetDropDownDepartment();
+
             var staff = _db.CustomUsers.Where(s => s.Id == id).
                 Select(u => new CustomUserDTO
                 {
@@ -139,6 +145,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public IActionResult EditStaff(CustomUserDTO staff)
         {
+            ViewBag.departments = GetDropDownDepartment();
             if (ModelState.IsValid)
             {
                 var newstaff = _db.CustomUsers.Find(staff.Id);

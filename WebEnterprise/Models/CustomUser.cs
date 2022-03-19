@@ -11,6 +11,7 @@ namespace WebEnterprise.Models
         public byte[]? Image { get; set; }
         public string? FileName { get; set; } 
         public int? DepartmentID { get; set; }
-        public Department Department { get; set; }
+        public Department? Department { get; set; }
+        public List<Comment>? Comments { get; set; }
     }
 }
