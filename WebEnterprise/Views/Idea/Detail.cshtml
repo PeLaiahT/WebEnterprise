@@ -5,8 +5,36 @@
 }
 <div class="container">
 <h1>Detail</h1>
-
-<div>
+<div class="f-card w-100" style="border-radius:3px">
+                <div class="header">
+                    
+                    <img class="co-logo" src="https://static2.yan.vn/YanNews/2167221/202112/nhung-ve-si-khong-lo-cua-johnny-dang-co-nguoi-cao-hon-2m-6faabfc9.jpeg" />
+                    <div class="co-name"><a href="#">tên User</a></div>
+                    <div class="time">@Html.DisplayFor(model => model.CreateAt) · <i class="fa fa-globe"></i></div>
+					<div class="time"> · First Date:@Html.DisplayFor(model => model.FirstDate)</div>
+					<div class="time"> · Last Date:@Html.DisplayFor(model => model.LastDate)</div>
+                </div>
+                 <div class="reference w-100">
+                    <div class="reference-content ">
+                        <div class="reference-subtitle font-weight-bold">@Html.DisplayFor(model => model.Category.NameCategory)</div>
+                        <div class="reference-subtitle font-weight-bold">@Html.DisplayNameFor(model => model.Title)</div>
+                        <div class="reference-subtitle text-uppercase">@Html.DisplayFor(model => model.Content)</div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="reference-title" style="color:black;">
+                        @Html.DisplayFor(model => model.Documments)
+                    </div>
+                </div>
+                <div class="social">
+    <div class="social-content"></div>
+    <div class="social-buttons">
+    
+    
+      <span><i class="fa-solid fa-eye"></i>@Html.DisplayFor(model => model.View)</span></div>
+  </div>
+            </div>
+@*<div>
     <h4>Idea</h4>
     <hr />
     <dl class="row">
@@ -53,7 +81,7 @@
             @Html.DisplayFor(model => model.Category.NameCategory)
         </dd>
     </dl>
-</div>
+</div>*@
 
 		<div class="col-md-12" id="fbcomment">
 <div class="padding-right">
