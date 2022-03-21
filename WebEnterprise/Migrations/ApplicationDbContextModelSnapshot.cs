@@ -420,9 +420,14 @@ namespace WebEnterprise.Migrations
                     b.Property<int>("IdeaID")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("LikeId");
 
                     b.HasIndex("IdeaID");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Likes");
                 });
@@ -455,14 +460,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4c9999a1-e155-43fb-8519-e538528e7b83",
+                            ConcurrencyStamp = "11af7312-2761-4777-b8a6-800cb0f51349",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAECMHrz3QNQ8qnvfSFgMNg2tcJ6WuV5NVIiFeM9Q8XvAwbpDUAP0TCVhe++hYPirB0w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAED782xSSwr7qHimOoe4R1Tlle0dWF5z8f9/AtFKkVrD2yxOU76CE5G2CHH7us3bjYg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "dc871a2f-b03d-4f59-8d33-3a9fc0daa592",
+                            SecurityStamp = "b87cdcef-0c3b-46ab-b85e-70dbe9256dc9",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -566,7 +571,13 @@ namespace WebEnterprise.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebEnterprise.Models.CustomUser", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Idea");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
@@ -600,6 +611,8 @@ namespace WebEnterprise.Migrations
             modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

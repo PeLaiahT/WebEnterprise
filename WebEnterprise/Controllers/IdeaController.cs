@@ -21,27 +21,29 @@ namespace WebEnterprise.Controllers
         {
             _db = db;
         }
-        
-        [Authorize]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
                 .OrderByDescending(i => i.CreateAt).ToList();
             return View(listIdea);
         }
-        [Authorize]
+        [Authorize(Roles = "Staff")]
         public IActionResult IndexUser()
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
                 .OrderByDescending(i => i.CreateAt).ToList();
             return View(listIdea);
         }
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             ViewBag.categories = GetDropDownCategory();
             return View();
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(DocsIdea idea2, List <IFormFile> postedFile)
         {
@@ -80,7 +82,7 @@ namespace WebEnterprise.Controllers
                     _db.Documments.Add(docs);
                     _db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexUser");
             }
             else
             {
@@ -156,6 +158,7 @@ namespace WebEnterprise.Controllers
                 return RedirectToAction("Index");
             }
         }
+        [Authorize(Roles = "Staff")]
         public IActionResult Detail(int id)
         {
             var idea = _db.Ideas.
@@ -166,12 +169,13 @@ namespace WebEnterprise.Controllers
             ViewBag.likes = idea.Likes.Count();
             return View(idea);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult DetailForAdmin(int id)
         {
             var idea = _db.Ideas.
                 Include(i => i.Category).
                 FirstOrDefault(i => i.IdeaID == id);
-            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.User).OrderBy(x => x.CreateAt).ToList();
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.User).OrderByDescending(x => x.CreateAt).ToList();
             return View(idea);
         }
     }

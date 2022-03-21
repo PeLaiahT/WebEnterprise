@@ -268,6 +268,31 @@ namespace WebEnterprise.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Likes",
+                columns: table => new
+                {
+                    LikeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdeaID = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Likes", x => x.LikeId);
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Likes_Ideas_IdeaID",
+                        column: x => x.IdeaID,
+                        principalTable: "Ideas",
+                        principalColumn: "IdeaID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
@@ -282,7 +307,7 @@ namespace WebEnterprise.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DepartmentID", "Discriminator", "Email", "EmailConfirmed", "FileName", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, null, "98e7a144-8d75-409c-9b56-7e9d9cb9b185", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAENAPAy6zPWV/Or1x0briZi/3hza1R66ScCdtAvMEpmXRyoXsl3tIfilo6yslsKMD4w==", null, false, "9d62f0cb-89b8-4f41-904e-12948516d193", false, "Admin" });
+                values: new object[] { "1", 0, null, "11af7312-2761-4777-b8a6-800cb0f51349", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAED782xSSwr7qHimOoe4R1Tlle0dWF5z8f9/AtFKkVrD2yxOU76CE5G2CHH7us3bjYg==", null, false, "b87cdcef-0c3b-46ab-b85e-70dbe9256dc9", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -352,6 +377,16 @@ namespace WebEnterprise.Migrations
                 name: "IX_Ideas_CategoryID",
                 table: "Ideas",
                 column: "CategoryID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_IdeaID",
+                table: "Likes",
+                column: "IdeaID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_UserId",
+                table: "Likes",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -376,6 +411,9 @@ namespace WebEnterprise.Migrations
 
             migrationBuilder.DropTable(
                 name: "Documments");
+
+            migrationBuilder.DropTable(
+                name: "Likes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

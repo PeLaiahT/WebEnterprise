@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,7 +25,7 @@ namespace WebEnterprise.Controllers
             var departments = _db.Departments.Select(c => new SelectListItem { Text = c.NameDepartment, Value = c.DepartmentID.ToString() }).ToList();
             return departments;
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var admins = (from u in _db.Users
@@ -41,6 +42,7 @@ namespace WebEnterprise.Controllers
                           ).ToList();
             return View(admins);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult ViewAllStaff()
         {
             var staffs = (from u in _db.CustomUsers
@@ -55,16 +57,19 @@ namespace WebEnterprise.Controllers
                               Email = u.Email,
                               PhoneNumber = u.PhoneNumber,
                               FullName = u.FullName,
+                              FileName = u.FileName,
                               Department = _db.Departments.FirstOrDefault(d => d.DepartmentID == d.DepartmentID),
                           }
                           ).ToList();
             return View(staffs);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateStaff()
         {
             ViewBag.departments = GetDropDownDepartment();
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateStaff(CustomUserDTO staff, List<IFormFile> postedFile)
         {
@@ -113,6 +118,7 @@ namespace WebEnterprise.Controllers
             }
 
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteStaff(string id)
         {
             var staff = _db.Users.FirstOrDefault(u => u.Id == id);
@@ -124,6 +130,7 @@ namespace WebEnterprise.Controllers
             _db.SaveChanges();
             return RedirectToAction("ViewAllStaff");
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult EditStaff(string id)
         {
             ViewBag.departments = GetDropDownDepartment();
@@ -144,6 +151,7 @@ namespace WebEnterprise.Controllers
             }
             return View(staff);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditStaff(CustomUserDTO staff)
         {
@@ -169,7 +177,7 @@ namespace WebEnterprise.Controllers
             }
             return View(staff);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult ViewAllCoordinator()
         {
             var coor = (from u in _db.CustomUsers
@@ -183,14 +191,18 @@ namespace WebEnterprise.Controllers
                             Email = u.Email,
                             PhoneNumber = u.PhoneNumber,
                             FullName = u.FullName,
+                            FileName = u.FileName,
+                            Department = _db.Departments.FirstOrDefault(d => d.DepartmentID == d.DepartmentID),
                         }
                           ).ToList();
             return View(coor);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateCoor()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCoor(CustomUserDTO coor, List<IFormFile> postedFile)
         {
@@ -231,6 +243,7 @@ namespace WebEnterprise.Controllers
             }
             return View("ViewAllCoordinator");
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteCoor(string id)
         {
             var coor = _db.Users.FirstOrDefault(u => u.Id == id);
@@ -242,6 +255,7 @@ namespace WebEnterprise.Controllers
             _db.SaveChanges();
             return RedirectToAction("ViewAllCoordinator");
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult EditCoor(string id)
         {
             var coor = _db.CustomUsers.Where(s => s.Id == id).
@@ -259,6 +273,7 @@ namespace WebEnterprise.Controllers
             }
             return View(coor);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditCoor(CustomUserDTO staff)
         {
@@ -281,7 +296,7 @@ namespace WebEnterprise.Controllers
             }
             return View(staff);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult ViewAllManager()
         {
             var manager = (from u in _db.CustomUsers
@@ -295,14 +310,18 @@ namespace WebEnterprise.Controllers
                                Email = u.Email,
                                PhoneNumber = u.PhoneNumber,
                                FullName = u.FullName,
+                               FileName = u.FileName,
+                               Department = _db.Departments.FirstOrDefault(d => d.DepartmentID == d.DepartmentID),
                            }
                           ).ToList();
             return View(manager);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateManager()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateManager(CustomUserDTO coor, List<IFormFile> postedFile)
         {
@@ -344,6 +363,7 @@ namespace WebEnterprise.Controllers
             }
             return View("ViewAllManager");
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteManager(string id)
         {
             var manager = _db.Users.FirstOrDefault(u => u.Id == id);
@@ -355,6 +375,7 @@ namespace WebEnterprise.Controllers
             _db.SaveChanges();
             return RedirectToAction("ViewAllManager");
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult EditManager(string id)
         {
             var manager = _db.CustomUsers.Where(s => s.Id == id).
@@ -372,6 +393,7 @@ namespace WebEnterprise.Controllers
             }
             return View(manager);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditManager(CustomUserDTO staff)
         {
