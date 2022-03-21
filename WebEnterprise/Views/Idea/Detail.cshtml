@@ -55,6 +55,21 @@
     </dl>
 </div>
 <div class="col-sm-9 padding-right">
+    <label>Like</label>
+    <lable>@ViewBag.likes</lable>
+</div>
+@using (Html.BeginForm("UpLike", "Like", FormMethod.Post))
+{
+    @Html.Hidden("IdeaID", Model.IdeaID)
+    <input type="submit" value="Like" />
+}
+@using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
+{
+    @Html.Hidden("IdeaID", Model.IdeaID)
+    <input type="submit" value="DisLike" />
+}
+
+<div class="col-sm-9 padding-right">
     <h2>Comments</h2>
     @using (Html.BeginForm("Create", "Comment", FormMethod.Post))
     {

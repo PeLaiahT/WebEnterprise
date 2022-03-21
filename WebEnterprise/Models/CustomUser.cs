@@ -13,5 +13,6 @@ namespace WebEnterprise.Models
         public int? DepartmentID { get; set; }
         public Department? Department { get; set; }
         public List<Comment>? Comments { get; set; }
+        public List<Like>? Likes { get; set; }
     }
 }

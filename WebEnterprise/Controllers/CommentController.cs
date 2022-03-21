@@ -15,6 +15,7 @@ namespace WebEnterprise.Controllers
             _db = db;
         }
         [Authorize]
+        [HttpPost]
         public IActionResult Create(string NoiDung, int IdeaID)
         {
             var comment = new Comment

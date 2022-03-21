@@ -14,6 +14,7 @@ namespace WebEnterprise.Data
         public DbSet<CustomUser> CustomUsers { get; set; }
         public DbSet<Documment> Documments { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Like> Likes { get; set; }  
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

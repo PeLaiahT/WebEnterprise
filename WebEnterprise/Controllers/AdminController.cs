@@ -27,8 +27,10 @@ namespace WebEnterprise.Controllers
 
         public IActionResult Index()
         {
-            var admins = (from u in _db.Users join ur in _db.UserRoles on u.Id equals ur.UserId
-                          join r in _db.Roles on ur.RoleId equals r.Id where r.Name == "Admin"
+            var admins = (from u in _db.Users
+                          join ur in _db.UserRoles on u.Id equals ur.UserId
+                          join r in _db.Roles on ur.RoleId equals r.Id
+                          where r.Name == "Admin"
                           select new CustomUserDTO
                           {
                               Id = u.Id,
@@ -53,7 +55,7 @@ namespace WebEnterprise.Controllers
                               Email = u.Email,
                               PhoneNumber = u.PhoneNumber,
                               FullName = u.FullName,
-                              DepartmentID = d.DepartmentID,
+                              Department = _db.Departments.FirstOrDefault(d => d.DepartmentID == d.DepartmentID),
                           }
                           ).ToList();
             return View(staffs);
@@ -64,7 +66,7 @@ namespace WebEnterprise.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateStaff(CustomUserDTO staff , List<IFormFile> postedFile)
+        public async Task<IActionResult> CreateStaff(CustomUserDTO staff, List<IFormFile> postedFile)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +97,7 @@ namespace WebEnterprise.Controllers
                     PhoneNumber = staff.PhoneNumber,
                     Image = staff.Image,
                     FileName = staff.FileName,
-                    DepartmentID = staff.DepartmentID                
+                    DepartmentID = staff.DepartmentID
                 };
                 var result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
@@ -109,12 +111,12 @@ namespace WebEnterprise.Controllers
                 ViewBag.departments = GetDropDownDepartment();
                 return View(staff);
             }
-            
+
         }
         public IActionResult DeleteStaff(string id)
         {
             var staff = _db.Users.FirstOrDefault(u => u.Id == id);
-            if(staff == null)
+            if (staff == null)
             {
                 return RedirectToAction("Index");
             }
@@ -125,7 +127,6 @@ namespace WebEnterprise.Controllers
         public IActionResult EditStaff(string id)
         {
             ViewBag.departments = GetDropDownDepartment();
-
             var staff = _db.CustomUsers.Where(s => s.Id == id).
                 Select(u => new CustomUserDTO
                 {
@@ -134,7 +135,8 @@ namespace WebEnterprise.Controllers
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
                     FullName = u.FullName,
-                    Department = u.Department
+                    Department = u.Department,
+                    FileName = u .FileName,
                 }).FirstOrDefault();
             if (staff == null)
             {
@@ -145,7 +147,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public IActionResult EditStaff(CustomUserDTO staff)
         {
-            ViewBag.departments = GetDropDownDepartment();
+
             if (ModelState.IsValid)
             {
                 var newstaff = _db.CustomUsers.Find(staff.Id);
@@ -160,6 +162,7 @@ namespace WebEnterprise.Controllers
                     newstaff.Email = staff.Email;
                     newstaff.PhoneNumber = staff.PhoneNumber;
                     newstaff.FullName = staff.FullName;
+                    newstaff.Department = staff.Department;
                     _db.SaveChanges();
                 }
                 return RedirectToAction("ViewAllStaff");
@@ -170,17 +173,17 @@ namespace WebEnterprise.Controllers
         public IActionResult ViewAllCoordinator()
         {
             var coor = (from u in _db.CustomUsers
-                          join ur in _db.UserRoles on u.Id equals ur.UserId
-                          join r in _db.Roles on ur.RoleId equals r.Id
-                          where r.Name == "Coordinator"
-                          select new CustomUserDTO
-                          {
-                              Id = u.Id,
-                              UserName = u.UserName,
-                              Email = u.Email,
-                              PhoneNumber = u.PhoneNumber,
-                              FullName = u.FullName,
-                          }
+                        join ur in _db.UserRoles on u.Id equals ur.UserId
+                        join r in _db.Roles on ur.RoleId equals r.Id
+                        where r.Name == "Coordinator"
+                        select new CustomUserDTO
+                        {
+                            Id = u.Id,
+                            UserName = u.UserName,
+                            Email = u.Email,
+                            PhoneNumber = u.PhoneNumber,
+                            FullName = u.FullName,
+                        }
                           ).ToList();
             return View(coor);
         }
@@ -189,7 +192,7 @@ namespace WebEnterprise.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCoor(CustomUserDTO coor , List<IFormFile> postedFile)
+        public async Task<IActionResult> CreateCoor(CustomUserDTO coor, List<IFormFile> postedFile)
         {
             if (ModelState.IsValid)
             {
@@ -282,17 +285,17 @@ namespace WebEnterprise.Controllers
         public IActionResult ViewAllManager()
         {
             var manager = (from u in _db.CustomUsers
-                        join ur in _db.UserRoles on u.Id equals ur.UserId
-                        join r in _db.Roles on ur.RoleId equals r.Id
-                        where r.Name == "Assurance"
-                        select new CustomUserDTO
-                        {
-                            Id = u.Id,
-                            UserName = u.UserName,
-                            Email = u.Email,
-                            PhoneNumber = u.PhoneNumber,
-                            FullName = u.FullName,
-                        }
+                           join ur in _db.UserRoles on u.Id equals ur.UserId
+                           join r in _db.Roles on ur.RoleId equals r.Id
+                           where r.Name == "Assurance"
+                           select new CustomUserDTO
+                           {
+                               Id = u.Id,
+                               UserName = u.UserName,
+                               Email = u.Email,
+                               PhoneNumber = u.PhoneNumber,
+                               FullName = u.FullName,
+                           }
                           ).ToList();
             return View(manager);
         }
@@ -301,7 +304,7 @@ namespace WebEnterprise.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> CreateManager(CustomUserDTO coor , List<IFormFile> postedFile)
+        public async Task<IActionResult> CreateManager(CustomUserDTO coor, List<IFormFile> postedFile)
         {
             if (ModelState.IsValid)
             {

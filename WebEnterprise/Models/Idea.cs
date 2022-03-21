@@ -14,10 +14,11 @@ namespace WebEnterprise.Models
         public DateTime FirstDate { get; set; } = DateTime.Now;
         public DateTime LastDate { get; set; } = DateTime.Now;
         public int View { get; set; } = 0;
-  
+
         public List<Comment>? Comments { get; set; }
         public int? CategoryID { get; set; }
         public Category Category { get; set; }
         public List<Documment>? Documments { get; set; }
+        public List<Like>? Likes { get; set; }
     }
 }
