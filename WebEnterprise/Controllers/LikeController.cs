@@ -34,5 +34,6 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("Index", "Idea");
         }
+
     }
 }
