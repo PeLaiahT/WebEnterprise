@@ -5,7 +5,7 @@
 }
 
 
-<div class="container-fluid w-75">
+<div class="container-fluid w-100">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h3 class="m-0 font-weight-bold text-primary">Staff</h3>
@@ -30,6 +30,9 @@
                                             </th>
                                             <th class="text-center">
                                                 @Html.DisplayNameFor(model => model.Department)
+                                            </th>
+                                            <th class="text-center">
+                                                Action
                                             </th>
                                             
                                             
@@ -57,21 +60,20 @@
                                                     </td>
 
                                                     <td class="text-center">
-                                                        //@Html.DisplayFor(modelItem => item.PhoneNumber)
+                                                        @Html.DisplayFor(modelItem => item.PhoneNumber)                                                        
+                                                    </td>
+                                                     <td class="text-center">
                                                         <img  src="@imgSrc"  style = "width = 150px ; height = 150px"/>
                                                         <img  src="~/Img/@item.Image"  style = "width = 150px ; height = 150px"/>
                                                          <img  src="~/Img/@item.FileName     "/>
 
                                                         @Html.DisplayFor(modelItem => item.Image)
-                                                    </td>    
+                                                    </td>
                                                      <td class="text-center">
                                                         @Html.DisplayFor(modelItem => item.Department.NameDepartment)
                                                     </td>
-                                                    <td class="text-center">
-                                                        <button type="button" class="btn btn-info"><a asp-action="EditStaff" asp-route-id="@item.Id" class="text-decoration-none text-white">Edit</a></button>
-                                                        
-             
-                                                        
+                                                    <td class="text-center d-flex justify-content-between">
+                                                        <button type="button" class="btn btn-info"><a asp-action="EditStaff" asp-route-id="@item.Id" class="text-decoration-none text-white">Edit</a></button>                                                       
                                                      <button type="button" class="btn btn-danger"><a asp-action="DeleteStaff" asp-route-id="@item.Id" class="text-decoration-none text-white">Delete</a></button></td>
                                                     
                                                 </tr>

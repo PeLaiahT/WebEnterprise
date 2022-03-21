@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Detail";
-	Layout = "~/Views/Shared/_LayoutStaff.cshtml";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container">
 <div class="f-card w-100" style="border-radius:3px">
@@ -81,46 +81,20 @@
             @Html.DisplayFor(model => model.Category.NameCategory)
         </dd>
     </dl>
-</div>
-<div class="col-sm-9 padding-right">
-    <label>Like</label>
-    <lable>@ViewBag.likes</lable>
-</div>
-@using (Html.BeginForm("UpLike", "Like", FormMethod.Post))
-{
-    @Html.Hidden("IdeaID", Model.IdeaID)
-    <input type="submit" value="Like" />
-}
-@using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
-{
-    @Html.Hidden("IdeaID", Model.IdeaID)
-    <input type="submit" value="DisLike" />
-}
+</div>*@
 
-<div class="col-sm-9 padding-right">
-    <h2>Comments</h2>
-    @using (Html.BeginForm("Create", "Comment", FormMethod.Post))
-    {
-		<div class="row">
-					<div class="avatar_comment col-md-1">
-					  <img src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar"/>
+		<div class="col-md-12" id="fbcomment">
+<div class="padding-right">
+    <div class="header_comment">
+				<div class="row">
+					<div class="col-md-6 text-left">
+					  <span class="count_comment">Comments</span>
 					</div>
-					<div class="box_comment col-md-11">
-					  @Html.TextArea("NoiDung", new { @class = "commentar" })
-					  <div class="box_post">
-						
-						<div class="pull-right">
-						  
-						  
-						  <button type="submit" value="Post">Post</button>
-						</div>
-					  </div>
-					</div>
+					
 				</div>
-        
-        @Html.Hidden("IdeaID", Model.IdeaID)
-        
-    }
+			</div>
+			<div class="body_comment">
+    
 </div>
 <div>
     @foreach (var comment in Model.Comments)
@@ -159,7 +133,7 @@
 		</div>
 
 <div class="col-3 mx-auto">
-   <button type="button" class="btn btn-danger btn-block text-uppercase "><a asp-action="IndexUser" class="text-decoration-none text-white">Back To list Idea</a></button>
+   <button type="button" class="btn btn-danger btn-block text-uppercase "><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
 </div>
 </div>
 @section Scripts{

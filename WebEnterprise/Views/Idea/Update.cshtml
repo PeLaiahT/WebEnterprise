@@ -7,6 +7,7 @@
 
 
 <div class="container tm-mt-big tm-mb-big">
+    <div class="card o-hidden border-0 shadow-lg my-3">
       <div class="row">
         <div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
@@ -37,7 +38,15 @@
                   <div class="form-group mb-3">
                     <label asp-for="Content" class="control-label font-weight-bold"></label>
                     <textarea asp-for="Content" placeholder="Content..." class="form-control" rows="3"></textarea>
-                  </div>               
+                  </div>
+                  <div class="form-group mb-3">
+                    <label asp-for="FirstDate" class="control-label font-weight-bold"></label>
+                    <input type="date" asp-for="FirstDate" class="form-control">
+                  </div>
+                  <div class="form-group mb-3">
+                    <label asp-for="LastDate" class="control-label font-weight-bold"></label>
+                    <input type="date" asp-for="LastDate" class="form-control">
+                  </div>
               <div class="d-flex">
                   <div class="col-6">
                     <button type="submit" class="btn btn-info btn-block text-uppercase">Save</button>
@@ -53,6 +62,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
 </div>
 
