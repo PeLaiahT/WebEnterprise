@@ -34,6 +34,9 @@ namespace WebEnterprise.Controllers
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
                 .OrderByDescending(i => i.CreateAt).ToList();
+            var username = User.Identity?.Name;
+            var user = (from u in _db.CustomUsers where u.UserName.Equals(username) select u).FirstOrDefault();
+            ViewBag.image = user.FileName;
             return View(listIdea);
         }
         [Authorize]

@@ -8,8 +8,8 @@
 <div class="f-card w-100" style="border-radius:3px">
                 <div class="header">
                     
-                    <img class="co-logo" src="https://static2.yan.vn/YanNews/2167221/202112/nhung-ve-si-khong-lo-cua-johnny-dang-co-nguoi-cao-hon-2m-6faabfc9.jpeg" />
-                    <div class="co-name"><a href="#">tên User</a></div>
+                    <img class="co-logo" src="~/Img/@ViewBag.image" />
+                    <div class="co-name"><a href="#">@User.Identity?.Name</a></div>
                     <div class="time">@Html.DisplayFor(model => model.CreateAt) · <i class="fa fa-globe"></i></div>
 					<div class="time"> · First Date:@Html.DisplayFor(model => model.FirstDate)</div>
 					<div class="time"> · Last Date:@Html.DisplayFor(model => model.LastDate)</div>
@@ -55,7 +55,7 @@
 						
 						<li class="box_result row" >
 							<div class="avatar_comment col-md-1" >
-								<img src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar"/>
+								<img src="~/Img/@comment.User.FileName" alt="avatar"/>
 							</div>
 							<div class="result_comment col-md-11">
 								<h4 >@comment.User.FullName</h4>
