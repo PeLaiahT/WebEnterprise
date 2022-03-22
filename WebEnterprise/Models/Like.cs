@@ -7,9 +7,9 @@ namespace WebEnterprise.Models
     {
         [Key]
         public int LikeId { get; set; }
-        public int IdeaID { get;set; }
-        public Idea Idea { get; set; }
-        public string UserID { get; set; }
-        public CustomUser User { get; set; }
+        public int IdeaId { get;set; }
+        public Idea? Idea { get; set; }
+        public string? LikeUserID { get; set; }
+        public CustomUser? LikeUser { get; set; }
     }
 }

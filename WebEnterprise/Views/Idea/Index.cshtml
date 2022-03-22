@@ -39,8 +39,8 @@
                             </div>
                         </div>
                     </div>
-                    <img class="co-logo" src="~/Img/@ViewBag.image" />
-                    <div class="co-name"><a>@User.Identity?.Name!</a></div>
+                    <img class="co-logo" src="~/Img/@m.IdeaUser.FileName" />
+                    <div class="co-name"><a>@m.IdeaUser.UserName</a></div>
                 </div>
                  <div class="reference">
                     <div class="reference-content">
@@ -49,11 +49,12 @@
                         <div class="reference-subtitle text-uppercase">@Html.DisplayFor(model => m.Content)</div>
                     </div>
                 </div>
-                <div class="content">
-                    <div class="reference-title" style="color:black;">
-                        @Html.DisplayFor(model => m.Documments)
-                    </div>
-                </div>
+                @foreach (var item in m.Documments)
+                        {
+                           <a href="#">
+                               @item.FileName
+                           </a>
+                        }
                 <div class="social">
                     <div class="social-buttons ">
                         <span><i class="fa fa-thumbs-up"></i>Like</span>

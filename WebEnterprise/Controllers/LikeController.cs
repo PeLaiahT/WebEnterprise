@@ -22,8 +22,8 @@ namespace WebEnterprise.Controllers
             {
                 var like = new Like
                 {
-                    UserID = User.Identity.GetUserId(),
-                    IdeaID = IdeaID
+                    LikeUserID = User.Identity.GetUserId(),
+                    IdeaId = IdeaID
                 };
                 _db.Likes.Add(like);
                 idea.Likecount++;
@@ -36,7 +36,7 @@ namespace WebEnterprise.Controllers
         public IActionResult DownLike(int IdeaID)
         {
             var idea = _db.Ideas.FirstOrDefault(i => i.IdeaID == IdeaID);
-            var like = _db.Likes.Where(l => l.IdeaID == IdeaID).FirstOrDefault();
+            var like = _db.Likes.Where(l => l.IdeaId == IdeaID).FirstOrDefault();
             if(like != null && idea != null)
             {
                 _db.Likes.Remove(like);

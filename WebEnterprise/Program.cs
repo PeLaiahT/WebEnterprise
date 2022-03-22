@@ -16,9 +16,9 @@ builder.Services.AddDefaultIdentity<CustomUser>(options => options.SignIn.Requir
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddMvc().AddRazorPagesOptions(options => {
-    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
-}).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+//builder.Services.AddMvc().AddRazorPagesOptions(options => {
+//    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
+//}).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 var app = builder.Build();
 

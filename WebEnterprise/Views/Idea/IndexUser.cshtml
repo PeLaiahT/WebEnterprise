@@ -30,19 +30,20 @@
             <div class="f-card">
                 <div class="header">
                     
-                    <img class="co-logo" src="~/Img/@ViewBag.image" />
-                    <div class="co-name"><a href="#">@User.Identity?.Name</a></div> 
+                    <img class="co-logo" src="~/Img/@m.IdeaUser.FileName" />
+                    <div class="co-name"><a href="#">@m.IdeaUser.UserName</a></div> 
                 </div>
                  <div class="reference">
                     <div class="reference-content">
                         <div class="reference-subtitle font-weight-bold">@Html.DisplayFor(model => m.Category.NameCategory)</div>
                         <div class="reference-subtitle font-weight-bold">@Html.DisplayFor(model => m.Title)</div>
                         <div class="reference-subtitle text-uppercase">@Html.DisplayFor(model => m.Content)</div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="reference-title" style="color:black;">
-                        @Html.DisplayFor(model => m.Documments)
+                        @foreach (var item in m.Documments)
+                        {
+                           <a href="#">
+                               @item.FileName
+                           </a>
+                        }
                     </div>
                 </div>
                 <div class="social">

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
@@ -26,6 +27,8 @@ namespace WebEnterprise.Controllers
         public IActionResult Index()
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
+                .Include(i => i.IdeaUser)
+                .Include(i => i.Documments)
                 .OrderByDescending(i => i.CreateAt).ToList();
             return View(listIdea);
         }
@@ -33,10 +36,9 @@ namespace WebEnterprise.Controllers
         public IActionResult IndexUser()
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
+                .Include(i => i.IdeaUser)
+                .Include(i => i.Documments)
                 .OrderByDescending(i => i.CreateAt).ToList();
-            var username = User.Identity?.Name;
-            var user = (from u in _db.CustomUsers where u.UserName.Equals(username) select u).FirstOrDefault();
-            ViewBag.image = user.FileName;
             return View(listIdea);
         }
         [Authorize]
@@ -57,6 +59,7 @@ namespace WebEnterprise.Controllers
             {
                 var idea1 = new Idea
                 {
+                    IdeaUserID = User.Identity.GetUserId(),
                     Content = idea2.Content,
                     Title = idea2.Title,
                     CategoryID = idea2.CategoryID,
@@ -166,10 +169,13 @@ namespace WebEnterprise.Controllers
         {
             var idea = _db.Ideas.
                 Include(i => i.Category).
+                Include(i => i.IdeaUser).
+                Include(i => i.Documments).
                 FirstOrDefault(i => i.IdeaID == id);
-            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.User).OrderByDescending(x => x.CreateAt).ToList();
-            //idea.Likes = _db.Likes.Where(i => i.IdeaID == id).ToList();
-            //ViewBag.likes = idea.Likes.Count();
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             return View(idea);
         }
         [Authorize(Roles = "Admin")]
@@ -177,8 +183,10 @@ namespace WebEnterprise.Controllers
         {
             var idea = _db.Ideas.
                 Include(i => i.Category).
+                Include(i => i.IdeaUser).
+                Include(i => i.Documments).
                 FirstOrDefault(i => i.IdeaID == id);
-            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.User).OrderByDescending(x => x.CreateAt).ToList();
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
             return View(idea);
         }
     }

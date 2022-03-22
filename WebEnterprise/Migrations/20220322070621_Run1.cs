@@ -73,31 +73,6 @@ namespace WebEnterprise.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ideas",
-                columns: table => new
-                {
-                    IdeaID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    FirstDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    View = table.Column<int>(type: "int", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: true),
-                    Likecount = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ideas", x => x.IdeaID);
-                    table.ForeignKey(
-                        name: "FK_Ideas_Categories_CategoryID",
-                        column: x => x.CategoryID,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryID");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -131,28 +106,6 @@ namespace WebEnterprise.Migrations
                         column: x => x.DepartmentID,
                         principalTable: "Departments",
                         principalColumn: "DepartmentID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Documments",
-                columns: table => new
-                {
-                    DocummentID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdeaID = table.Column<int>(type: "int", nullable: false),
-                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FileSize = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Documments", x => x.DocummentID);
-                    table.ForeignKey(
-                        name: "FK_Documments_Ideas_IdeaID",
-                        column: x => x.IdeaID,
-                        principalTable: "Ideas",
-                        principalColumn: "IdeaID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -241,28 +194,79 @@ namespace WebEnterprise.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Ideas",
+                columns: table => new
+                {
+                    IdeaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FirstDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    View = table.Column<int>(type: "int", nullable: false),
+                    CategoryID = table.Column<int>(type: "int", nullable: true),
+                    Likecount = table.Column<int>(type: "int", nullable: false),
+                    IdeaUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ideas", x => x.IdeaID);
+                    table.ForeignKey(
+                        name: "FK_Ideas_AspNetUsers_IdeaUserID",
+                        column: x => x.IdeaUserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Ideas_Categories_CategoryID",
+                        column: x => x.CategoryID,
+                        principalTable: "Categories",
+                        principalColumn: "CategoryID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
                     CommentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Like = table.Column<int>(type: "int", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IdeaID = table.Column<int>(type: "int", nullable: false),
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    CommentUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.CommentID);
                     table.ForeignKey(
-                        name: "FK_Comments_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Comments_AspNetUsers_CommentUserID",
+                        column: x => x.CommentUserID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Ideas_IdeaID",
+                        column: x => x.IdeaID,
+                        principalTable: "Ideas",
+                        principalColumn: "IdeaID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Documments",
+                columns: table => new
+                {
+                    DocummentID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdeaID = table.Column<int>(type: "int", nullable: false),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileSize = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Documments", x => x.DocummentID);
+                    table.ForeignKey(
+                        name: "FK_Documments_Ideas_IdeaID",
                         column: x => x.IdeaID,
                         principalTable: "Ideas",
                         principalColumn: "IdeaID",
@@ -275,21 +279,20 @@ namespace WebEnterprise.Migrations
                 {
                     LikeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdeaID = table.Column<int>(type: "int", nullable: false),
-                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IdeaId = table.Column<int>(type: "int", nullable: false),
+                    LikeUserID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => x.LikeId);
                     table.ForeignKey(
-                        name: "FK_Likes_AspNetUsers_UserID",
-                        column: x => x.UserID,
+                        name: "FK_Likes_AspNetUsers_LikeUserID",
+                        column: x => x.LikeUserID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Likes_Ideas_IdeaID",
-                        column: x => x.IdeaID,
+                        name: "FK_Likes_Ideas_IdeaId",
+                        column: x => x.IdeaId,
                         principalTable: "Ideas",
                         principalColumn: "IdeaID",
                         onDelete: ReferentialAction.Cascade);
@@ -309,7 +312,7 @@ namespace WebEnterprise.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DepartmentID", "Discriminator", "Email", "EmailConfirmed", "FileName", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, null, "56d1798b-cb95-4608-b300-b3940cad712e", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAEJKaZTxG7aZTQ/8C5ivXGMLgMvrgZpHVCv1p4v8C0cXOBzLdzX3Os67NKHIzlVpqjg==", null, false, "2d2d3aba-d0ed-41f5-98a8-0cea4d02a6b8", false, "Admin" });
+                values: new object[] { "1", 0, null, "10454855-b6a1-4215-a625-88f9304a7bf7", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAELdtdWhniKERiZF8r1q8eiW3QGwekB2la11+TD+3+gtwe5sNyQM5UzkYD7sEKtRRDw==", null, false, "d5925bd3-3223-4f21-9f60-e6986c41eba3", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -361,14 +364,14 @@ namespace WebEnterprise.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_CommentUserID",
+                table: "Comments",
+                column: "CommentUserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_IdeaID",
                 table: "Comments",
                 column: "IdeaID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserID",
-                table: "Comments",
-                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Documments_IdeaID",
@@ -381,14 +384,19 @@ namespace WebEnterprise.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_IdeaID",
-                table: "Likes",
-                column: "IdeaID");
+                name: "IX_Ideas_IdeaUserID",
+                table: "Ideas",
+                column: "IdeaUserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_UserID",
+                name: "IX_Likes_IdeaId",
                 table: "Likes",
-                column: "UserID");
+                column: "IdeaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Likes_LikeUserID",
+                table: "Likes",
+                column: "LikeUserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -421,16 +429,16 @@ namespace WebEnterprise.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Ideas");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Departments");
         }
     }
 }

@@ -22,7 +22,7 @@ namespace WebEnterprise.Controllers
             {
                 Content = NoiDung,
                 IdeaID = IdeaID,
-                UserID = User.Identity.GetUserId(),
+                CommentUserID = User.Identity.GetUserId(),
             };
             _db.Comments.Add(comment);
             _db.SaveChanges();

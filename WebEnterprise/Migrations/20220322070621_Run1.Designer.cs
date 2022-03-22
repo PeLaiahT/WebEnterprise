@@ -12,7 +12,7 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220322025238_Run1")]
+    [Migration("20220322070621_Run1")]
     partial class Run1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -298,6 +298,9 @@ namespace WebEnterprise.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"), 1L, 1);
 
+                    b.Property<string>("CommentUserID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -308,18 +311,11 @@ namespace WebEnterprise.Migrations
                     b.Property<int>("IdeaID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Like")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("CommentID");
 
-                    b.HasIndex("IdeaID");
+                    b.HasIndex("CommentUserID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("IdeaID");
 
                     b.ToTable("Comments");
                 });
@@ -394,6 +390,9 @@ namespace WebEnterprise.Migrations
                     b.Property<DateTime>("FirstDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("IdeaUserID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("LastDate")
                         .HasColumnType("datetime2");
 
@@ -411,6 +410,8 @@ namespace WebEnterprise.Migrations
 
                     b.HasIndex("CategoryID");
 
+                    b.HasIndex("IdeaUserID");
+
                     b.ToTable("Ideas");
                 });
 
@@ -422,18 +423,17 @@ namespace WebEnterprise.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikeId"), 1L, 1);
 
-                    b.Property<int>("IdeaID")
+                    b.Property<int>("IdeaId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
+                    b.Property<string>("LikeUserID")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LikeId");
 
-                    b.HasIndex("IdeaID");
+                    b.HasIndex("IdeaId");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("LikeUserID");
 
                     b.ToTable("Likes");
                 });
@@ -466,14 +466,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "56d1798b-cb95-4608-b300-b3940cad712e",
+                            ConcurrencyStamp = "10454855-b6a1-4215-a625-88f9304a7bf7",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJKaZTxG7aZTQ/8C5ivXGMLgMvrgZpHVCv1p4v8C0cXOBzLdzX3Os67NKHIzlVpqjg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELdtdWhniKERiZF8r1q8eiW3QGwekB2la11+TD+3+gtwe5sNyQM5UzkYD7sEKtRRDw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2d2d3aba-d0ed-41f5-98a8-0cea4d02a6b8",
+                            SecurityStamp = "d5925bd3-3223-4f21-9f60-e6986c41eba3",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -532,21 +532,19 @@ namespace WebEnterprise.Migrations
 
             modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
                 {
+                    b.HasOne("WebEnterprise.Models.CustomUser", "CommentUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("CommentUserID");
+
                     b.HasOne("WebEnterprise.Models.Idea", "Idea")
                         .WithMany("Comments")
                         .HasForeignKey("IdeaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebEnterprise.Models.CustomUser", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("CommentUser");
 
                     b.Navigation("Idea");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Documment", b =>
@@ -566,26 +564,30 @@ namespace WebEnterprise.Migrations
                         .WithMany("Ideas")
                         .HasForeignKey("CategoryID");
 
+                    b.HasOne("WebEnterprise.Models.CustomUser", "IdeaUser")
+                        .WithMany("Ideas")
+                        .HasForeignKey("IdeaUserID");
+
                     b.Navigation("Category");
+
+                    b.Navigation("IdeaUser");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.Like", b =>
                 {
                     b.HasOne("WebEnterprise.Models.Idea", "Idea")
                         .WithMany("Likes")
-                        .HasForeignKey("IdeaID")
+                        .HasForeignKey("IdeaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebEnterprise.Models.CustomUser", "User")
+                    b.HasOne("WebEnterprise.Models.CustomUser", "LikeUser")
                         .WithMany("Likes")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LikeUserID");
 
                     b.Navigation("Idea");
 
-                    b.Navigation("User");
+                    b.Navigation("LikeUser");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
@@ -619,6 +621,8 @@ namespace WebEnterprise.Migrations
             modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Ideas");
 
                     b.Navigation("Likes");
                 });
