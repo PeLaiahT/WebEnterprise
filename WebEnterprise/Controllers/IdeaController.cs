@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
@@ -21,31 +22,33 @@ namespace WebEnterprise.Controllers
         {
             _db = db;
         }
-        /*private void ViewComments()
-        {
-            var commments = (from c in _db.Comments
-                             join i in _db.Ideas on c.IdeaID equals i.IdeaID
-                             orderby c.CreateAt descending
-                             select new Comment
-                             {
-                                 CommentID = c.CommentID,
-                                 Content = c.Content,
-                             }).ToList();
-            ViewBag.Comments = commments;
-        }*/
-        [Authorize]
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
+                .Include(i => i.IdeaUser)
+                .Include(i => i.Documments)
                 .OrderByDescending(i => i.CreateAt).ToList();
             return View(listIdea);
         }
+        [Authorize(Roles = "Staff")]
+        public IActionResult IndexUser()
+        {
+            var listIdea = _db.Ideas.Include(i => i.Category)
+                .Include(i => i.IdeaUser)
+                .Include(i => i.Documments)
+                .OrderByDescending(i => i.CreateAt).ToList();
+            return View(listIdea);
+        }
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             ViewBag.categories = GetDropDownCategory();
             return View();
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(DocsIdea idea2, List <IFormFile> postedFile)
         {
@@ -56,6 +59,7 @@ namespace WebEnterprise.Controllers
             {
                 var idea1 = new Idea
                 {
+                    IdeaUserID = User.Identity.GetUserId(),
                     Content = idea2.Content,
                     Title = idea2.Title,
                     CategoryID = idea2.CategoryID,
@@ -84,7 +88,7 @@ namespace WebEnterprise.Controllers
                     _db.Documments.Add(docs);
                     _db.SaveChanges();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("IndexUser");
             }
             else
             {
@@ -159,6 +163,31 @@ namespace WebEnterprise.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
+        }
+        [Authorize(Roles = "Staff")]
+        public IActionResult Detail(int id)
+        {
+            var idea = _db.Ideas.
+                Include(i => i.Category).
+                Include(i => i.IdeaUser).
+                Include(i => i.Documments).
+                FirstOrDefault(i => i.IdeaID == id);
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
+        [Authorize(Roles = "Admin")]
+        public IActionResult DetailForAdmin(int id)
+        {
+            var idea = _db.Ideas.
+                Include(i => i.Category).
+                Include(i => i.IdeaUser).
+                Include(i => i.Documments).
+                FirstOrDefault(i => i.IdeaID == id);
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
+            return View(idea);
         }
     }
 }
