@@ -165,8 +165,8 @@ namespace WebEnterprise.Controllers
                 Include(i => i.Category).
                 FirstOrDefault(i => i.IdeaID == id);
             idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.User).OrderByDescending(x => x.CreateAt).ToList();
-            idea.Likes = _db.Likes.Where(i => i.IdeaID == id).ToList();
-            ViewBag.likes = idea.Likes.Count();
+            //idea.Likes = _db.Likes.Where(i => i.IdeaID == id).ToList();
+            //ViewBag.likes = idea.Likes.Count();
             return View(idea);
         }
         [Authorize(Roles = "Admin")]

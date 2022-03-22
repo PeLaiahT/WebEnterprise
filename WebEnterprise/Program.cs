@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
@@ -14,6 +15,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<CustomUser>(options => options.SignIn.RequireConfirmedEmail = false).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddMvc().AddRazorPagesOptions(options => {
+    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
+}).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 var app = builder.Build();
 
@@ -40,6 +45,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Idea}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();

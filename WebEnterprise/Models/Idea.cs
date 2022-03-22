@@ -20,5 +20,6 @@ namespace WebEnterprise.Models
         public Category Category { get; set; }
         public List<Documment>? Documments { get; set; }
         public List<Like>? Likes { get; set; }
+        public int Likecount { get; set; } = 0;
     }
 }

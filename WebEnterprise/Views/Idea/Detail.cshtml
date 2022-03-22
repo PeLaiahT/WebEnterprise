@@ -30,36 +30,40 @@
             <div class="social-content"></div>
             <div class="social-buttons d-flex">
                 <span class=""><i class="fa-solid fa-eye"></i>@Html.DisplayFor(model => model.View)</span>
-                
+                <div class="col-sm-9 padding-right">
+                    <label>Like</label>
+                    <label>@Html.DisplayFor(model => model.Likecount)</label>
+                </div>
                 @using (Html.BeginForm("UpLike", "Like", FormMethod.Post))
                 {
                     <label>@ViewBag.likes</label>
                     @Html.Hidden("IdeaID", Model.IdeaID)
-                    <i class="fa fa-thumbs-up"></i><input type="submit" value="Like" class="mr-3 border-0 bg-white"/>
+                    <i class="fa fa-thumbs-up"></i>
+
+                    <input type="submit" value="Like" class="mr-3 border-0 bg-white" />
                 }
                 @using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
                 {
                     @Html.Hidden("IdeaID", Model.IdeaID)
-                    <i class="fa fa-thumbs-down"></i><input type="submit" value="Dislike" class="border-0 bg-white"/>
+                    <i class="fa fa-thumbs-down"></i>
+
+                    <input type="submit" value="Dislike" class="border-0 bg-white" />
                 }
             </div>
         </div>
     </div>
 </div>
-@*<div class="col-sm-9 padding-right">
-    <label>Like</label>
-    <label>@ViewBag.likes</label>
-</div>*@
+
 @*@using (Html.BeginForm("UpLike", "Like", FormMethod.Post))
-{
+    {
     @Html.Hidden("IdeaID", Model.IdeaID)
     <input type="submit" value="Like" />
-}
-@using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
-{
+    }
+    @using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
+    {
     @Html.Hidden("IdeaID", Model.IdeaID)
     <input type="submit" value="DisLike" />
-}*@
+    }*@
 
 <div class="col-sm-12 padding-right">
     <h2>Comment</h2>

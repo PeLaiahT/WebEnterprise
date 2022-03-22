@@ -84,7 +84,8 @@ namespace WebEnterprise.Migrations
                     FirstDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     View = table.Column<int>(type: "int", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: true)
+                    CategoryID = table.Column<int>(type: "int", nullable: true),
+                    Likecount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -275,16 +276,17 @@ namespace WebEnterprise.Migrations
                     LikeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdeaID = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserID = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => x.LikeId);
                     table.ForeignKey(
-                        name: "FK_Likes_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Likes_AspNetUsers_UserID",
+                        column: x => x.UserID,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Likes_Ideas_IdeaID",
                         column: x => x.IdeaID,
@@ -307,7 +309,7 @@ namespace WebEnterprise.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DepartmentID", "Discriminator", "Email", "EmailConfirmed", "FileName", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, null, "11af7312-2761-4777-b8a6-800cb0f51349", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAED782xSSwr7qHimOoe4R1Tlle0dWF5z8f9/AtFKkVrD2yxOU76CE5G2CHH7us3bjYg==", null, false, "b87cdcef-0c3b-46ab-b85e-70dbe9256dc9", false, "Admin" });
+                values: new object[] { "1", 0, null, "56d1798b-cb95-4608-b300-b3940cad712e", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAEJKaZTxG7aZTQ/8C5ivXGMLgMvrgZpHVCv1p4v8C0cXOBzLdzX3Os67NKHIzlVpqjg==", null, false, "2d2d3aba-d0ed-41f5-98a8-0cea4d02a6b8", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -384,9 +386,9 @@ namespace WebEnterprise.Migrations
                 column: "IdeaID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Likes_UserId",
+                name: "IX_Likes_UserID",
                 table: "Likes",
-                column: "UserId");
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

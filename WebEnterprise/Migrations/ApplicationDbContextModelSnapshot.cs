@@ -395,6 +395,9 @@ namespace WebEnterprise.Migrations
                     b.Property<DateTime>("LastDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Likecount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -420,14 +423,15 @@ namespace WebEnterprise.Migrations
                     b.Property<int>("IdeaID")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserID")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LikeId");
 
                     b.HasIndex("IdeaID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Likes");
                 });
@@ -460,14 +464,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "11af7312-2761-4777-b8a6-800cb0f51349",
+                            ConcurrencyStamp = "56d1798b-cb95-4608-b300-b3940cad712e",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAED782xSSwr7qHimOoe4R1Tlle0dWF5z8f9/AtFKkVrD2yxOU76CE5G2CHH7us3bjYg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJKaZTxG7aZTQ/8C5ivXGMLgMvrgZpHVCv1p4v8C0cXOBzLdzX3Os67NKHIzlVpqjg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b87cdcef-0c3b-46ab-b85e-70dbe9256dc9",
+                            SecurityStamp = "2d2d3aba-d0ed-41f5-98a8-0cea4d02a6b8",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -573,7 +577,9 @@ namespace WebEnterprise.Migrations
 
                     b.HasOne("WebEnterprise.Models.CustomUser", "User")
                         .WithMany("Likes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Idea");
 
