@@ -39,12 +39,18 @@ namespace WebEnterprise.Controllers
                 .Include(i => i.IdeaUser)
                 .Include(i => i.Documments)
                 .OrderByDescending(i => i.CreateAt).ToList();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             return View(listIdea);
         }
         [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
+            var un = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(un)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             ViewBag.categories = GetDropDownCategory();
             return View();
         }
@@ -52,9 +58,11 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(DocsIdea idea2, List <IFormFile> postedFile)
         {
+            var un = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(un)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             ViewBag.categories = GetDropDownCategory();
-
-                     
+            
             if (ModelState.IsValid)
             {
                 var idea1 = new Idea

@@ -1,9 +1,89 @@
 ﻿@model WebEnterprise.Models.Idea
-
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<CustomUser> SignInManager
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_LayoutStaff.cshtml";
 }
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary border1" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>         
+
+                        
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name!</span>
+                                <img class="img-profile rounded-circle"
+                                    src="~/Img/@ViewBag.image">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                 <a class="dropdown-item" data-toggle="modal">
+                                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" >
+                                                <button type="submit" class="dropdown-item" data-toggle="modal" >Logout</button>
+                                            </form>
+                                </a>
+                            </div>
+                        </li>         
+                        }
+                        
+                        <!-- Nav Item - User Information -->
+                        
+
+                    </ul>
+
+                </nav>
 <div class="container">
     <div class="f-card w-100" style="border-radius:3px">
         <div class="header">
@@ -11,8 +91,6 @@
             <img class="co-logo" src="~/Img/@Model.IdeaUser.FileName" />
             <div class="co-name"><a href="#">@Model.IdeaUser.UserName</a></div>
             <div class="time">@Html.DisplayFor(model => model.CreateAt) · <i class="fa fa-globe"></i></div>
-            <div class="time"> · First Date:@Html.DisplayFor(model => model.FirstDate)</div>
-            <div class="time"> · Last Date:@Html.DisplayFor(model => model.LastDate)</div>
         </div>
         <div class="reference w-100">
             <div class="reference-content ">
@@ -23,11 +101,10 @@
         </div>
         @foreach(var item in Model.Documments)
         {
-             <div class="content">
             <div class="reference-title" style="color:black;">
                 <a href = "#">@item.FileName</a>
             </div>
-        </div>
+        
         }
        
         <div class="social">
@@ -44,57 +121,49 @@
                     @Html.Hidden("IdeaID", Model.IdeaID)
                     <i class="fa fa-thumbs-up"></i>
 
-                    <input type="submit" value="Like" class="mr-3 border-0 bg-white" />
+                    <input type="submit" value="Like" class="mr-3 border-0 bg-white text-info" />
                 }
                 @using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
                 {
                     @Html.Hidden("IdeaID", Model.IdeaID)
                     <i class="fa fa-thumbs-down"></i>
 
-                    <input type="submit" value="Dislike" class="border-0 bg-white" />
+                    <input type="submit" value="Dislike" class="border-0 bg-white text-danger" />
                 }
             </div>
         </div>
     </div>
 </div>
 
-@*@using (Html.BeginForm("UpLike", "Like", FormMethod.Post))
-    {
-    @Html.Hidden("IdeaID", Model.IdeaID)
-    <input type="submit" value="Like" />
-    }
-    @using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
-    {
-    @Html.Hidden("IdeaID", Model.IdeaID)
-    <input type="submit" value="DisLike" />
-    }*@
 
-<div class="col-sm-12 padding-right">
+<div class="col-sm-9 mx-auto">
     <h2>Comment</h2>
     @using (Html.BeginForm("Create", "Comment", FormMethod.Post))
     {
         <div class="row">
-            <div class="avatar_comment col-md-1">
-                <img src="~/Img/@ViewBag.image" alt="avatar" />
-            </div>
-            <div class="box_comment col-md-11">
-                @Html.TextArea("NoiDung", new { @class = "commentar" })
-                <div class="box_post">
+                        <div class="avatar_comment col-md-1">
+                            <img src="~/Img/@ViewBag.image" alt="avatar" />
+                        </div>
+                        <div class="box_comment col-md-11">
+                            @Html.TextArea("NoiDung", new { @class = "commentar" })
+                            <div class="box_post">
 
-                    <div class="pull-right">
+                                <div class="pull-right">
 
 
-                        <button type="submit" value="Post">Post</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                    <button type="submit" value="Post">Post</button>
+                                </div>
+                            </div>
+                        </div>
+           </div>
+
+
 
         @Html.Hidden("IdeaID", Model.IdeaID)
 
     }
 </div>
-<div>
+<div class="col-sm-9 mx-auto">
     @foreach (var comment in Model.Comments)
     {
         <div class="row">
@@ -105,7 +174,7 @@
                         <img src="~/Img/@comment.CommentUser.FileName" alt="avatar" />
                     </div>
                     <div class="result_comment col-md-11">
-                        <h4>@comment.CommentUser.FullName</h4>
+                        <h4>@comment.CommentUser.UserName</h4>
                         <p>@comment.Content</p>
                     </div>
                 </li>
