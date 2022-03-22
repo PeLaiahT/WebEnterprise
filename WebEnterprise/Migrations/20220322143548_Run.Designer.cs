@@ -12,8 +12,8 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220318122710_run")]
-    partial class run
+    [Migration("20220322143548_Run")]
+    partial class Run
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -298,6 +298,9 @@ namespace WebEnterprise.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"), 1L, 1);
 
+                    b.Property<string>("CommentUserID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -308,10 +311,9 @@ namespace WebEnterprise.Migrations
                     b.Property<int>("IdeaID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Like")
-                        .HasColumnType("int");
-
                     b.HasKey("CommentID");
+
+                    b.HasIndex("CommentUserID");
 
                     b.HasIndex("IdeaID");
 
@@ -388,8 +390,14 @@ namespace WebEnterprise.Migrations
                     b.Property<DateTime>("FirstDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("IdeaUserID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("LastDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Likecount")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -402,7 +410,32 @@ namespace WebEnterprise.Migrations
 
                     b.HasIndex("CategoryID");
 
+                    b.HasIndex("IdeaUserID");
+
                     b.ToTable("Ideas");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Like", b =>
+                {
+                    b.Property<int>("LikeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikeId"), 1L, 1);
+
+                    b.Property<int>("IdeaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LikeUserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LikeId");
+
+                    b.HasIndex("IdeaId");
+
+                    b.HasIndex("LikeUserID");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
@@ -433,14 +466,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dc8bbf77-d176-48bd-b6a6-e29942843932",
+                            ConcurrencyStamp = "1e44cc05-d353-430a-806e-851e24204ff0",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKDrL61aV2l+mwIOkHS2zPucPB+8ZKB9DuLArHwx7rIhWRXYwzg+WIoHn0yMK2RymQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELsQxdR9B0ilyNMewQZLfAelwrIraZf0vZ2PY3+9pYSmE3+NsOLG1T6IsNQQ0HGpug==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5297e810-0a2a-4d32-bb79-af7a7e8160b5",
+                            SecurityStamp = "4c793c79-0743-4787-aabe-9bf5831d6e03",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -499,11 +532,17 @@ namespace WebEnterprise.Migrations
 
             modelBuilder.Entity("WebEnterprise.Models.Comment", b =>
                 {
+                    b.HasOne("WebEnterprise.Models.CustomUser", "CommentUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("CommentUserID");
+
                     b.HasOne("WebEnterprise.Models.Idea", "Idea")
                         .WithMany("Comments")
                         .HasForeignKey("IdeaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CommentUser");
 
                     b.Navigation("Idea");
                 });
@@ -525,7 +564,30 @@ namespace WebEnterprise.Migrations
                         .WithMany("Ideas")
                         .HasForeignKey("CategoryID");
 
+                    b.HasOne("WebEnterprise.Models.CustomUser", "IdeaUser")
+                        .WithMany("Ideas")
+                        .HasForeignKey("IdeaUserID");
+
                     b.Navigation("Category");
+
+                    b.Navigation("IdeaUser");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.Like", b =>
+                {
+                    b.HasOne("WebEnterprise.Models.Idea", "Idea")
+                        .WithMany("Likes")
+                        .HasForeignKey("IdeaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebEnterprise.Models.CustomUser", "LikeUser")
+                        .WithMany("Likes")
+                        .HasForeignKey("LikeUserID");
+
+                    b.Navigation("Idea");
+
+                    b.Navigation("LikeUser");
                 });
 
             modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
@@ -552,6 +614,17 @@ namespace WebEnterprise.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Documments");
+
+                    b.Navigation("Likes");
+                });
+
+            modelBuilder.Entity("WebEnterprise.Models.CustomUser", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Ideas");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

@@ -37,6 +37,11 @@
                                     <input asp-for="PhoneNumber" type="text" class="form-control form-control-user" id="exampleLastName"
                                             placeholder="PhoneNumber Manager...">
                                 </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="Image" class="control-label font-weight-bold"></label>
+                                <input type="file" asp-for="Image" name="postedFile" placeholder="Documment." class="form-control" value = "">
+                                <span asp-validation-for="Image" class="text-danger"></span>
+                            </div>
                                 
                                 <button type="submit" class="btn btn-primary btn-user btn-block"> 
                                     Update

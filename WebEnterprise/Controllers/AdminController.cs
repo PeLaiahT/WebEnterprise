@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
 using WebEnterprise.Models.DTO;
-
 namespace WebEnterprise.Controllers
 {
     public class AdminController : Controller
@@ -103,6 +102,7 @@ namespace WebEnterprise.Controllers
                     Image = staff.Image,
                     FileName = staff.FileName,
                     DepartmentID = staff.DepartmentID
+                    
                 };
                 var result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
@@ -131,7 +131,7 @@ namespace WebEnterprise.Controllers
             return RedirectToAction("ViewAllStaff");
         }
         [Authorize(Roles = "Admin")]
-        public IActionResult EditStaff(string id)
+        public  IActionResult EditStaff(string id )
         {
             ViewBag.departments = GetDropDownDepartment();
             var staff = _db.CustomUsers.Where(s => s.Id == id).
@@ -143,22 +143,40 @@ namespace WebEnterprise.Controllers
                     PhoneNumber = u.PhoneNumber,
                     FullName = u.FullName,
                     Department = u.Department,
-                    FileName = u .FileName,
-                }).FirstOrDefault();
-            if (staff == null)
-            {
-                return RedirectToAction("Index");
-            }
-            return View(staff);
+                    FileName = u.FileName,
+        }).FirstOrDefault();
+                if (staff == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                return View(staff);
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult EditStaff(CustomUserDTO staff)
+        public async Task<IActionResult> EditStaff(CustomUserDTO staff,List<IFormFile> postedFile)
         {
-
             if (ModelState.IsValid)
             {
                 var newstaff = _db.CustomUsers.Find(staff.Id);
+                foreach (IFormFile f in postedFile)
+                {
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await f.CopyToAsync(dataStream);
+                        staff.Image = dataStream.ToArray();                       
+                    }
+                    if (postedFile != null)
+                    {
+                        //chi dinh duong dan se luu
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "Img", f.FileName);
+                        staff.FileName = f.FileName;
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                            f.CopyTo(file);
+                        }
+                    }
+                }
                 if (newstaff == null)
                 {
                     ViewBag.departments = GetDropDownDepartment();
@@ -171,6 +189,8 @@ namespace WebEnterprise.Controllers
                     newstaff.PhoneNumber = staff.PhoneNumber;
                     newstaff.FullName = staff.FullName;
                     newstaff.Department = staff.Department;
+                    newstaff.Image = staff.Image;
+                    newstaff.FileName = staff.FileName;
                     _db.SaveChanges();
                 }
                 return RedirectToAction("ViewAllStaff");
@@ -275,11 +295,30 @@ namespace WebEnterprise.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult EditCoor(CustomUserDTO staff)
+        public async Task<IActionResult> EditCoor(CustomUserDTO staff, List<IFormFile> postedFile)
         {
             if (ModelState.IsValid)
             {
                 var newcoor = _db.CustomUsers.Find(staff.Id);
+                foreach (IFormFile f in postedFile)
+                {
+                    using (var dataStream = new MemoryStream())
+                    {
+                        await f.CopyToAsync(dataStream);
+                        staff.Image = dataStream.ToArray();
+                    }
+                    if (postedFile != null)
+                    {
+                        //chi dinh duong dan se luu
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "Img", f.FileName);
+                        staff.FileName = f.FileName;
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                            f.CopyTo(file);
+                        }
+                    }
+                }
                 if (newcoor == null)
                 {
                     return View(staff);
@@ -395,11 +434,25 @@ namespace WebEnterprise.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult EditManager(CustomUserDTO staff)
+        public async  Task<IActionResult> EditManager(CustomUserDTO staff, List<IFormFile> postedFile)
         {
             if (ModelState.IsValid)
             {
                 var newManager = _db.CustomUsers.Find(staff.Id);
+                foreach (IFormFile f in postedFile)
+                {
+                    if (postedFile != null)
+                    {
+                        //chi dinh duong dan se luu
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "Img", f.FileName);
+                        staff.FileName = f.FileName;
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                            f.CopyTo(file);
+                        }
+                    }
+                }
                 if (newManager == null)
                 {
                     return View(staff);
@@ -410,6 +463,8 @@ namespace WebEnterprise.Controllers
                     newManager.Email = staff.Email;
                     newManager.PhoneNumber = staff.PhoneNumber;
                     newManager.FullName = staff.FullName;
+                    newManager.FileName = staff.FileName;
+
                     _db.SaveChanges();
                 }
                 return RedirectToAction("ViewAllManager");

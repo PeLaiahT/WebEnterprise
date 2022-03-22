@@ -464,14 +464,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "10454855-b6a1-4215-a625-88f9304a7bf7",
+                            ConcurrencyStamp = "1e44cc05-d353-430a-806e-851e24204ff0",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELdtdWhniKERiZF8r1q8eiW3QGwekB2la11+TD+3+gtwe5sNyQM5UzkYD7sEKtRRDw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELsQxdR9B0ilyNMewQZLfAelwrIraZf0vZ2PY3+9pYSmE3+NsOLG1T6IsNQQ0HGpug==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d5925bd3-3223-4f21-9f60-e6986c41eba3",
+                            SecurityStamp = "4c793c79-0743-4787-aabe-9bf5831d6e03",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
