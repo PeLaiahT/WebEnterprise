@@ -80,14 +80,20 @@
 
                 </nav>
 <div class="container">
-    <div class="f-card w-100" style="border-radius:3px">
+    <div class="f-card w-100">
         <div class="header">
 
             <img class="co-logo" src="~/Img/@Model.IdeaUser.FileName" />
             <div class="co-name"><a href="#">@Model.IdeaUser.UserName</a></div>
             <div class="time">@Html.DisplayFor(model => model.CreateAt) · <i class="fa fa-globe"></i></div>
-            <div class="time"> · First Date:@Html.DisplayFor(model => model.FirstDate)</div>
-            <div class="time"> · Last Date:@Html.DisplayFor(model => model.LastDate)</div>
+            <hr class="sidebar-divider">
+            <div class="time"> · First Date:@Html.DisplayFor(model => model.FirstDate)
+                <button type="button" class="btn btn-info text-uppercase " style="font-size: 0.4rem;"><a asp-action="" class="text-decoration-none text-white">Set</a></button>
+            </div>
+            <hr class="sidebar-divider">
+            <div class="time"> · Last Date:@Html.DisplayFor(model => model.LastDate)
+                <button type="button" class="btn btn-info text-uppercase" style="font-size: 0.4rem;"><a asp-action="" class="text-decoration-none text-white">Set</a></button>
+            </div>
         </div>
         <div class="reference w-100">
             <div class="reference-content ">
@@ -105,8 +111,12 @@
         }
         <div class="social">
             <div class="social-content"></div>
-            <div class="social-buttons">
+            <div class="social-buttons d-flex">
                 <span><i class="fa-solid fa-eye"></i>@Html.DisplayFor(model => model.View)</span>
+                <div class="col-sm-9 padding-right">
+                    <label>Like</label>
+                    <label>@Html.DisplayFor(model => model.Likecount)</label>
+                </div>
             </div>
         </div>
     </div>
@@ -115,7 +125,7 @@
     @foreach (var comment in Model.Comments)
     {
         <div class="row">
-            <ul id="list_comment" class="col-md-12">
+            <ul id="list_comment" class="col-md-10" style="background-color:#f0f2f5; border-radius:20px;">
 
                 <li class="box_result row">
                     <div class="avatar_comment col-md-1">
