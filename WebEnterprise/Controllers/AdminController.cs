@@ -41,6 +41,7 @@ namespace WebEnterprise.Controllers
                           ).ToList();
             return View(admins);
         }
+
         [Authorize(Roles = "Admin")]
         public IActionResult ViewAllStaff()
         {

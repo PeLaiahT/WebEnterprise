@@ -13,6 +13,7 @@ namespace WebEnterprise.Controllers
     public class IdeaController : Controller
     {
         private readonly ApplicationDbContext _db;
+
         private List<SelectListItem> GetDropDownCategory()
         {
             var categories = _db.Categories.Select(c => new SelectListItem { Text = c.NameCategory, Value = c.CategoryID.ToString() }).ToList();
@@ -31,6 +32,36 @@ namespace WebEnterprise.Controllers
                 .Include(i => i.Documments)
                 .OrderByDescending(i => i.CreateAt).ToList();
             return View(listIdea);
+        }
+        [HttpGet]
+        public IActionResult EditClosureDate(int id)
+        {
+            var date = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
+            ViewBag.categories = GetDropDownCategory();
+            if (date != null)
+            {
+                return View(date);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+           
+        }
+        [HttpPost]
+        public IActionResult EditClosureDate(Idea date)
+        {
+            ViewBag.categories = GetDropDownCategory();
+            if (!ModelState.IsValid)
+            {
+                return View(date);
+            }
+            else
+            {
+                _db.Entry(date).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
         [Authorize(Roles = "Staff")]
         public IActionResult IndexUser()
@@ -124,13 +155,26 @@ namespace WebEnterprise.Controllers
             if (System.IO.File.Exists(file)) 
             {
                 fileBytes = System.IO.File.ReadAllBytes(file);
-            }
+            }  
             else
             {
                 return NotFound();
             }
             return File(fileBytes, contentType, documment.FileName);
 
+
+        }
+        public FileResult DownloadFile(string NameFile)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot", "MyFiles/") + NameFile;
+            var provider = new FileExtensionContentTypeProvider();
+            if(!provider.TryGetContentType(filePath, out var contentType))
+            {
+                contentType = "application/octet-stream";
+            }
+            byte[] bytes =  System.IO.File.ReadAllBytes(filePath);
+            return File(bytes, contentType, Path.GetFileName(filePath));
 
         }
         public IActionResult Delete(int id)

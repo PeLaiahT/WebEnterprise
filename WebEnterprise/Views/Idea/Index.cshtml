@@ -128,10 +128,11 @@
                     @foreach (var item in m.Documments)
                             {
                                 <div class="reference-title text-info">
-                                     <a>
+                                     <a href = "/Idea/DownloadFile?NameFile=@item.FileName">
                                         <i class="fa-solid fa-file"></i>@item.FileName
                                     </a>
                                 </div>
+                                <a href = "/Idea/DownloadFile?NameFile=@item.FileName" > Download</a>
                             }  
                 </div>
                 
