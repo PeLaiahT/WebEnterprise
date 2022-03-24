@@ -119,14 +119,14 @@
                 {
                     <label>@ViewBag.likes</label>
                     @Html.Hidden("IdeaID", Model.IdeaID)
-                    <i class="fa fa-thumbs-up"></i>
+                    <i class="fa fa-thumbs-up" style="font-size:1rem"></i>
 
                     <input type="submit" value="Like" class="mr-3 border-0 bg-white text-info" />
                 }
                 @using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
                 {
                     @Html.Hidden("IdeaID", Model.IdeaID)
-                    <i class="fa fa-thumbs-down"></i>
+                    <i class="fa fa-thumbs-down" style="font-size:1rem"></i>
 
                     <input type="submit" value="Dislike" class="border-0 bg-white text-danger" />
                 }
