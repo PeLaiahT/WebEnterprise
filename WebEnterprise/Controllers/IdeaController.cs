@@ -26,14 +26,14 @@ namespace WebEnterprise.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index(int? pageIndex, int? pageSize)
+        public async Task<IActionResult> Index(int? pageIndex)
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
                 .Include(i => i.IdeaUser)
                 .Include(i => i.Documments)
                 .OrderByDescending(i => i.CreateAt);
 
-            return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex??1, pageSize??4));
+            return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex??1, 5));
         }
         [HttpGet]
         public IActionResult EditClosureDate(int id)

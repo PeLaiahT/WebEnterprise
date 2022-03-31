@@ -4,7 +4,7 @@
 <div class="d-flex justify-content-center">
     @if (Model.HasPrev)
     {
-        <a class="btn btn-info" asp-route-pageIndex=@(Model.PageIndex - 1) asp-route-pageSize=@Model.PageSize>Prev</a>
+        <a class="btn btn-info" asp-route-pageIndex=@(Model.PageIndex - 1)>Prev</a>
     }
     else
     {
@@ -21,7 +21,7 @@
             }
             else
             {
-                <a class="btn btn-info" asp-route-pageIndex=@i asp-route-pageSize=@Model.PageSize>@i</a>
+                <a class="btn btn-info" asp-route-pageIndex=@i>@i</a>
             }
         }
     }
@@ -37,15 +37,15 @@
                 }
                 else
                 {
-                    <a class="btn btn-info" asp-route-pageIndex=@i asp-route-pageSize=@Model.PageSize>@i</a>
+                    <a class="btn btn-info" asp-route-pageIndex=@i>@i</a>
                 }
             }
             <button class="btn btn-secondary">...</button>
-            <a class="btn btn-info" asp-route-pageIndex=@Model.TotalPages asp-route-pageSize=@Model.PageSize>@Model.TotalPages</a>
+            <a class="btn btn-info" asp-route-pageIndex=@Model.TotalPages>@Model.TotalPages</a>
         }
         else if (Model.PageIndex >= Model.TotalPages - 3)
         {
-            <a class="btn btn-info" asp-route-pageIndex=1 asp-route-pageSize=@Model.PageSize>1</a>
+            <a class="btn btn-info" asp-route-pageIndex=1>1</a>
             <button class="btn btn-secondary">...</button>
             for (var i = Model.TotalPages - 4; i <= Model.TotalPages; i++)
             {
@@ -55,13 +55,13 @@
                 }
                 else
                 {
-                    <a class="btn btn-info" asp-route-pageIndex=@i asp-route-pageSize=@Model.PageSize>@i</a>
+                    <a class="btn btn-info" asp-route-pageIndex=@i>@i</a>
                 }
             }
         }
         else
         {
-            <a class="btn btn-info" asp-route-pageIndex=1 asp-route-pageSize=@Model.PageSize>1</a>
+            <a class="btn btn-info" asp-route-pageIndex=1>1</a>
             <button class="btn btn-secondary">...</button>
             for (var i = Model.PageIndex - 2; i <= Model.PageIndex + 2; i++)
             {
@@ -71,17 +71,17 @@
                 }
                 else
                 {
-                    <a class="btn btn-info" asp-route-pageIndex=@i asp-route-pageSize=@Model.PageSize>@i</a>
+                    <a class="btn btn-info" asp-route-pageIndex=@i>@i</a>
                 }
             }
             <button class="btn btn-secondary">...</button>
-            <a class="btn btn-info" asp-route-pageIndex=@Model.TotalPages asp-route-pageSize=@Model.PageSize>@Model.TotalPages</a>
+            <a class="btn btn-info" asp-route-pageIndex=@Model.TotalPages>@Model.TotalPages</a>
         }
     }
 
     @if (Model.HasNext)
     {
-        <a class="btn btn-info" asp-route-pageIndex=@(Model.PageIndex + 1) asp-route-pageSize=@Model.PageSize>Next</a>
+        <a class="btn btn-info" asp-route-pageIndex=@(Model.PageIndex + 1)>Next</a>
     }
     else
     {
