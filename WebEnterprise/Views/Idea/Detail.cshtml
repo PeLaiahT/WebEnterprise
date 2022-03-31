@@ -5,7 +5,7 @@
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_LayoutStaff.cshtml";
 }
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -52,9 +52,9 @@
                                     </div>
                                 </form>
                             </div>
-                        </li>         
+                        </li>
 
-                        
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
                         @if (SignInManager.IsSignedIn(User))
@@ -62,7 +62,7 @@
                             <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name!</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
                                 <img class="img-profile rounded-circle"
                                     src="~/Img/@ViewBag.image">
                             </a>
@@ -77,15 +77,11 @@
                             </div>
                         </li>         
                         }
-                        
-                        <!-- Nav Item - User Information -->
-                        
-
                     </ul>
 
                 </nav>
 <div class="container">
-    <div class="f-card w-100" style="border-radius:3px">
+    <div class="f-card w-100">
         <div class="header">
 
             <img class="co-logo" src="~/Img/@Model.IdeaUser.FileName" />
@@ -101,10 +97,11 @@
         </div>
         @foreach(var item in Model.Documments)
         {
+             <div class="content">
             <div class="reference-title" style="color:black;">
                 <a href = "#">@item.FileName</a>
             </div>
-        
+        </div>
         }
        
         <div class="social">
@@ -119,16 +116,16 @@
                 {
                     <label>@ViewBag.likes</label>
                     @Html.Hidden("IdeaID", Model.IdeaID)
-                    <i class="fa fa-thumbs-up"></i>
+                    <i class="fa fa-thumbs-up text-info" style="font-size: 1rem;"></i>
 
-                    <input type="submit" value="Like" class="mr-3 border-0 bg-white text-info" />
+                    <input type="submit" value="Like" class="mr-3 border-0 bg-white" />
                 }
                 @using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
                 {
                     @Html.Hidden("IdeaID", Model.IdeaID)
-                    <i class="fa fa-thumbs-down"></i>
+                    <i class="fa fa-thumbs-down text-danger" style="font-size: 1rem;"></i>
 
-                    <input type="submit" value="Dislike" class="border-0 bg-white text-danger" />
+                    <input type="submit" value="Dislike" class="border-0 bg-white" />
                 }
             </div>
         </div>
@@ -141,23 +138,21 @@
     @using (Html.BeginForm("Create", "Comment", FormMethod.Post))
     {
         <div class="row">
-                        <div class="avatar_comment col-md-1">
-                            <img src="~/Img/@ViewBag.image" alt="avatar" />
-                        </div>
-                        <div class="box_comment col-md-11">
-                            @Html.TextArea("NoiDung", new { @class = "commentar" })
-                            <div class="box_post">
+            <div class="avatar_comment col-md-1">
+                <img src="~/Img/@ViewBag.image" alt="avatar" />
+            </div>
+            <div class="box_comment col-md-9">
+                @Html.TextArea("NoiDung", new { @class = "commentar" })
+                <div class="box_post">
 
-                                <div class="pull-right">
-
-
-                                    <button type="submit" value="Post">Post</button>
-                                </div>
-                            </div>
-                        </div>
-           </div>
+                    <div class="pull-right">
 
 
+                        <button type="submit" value="Post">Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         @Html.Hidden("IdeaID", Model.IdeaID)
 
@@ -167,14 +162,14 @@
     @foreach (var comment in Model.Comments)
     {
         <div class="row">
-            <ul id="list_comment" class="col-md-12">
+            <ul id="list_comment" class="col-md-10" style="background-color:#f0f2f5; border-radius:20px;">
 
                 <li class="box_result row">
                     <div class="avatar_comment col-md-1">
                         <img src="~/Img/@comment.CommentUser.FileName" alt="avatar" />
                     </div>
                     <div class="result_comment col-md-11">
-                        <h4>@comment.CommentUser.UserName</h4>
+                        <h4>@comment.CommentUser.FullName</h4>
                         <p>@comment.Content</p>
                     </div>
                 </li>
