@@ -18,7 +18,7 @@ namespace WebEnterprise.Controllers
         {
             var categories = _db.Categories.Select(c => new SelectListItem { Text = c.NameCategory, Value = c.CategoryID.ToString() }).ToList();
             return categories;
-        }   
+        }
         public IdeaController(ApplicationDbContext db)
         {
             _db = db;
@@ -46,7 +46,7 @@ namespace WebEnterprise.Controllers
             {
                 return RedirectToAction("Index");
             }
-           
+
         }
         [HttpPost]
         public IActionResult EditClosureDate(Idea date)
@@ -87,13 +87,13 @@ namespace WebEnterprise.Controllers
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(DocsIdea idea2, List <IFormFile> postedFile)
+        public async Task<IActionResult> CreateAsync(DocsIdea idea2, List<IFormFile> postedFile)
         {
             var un = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(un)).FirstOrDefault();
             ViewBag.image = user.FileName;
             ViewBag.categories = GetDropDownCategory();
-            
+
             if (ModelState.IsValid)
             {
                 var idea1 = new Idea
@@ -107,15 +107,15 @@ namespace WebEnterprise.Controllers
                 _db.SaveChanges();
                 foreach (IFormFile f in postedFile)
                 {
-                    if(postedFile!= null)
+                    if (postedFile != null)
                     {
-                    //chi dinh duong dan se luu
-                    string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
-                        "wwwroot", "MyFiles", f.FileName);
+                        //chi dinh duong dan se luu
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "MyFiles", f.FileName);
 
                         using (var file = new FileStream(fullPath, FileMode.Create))
                         {
-                           await f.CopyToAsync(file);
+                            await f.CopyToAsync(file);
                         }
                     }
                     var docs = new Documment
@@ -132,7 +132,7 @@ namespace WebEnterprise.Controllers
             else
             {
                 return View(idea2);
-            } 
+            }
         }
 
         [HttpPost]
@@ -140,22 +140,22 @@ namespace WebEnterprise.Controllers
         {
             var provider = new FileExtensionContentTypeProvider();
             var documment = await _db.Documments.FindAsync(id);
-            if(documment == null)
+            if (documment == null)
             {
                 return NotFound();
             }
             var file = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot", "MyFiles", documment.FileName);
             string contentType;
-            if(!provider.TryGetContentType(file ,out contentType))
+            if (!provider.TryGetContentType(file, out contentType))
             {
                 contentType = "application/octet-stream";
             }
             byte[] fileBytes;
-            if (System.IO.File.Exists(file)) 
+            if (System.IO.File.Exists(file))
             {
                 fileBytes = System.IO.File.ReadAllBytes(file);
-            }  
+            }
             else
             {
                 return NotFound();
@@ -169,11 +169,11 @@ namespace WebEnterprise.Controllers
             var filePath = Path.Combine(Directory.GetCurrentDirectory(),
                         "wwwroot", "MyFiles/") + NameFile;
             var provider = new FileExtensionContentTypeProvider();
-            if(!provider.TryGetContentType(filePath, out var contentType))
+            if (!provider.TryGetContentType(filePath, out var contentType))
             {
                 contentType = "application/octet-stream";
             }
-            byte[] bytes =  System.IO.File.ReadAllBytes(filePath);
+            byte[] bytes = System.IO.File.ReadAllBytes(filePath);
             return File(bytes, contentType, Path.GetFileName(filePath));
 
         }
@@ -191,7 +191,7 @@ namespace WebEnterprise.Controllers
         public IActionResult Update(int id)
         {
             ViewBag.categories = GetDropDownCategory();
-            var idea = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
+            var idea = _db.Ideas.Include(i => i.Documments).FirstOrDefault(t => t.IdeaID == id);
             if (idea != null)
             {
                 return View(idea);
@@ -225,6 +225,8 @@ namespace WebEnterprise.Controllers
                 Include(i => i.Documments).
                 FirstOrDefault(i => i.IdeaID == id);
             idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
+            idea.View++;
+            _db.SaveChanges();
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
@@ -239,6 +241,18 @@ namespace WebEnterprise.Controllers
                 Include(i => i.Documments).
                 FirstOrDefault(i => i.IdeaID == id);
             idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
+            return View(idea);
+        }
+        public IActionResult MostLike()
+        {
+            var mostLike = _db.Ideas.Max(i => i.Likecount);
+            var idea = _db.Ideas.Where(i => i.Likecount == mostLike).FirstOrDefault();
+            return View(idea);
+        }
+        public IActionResult MostView()
+        {
+            var mostView = _db.Ideas.Max(i => i.View);
+            var idea = _db.Ideas.Where(i => i.Likecount == mostView).FirstOrDefault();
             return View(idea);
         }
     }
