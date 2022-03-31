@@ -77,7 +77,7 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(listIdea);
         }
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
@@ -87,7 +87,7 @@ namespace WebEnterprise.Controllers
             ViewBag.categories = GetDropDownCategory();
             return View();
         }
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(DocsIdea idea2, List <IFormFile> postedFile)
         {
