@@ -36,11 +36,10 @@ namespace WebEnterprise.Controllers
         [HttpGet]
         public IActionResult EditClosureDate(int id)
         {
-            var date = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
-            ViewBag.categories = GetDropDownCategory();
-            if (date != null)
+            var idea = _db.Ideas.Where(i => i.IdeaID == id).FirstOrDefault();
+            if (idea != null)
             {
-                return View(date);
+                return View(idea);
             }
             else
             {
@@ -49,16 +48,15 @@ namespace WebEnterprise.Controllers
            
         }
         [HttpPost]
-        public IActionResult EditClosureDate(Idea date)
+        public IActionResult EditClosureDate(Idea idea)
         {
-            ViewBag.categories = GetDropDownCategory();
             if (!ModelState.IsValid)
             {
-                return View(date);
+                return View(idea);
             }
             else
             {
-                _db.Entry(date).State = EntityState.Modified;
+                _db.Entry(idea).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -89,8 +87,8 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(DocsIdea idea2, List <IFormFile> postedFile)
         {
-            var un = User.Identity.Name;
-            var user = _db.CustomUsers.Where(u => u.UserName.Equals(un)).FirstOrDefault();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
             ViewBag.categories = GetDropDownCategory();
             
@@ -205,7 +203,7 @@ namespace WebEnterprise.Controllers
         public IActionResult Update(Idea idea)
         {
             ViewBag.categories = GetDropDownCategory();
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(idea);
             }

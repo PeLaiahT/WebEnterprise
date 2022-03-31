@@ -81,18 +81,22 @@
                 </nav>
 <div class="container">
     <div class="f-card w-100">
-        <div class="header">
-
-            <img class="co-logo" src="~/Img/@Model.IdeaUser.FileName" />
-            <div class="co-name"><a href="#">@Model.IdeaUser.UserName</a></div>
-            <div class="time">@Html.DisplayFor(model => model.CreateAt) · <i class="fa fa-globe"></i></div>
-            <hr class="sidebar-divider">
-            <div class="time"> · First Date:@Html.DisplayFor(model => model.FirstDate)
-                <button type="button" class="btn btn-info text-uppercase " style="font-size: 0.4rem;"><a asp-action="" class="text-decoration-none text-white">Set</a></button>
+        <div class="header d-flex justify-content-between">
+            <div>
+                <img class="co-logo" src="~/Img/@Model.IdeaUser.FileName" />
+                <div class="co-name" style="width: 55vh;"><a href="#">@Model.IdeaUser.UserName</a>
+                   <div class="time">@Html.DisplayFor(model => model.CreateAt) · <i class="fa fa-globe"></i></div> 
+                </div>                
             </div>
-            <hr class="sidebar-divider">
-            <div class="time"> · Last Date:@Html.DisplayFor(model => model.LastDate)
-                <button type="button" class="btn btn-info text-uppercase" style="font-size: 0.4rem;"><a asp-action="" class="text-decoration-none text-white">Set</a></button>
+            <div class="time"> 
+                <div class="text-primary">
+                    · First Date:@Html.DisplayFor(model => model.FirstDate)
+                </div>
+                <div class="text-primary">
+                    · Last Date:@Html.DisplayFor(model => model.LastDate)
+                </div>
+
+                <button type="button" class="btn btn-info text-uppercase w-100" style="font-size: 0.4rem;"><a asp-action="EditClosureDate" asp-route-id="@Model.IdeaID" asp-controller="Idea" class="text-decoration-none text-white">Set Date</a></button>
             </div>
         </div>
         <div class="reference w-100">

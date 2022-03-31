@@ -132,7 +132,7 @@ namespace WebEnterprise.Controllers
             return RedirectToAction("ViewAllStaff");
         }
         [Authorize(Roles = "Admin")]
-        public  IActionResult EditStaff(string id )
+        public  IActionResult EditStaff(string id)
         {
             ViewBag.departments = GetDropDownDepartment();
             var staff = _db.CustomUsers.Where(s => s.Id == id).
