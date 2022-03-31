@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
+using WebEnterprise.Common;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
 using WebEnterprise.Models.DTO;
@@ -25,13 +26,14 @@ namespace WebEnterprise.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? pageIndex)
         {
             var listIdea = _db.Ideas.Include(i => i.Category)
                 .Include(i => i.IdeaUser)
                 .Include(i => i.Documments)
-                .OrderByDescending(i => i.CreateAt).ToList();
-            return View(listIdea);
+                .OrderByDescending(i => i.CreateAt);
+
+            return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex??1, 5));
         }
         [HttpGet]
         public IActionResult EditClosureDate(int id)
