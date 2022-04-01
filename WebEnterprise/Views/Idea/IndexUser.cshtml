@@ -1,6 +1,7 @@
-﻿@model IEnumerable<WebEnterprise.Models.Idea>
-@using Microsoft.AspNetCore.Identity
+﻿@model PaginatedList<WebEnterprise.Models.Idea>
 @inject SignInManager<CustomUser> SignInManager
+@using Microsoft.AspNetCore.Identity
+@using WebEnterprise.Common
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutStaff.cshtml";
@@ -143,6 +144,7 @@
 
 
         }
+        <partial name="_Pagination" model=@Model.PagingInfo />
     </div>
 </div>
 

@@ -29,7 +29,7 @@ namespace WebEnterprise.Controllers
                 idea.Likecount++;
                 _db.SaveChanges();
             }
-            return RedirectToAction("Detail", "Idea", new { Id = IdeaID });
+            return RedirectToAction("IndexUser", "Idea");
         }
         [Authorize]
         [HttpPost]
@@ -42,13 +42,13 @@ namespace WebEnterprise.Controllers
                 _db.Likes.Remove(like);
                 idea.Likecount--;
                 _db.SaveChanges();
-                return RedirectToAction("Detail", "Idea", new { Id = IdeaID });
+                return RedirectToAction("IndexUser", "Idea");
             }
             else
             {
                 idea.Likecount = 0;
             }
-            return RedirectToAction("Detail", "Idea", new { Id = IdeaID });
+            return RedirectToAction("IndexUser", "Idea");
         }
 
     }

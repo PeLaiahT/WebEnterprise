@@ -35,6 +35,18 @@ namespace WebEnterprise.Controllers
 
             return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex??1, 5));
         }
+        [Authorize(Roles = "Staff")]
+        public async Task<IActionResult> IndexUser(int? pageIndex)
+        {   
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            var listIdea = _db.Ideas.Include(i => i.Category)
+                .Include(i => i.IdeaUser)
+                .Include(i => i.Documments)
+                .OrderByDescending(i => i.CreateAt);
+            return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex ?? 1, 5));
+        }
         [HttpGet]
         public IActionResult EditClosureDate(int id)
         {
@@ -62,18 +74,6 @@ namespace WebEnterprise.Controllers
                 _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-        }
-        [Authorize(Roles = "Staff")]
-        public IActionResult IndexUser()
-        {
-            var listIdea = _db.Ideas.Include(i => i.Category)
-                .Include(i => i.IdeaUser)
-                .Include(i => i.Documments)
-                .OrderByDescending(i => i.CreateAt).ToList();
-            var username = User.Identity.Name;
-            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
-            ViewBag.image = user.FileName;
-            return View(listIdea);
         }
         [Authorize]
         [HttpGet]
@@ -202,7 +202,7 @@ namespace WebEnterprise.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Update(Idea idea)
+        public async  Task<IActionResult> Update(Idea idea , List<IFormFile> postedFile)
         {
             ViewBag.categories = GetDropDownCategory();
             if (!ModelState.IsValid)
@@ -211,6 +211,28 @@ namespace WebEnterprise.Controllers
             }
             else
             {
+                foreach (IFormFile f in postedFile)
+                {
+                    if (postedFile != null)
+                    {
+                        //chi dinh duong dan se luu
+                        string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "MyFiles", f.FileName);
+                        
+                        using (var file = new FileStream(fullPath, FileMode.Create))
+                        {
+                            await f.CopyToAsync(file);
+                        }
+                    }
+                    var docs = new Documment
+                    {
+                        FileName = f.FileName,
+                        ContentType = f.ContentType,
+                        IdeaID = idea.IdeaID
+                    };
+                    _db.Documments.Add(docs);
+                    _db.SaveChanges();
+                }
                 _db.Entry(idea).State = EntityState.Modified;
                 _db.SaveChanges();
                 return RedirectToAction("Index");
@@ -245,15 +267,62 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult MostLike()
         {
+
             var mostLike = _db.Ideas.Max(i => i.Likecount);
-            var idea = _db.Ideas.Where(i => i.Likecount == mostLike).FirstOrDefault();
+            var idea = _db.Ideas.
+                Include(i => i.IdeaUser).
+                Include(i => i.Category).
+                Include(i => i.Documments).
+                Include(i => i.Comments)
+                .Where(i => i.Likecount == mostLike).FirstOrDefault();
             return View(idea);
         }
         public IActionResult MostView()
         {
             var mostView = _db.Ideas.Max(i => i.View);
-            var idea = _db.Ideas.Where(i => i.Likecount == mostView).FirstOrDefault();
+            var idea = _db.Ideas.Include(i => i.IdeaUser).
+                Include(i => i.Category).
+                Include(i => i.Documments).
+                Include(i => i.Comments).Where(i => i.View == mostView).FirstOrDefault();
+
             return View(idea);
+        }
+        public IActionResult MostLikeStaff()
+        {
+
+            var mostLike = _db.Ideas.Max(i => i.Likecount);
+            var idea = _db.Ideas.
+                Include(i => i.IdeaUser).
+                Include(i => i.Category).
+                Include(i => i.Documments).
+                Include(i => i.Comments)
+                .Where(i => i.Likecount == mostLike).FirstOrDefault();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
+        public IActionResult MostViewStaff()
+        {
+            var mostView = _db.Ideas.Max(i => i.View);
+            var idea = _db.Ideas.Include(i => i.IdeaUser).
+                Include(i => i.Category).
+                Include(i => i.Documments).
+                Include(i => i.Comments).Where(i => i.View == mostView).FirstOrDefault();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
+        public IActionResult DeleteDoc(int id)
+        {
+            var doc = _db.Documments.FirstOrDefault(t => t.DocummentID == id);
+            if (doc != null)
+            {
+                _db.Documments.Remove(doc);
+                _db.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }
