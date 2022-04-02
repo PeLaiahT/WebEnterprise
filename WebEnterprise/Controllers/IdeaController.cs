@@ -273,7 +273,7 @@ namespace WebEnterprise.Controllers
                 Include(i => i.IdeaUser).
                 Include(i => i.Category).
                 Include(i => i.Documments).
-                Include(i => i.Comments)
+                Include(i => i.Comments).ThenInclude(c =>c.CommentUser)
                 .Where(i => i.Likecount == mostLike).FirstOrDefault();
             return View(idea);
         }
@@ -283,7 +283,7 @@ namespace WebEnterprise.Controllers
             var idea = _db.Ideas.Include(i => i.IdeaUser).
                 Include(i => i.Category).
                 Include(i => i.Documments).
-                Include(i => i.Comments).Where(i => i.View == mostView).FirstOrDefault();
+                Include(i => i.Comments).ThenInclude(c => c.CommentUser).Where(i => i.View == mostView).FirstOrDefault();
 
             return View(idea);
         }
@@ -295,7 +295,7 @@ namespace WebEnterprise.Controllers
                 Include(i => i.IdeaUser).
                 Include(i => i.Category).
                 Include(i => i.Documments).
-                Include(i => i.Comments)
+                Include(i => i.Comments).ThenInclude(c => c.CommentUser)
                 .Where(i => i.Likecount == mostLike).FirstOrDefault();
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
@@ -308,7 +308,7 @@ namespace WebEnterprise.Controllers
             var idea = _db.Ideas.Include(i => i.IdeaUser).
                 Include(i => i.Category).
                 Include(i => i.Documments).
-                Include(i => i.Comments).Where(i => i.View == mostView).FirstOrDefault();
+                Include(i => i.Comments).ThenInclude(c => c.CommentUser).Where(i => i.View == mostView).FirstOrDefault();
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
