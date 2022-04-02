@@ -1,0 +1,22 @@
+﻿@model IEnumerable<WebEnterprise.Models.Department>
+@*<form method="get">
+	@foreach (var model in Model)
+	{
+
+		<button type="submit" value="@Html.DisplayFor(m => model.DepartmentID)">
+			@Html.DisplayFor(m => model.NameDepartment)
+		</button>
+	}
+</form>*@
+@foreach (var item in Model)
+{
+
+
+<button type="button" class="btn btn-info"><a asp-action="Dashboard" asp-controller="Idea" asp-route-id="@item.DepartmentID" class="text-decoration-none text-white">@Html.DisplayFor(m => item.NameDepartment)</a></button>
+
+
+
+}
+
+<h4 class="modal-header">Total Count: <span>@ViewBag.ToTal</span></h4>
+

@@ -324,10 +324,9 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("Index");
         }
-        [HttpGet]
-        public IActionResult Dashboard(int? option)
+        public IActionResult Dashboard(int? id)
         {
-            if(option != null)
+            if(id == null)
             {
                 var department = _db.Departments.ToList();
                 return View(department);
@@ -336,7 +335,7 @@ namespace WebEnterprise.Controllers
             {
                 var count = 0;
                 var department = _db.Departments.ToList();
-                var user = _db.CustomUsers.Where(u => u.DepartmentID == 1).ToList();
+                var user = _db.CustomUsers.Where(u => u.DepartmentID == id).ToList();
                 var useridea = _db.CustomUsers.ToList();
 
                 foreach(var a in useridea)
@@ -347,7 +346,8 @@ namespace WebEnterprise.Controllers
                         {
                             var i = _db.Ideas.Where(i => i.IdeaUserID == a.Id).ToList();
                             count += i.Count;
-                            ViewBag.Total = count;
+                           
+                                ViewBag.TotalCount = count;
                         }
                     }
                 }
