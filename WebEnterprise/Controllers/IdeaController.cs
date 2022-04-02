@@ -324,5 +324,35 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult Dashboard(int? option)
+        {
+            if(option != null)
+            {
+                var department = _db.Departments.ToList();
+                return View(department);
+            }
+            else
+            {
+                var count = 0;
+                var department = _db.Departments.ToList();
+                var user = _db.CustomUsers.Where(u => u.DepartmentID == 1).ToList();
+                var useridea = _db.CustomUsers.ToList();
+
+                foreach(var a in useridea)
+                {
+                    foreach(var b in user)
+                    {
+                        if(a.Id == b.Id)
+                        {
+                            var i = _db.Ideas.Where(i => i.IdeaUserID == a.Id).ToList();
+                            count += i.Count;
+                            ViewBag.Total = count;
+                        }
+                    }
+                }
+                return View(department);
+            }
+        }
     }
 }
