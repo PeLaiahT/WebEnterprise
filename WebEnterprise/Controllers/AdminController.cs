@@ -47,9 +47,8 @@ namespace WebEnterprise.Controllers
         {
             var staffs = (from u in _db.CustomUsers
                           join ur in _db.UserRoles on u.Id equals ur.UserId
-                          join r in _db.Roles on ur.RoleId equals r.Id
+                          join r in _db.Roles on ur.RoleId equals r.Id where r.Name == "Staff"
                           join d in _db.Departments on u.DepartmentID equals d.DepartmentID
-                          where r.Name == "Staff"
                           select new CustomUserDTO
                           {
                               Id = u.Id,
@@ -58,7 +57,7 @@ namespace WebEnterprise.Controllers
                               PhoneNumber = u.PhoneNumber,
                               FullName = u.FullName,
                               FileName = u.FileName,
-                              Department = _db.Departments.FirstOrDefault(d => d.DepartmentID == d.DepartmentID),
+                              Department = _db.Departments.FirstOrDefault(s => s.DepartmentID == d.DepartmentID),
                           }
                           ).ToList();
             return View(staffs);
@@ -102,8 +101,7 @@ namespace WebEnterprise.Controllers
                     PhoneNumber = staff.PhoneNumber,
                     Image = staff.Image,
                     FileName = staff.FileName,
-                    DepartmentID = staff.DepartmentID
-                    
+                    DepartmentID = staff.DepartmentID 
                 };
                 var result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
@@ -122,12 +120,27 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteStaff(string id)
         {
-            var staff = _db.Users.FirstOrDefault(u => u.Id == id);
-            if (staff == null)
+            var staffs = _db.CustomUsers.FirstOrDefault(u => u.Id == id);
+            var ideas = _db.Ideas.Where(i => i.IdeaUserID == id).ToList();
+            var comments = _db.Comments.Where(c => c.CommentUserID == id).ToList();
+            var likes = _db.Likes.Where(l => l.LikeUserID == id).ToList();
+            if (staffs == null)
             {
                 return RedirectToAction("Index");
             }
-            _db.Remove(staff);
+            _db.CustomUsers.Remove(staffs);
+            foreach (var i in ideas)
+            {
+                _db.Ideas.Remove(i);
+            }
+            foreach (var c in comments)
+            {
+                _db.Comments.Remove(c);
+            }
+            foreach (var l in likes)
+            {
+                _db.Likes.Remove(l);
+            }
             _db.SaveChanges();
             return RedirectToAction("ViewAllStaff");
         }
