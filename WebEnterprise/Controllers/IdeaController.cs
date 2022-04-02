@@ -324,5 +324,10 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("Index");
         }
+        public IActionResult Dashboard()
+        {
+            var department = _db.Departments.ToList();
+            return View(department);
+        }
     }
 }

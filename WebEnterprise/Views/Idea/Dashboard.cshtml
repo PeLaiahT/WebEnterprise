@@ -1,0 +1,7 @@
+﻿@model IEnumerable<WebEnterprise.Models.Department>
+
+@foreach(var model in Model){
+	<button asp-action="DashBoard" asp-controller ="Idea" type="submit" value="@Html.DisplayFor(m => model.DepartmentID)">
+		@Html.DisplayFor(m => model.NameDepartment)
+	</button>
+}
