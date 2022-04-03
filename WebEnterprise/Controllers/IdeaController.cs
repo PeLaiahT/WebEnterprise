@@ -33,11 +33,11 @@ namespace WebEnterprise.Controllers
                 .Include(i => i.Documments)
                 .OrderByDescending(i => i.CreateAt);
 
-            return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex??1, 5));
+            return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex ?? 1, 5));
         }
         [Authorize(Roles = "Staff")]
         public async Task<IActionResult> IndexUser(int? pageIndex)
-        {   
+        {
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
@@ -92,8 +92,6 @@ namespace WebEnterprise.Controllers
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
-            ViewBag.categories = GetDropDownCategory();
-
             if (ModelState.IsValid)
             {
                 var idea1 = new Idea
@@ -131,6 +129,7 @@ namespace WebEnterprise.Controllers
             }
             else
             {
+                ViewBag.categories = GetDropDownCategory();
                 return View(idea2);
             }
         }
@@ -202,7 +201,7 @@ namespace WebEnterprise.Controllers
             }
         }
         [HttpPost]
-        public async  Task<IActionResult> Update(Idea idea , List<IFormFile> postedFile)
+        public async Task<IActionResult> Update(Idea idea, List<IFormFile> postedFile)
         {
             ViewBag.categories = GetDropDownCategory();
             if (!ModelState.IsValid)
@@ -218,7 +217,7 @@ namespace WebEnterprise.Controllers
                         //chi dinh duong dan se luu
                         string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                             "wwwroot", "MyFiles", f.FileName);
-                        
+
                         using (var file = new FileStream(fullPath, FileMode.Create))
                         {
                             await f.CopyToAsync(file);
@@ -273,7 +272,7 @@ namespace WebEnterprise.Controllers
                 Include(i => i.IdeaUser).
                 Include(i => i.Category).
                 Include(i => i.Documments).
-                Include(i => i.Comments).ThenInclude(c =>c.CommentUser)
+                Include(i => i.Comments).ThenInclude(c => c.CommentUser)
                 .Where(i => i.Likecount == mostLike).FirstOrDefault();
             return View(idea);
         }
@@ -326,36 +325,17 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult Dashboard(int? id)
         {
-            var username = User.Identity.Name;
-            var userimg = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
-            ViewBag.image = userimg.FileName;
-            if (id == null)
-            {
-                var department = _db.Departments.ToList();
-                return View(department);
-            }
-            else
-            {
-                var count = 0;
-                var department = _db.Departments.ToList();
-                var user = _db.CustomUsers.Where(u => u.DepartmentID == id).ToList();
-                var useridea = _db.CustomUsers.ToList();
-
-                foreach(var a in useridea)
-                {
-                    foreach(var b in user)
-                    {
-                        if(a.Id == b.Id)
-                        {
-                            var i = _db.Ideas.Where(i => i.IdeaUserID == a.Id).ToList();
-                            count += i.Count;
-                           
-                                ViewBag.TotalCount = count;
-                        }
-                    }
-                }
-                return View(department);
-            }
+            var department = _db.Departments.ToList();
+            var a = (from d in _db.Departments
+                     where d.DepartmentID == id
+                     join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
+                     join i in _db.Ideas on u.Id equals i.IdeaUserID
+                     select new Idea
+                     {
+                         Title = i.Title
+                     }).ToList();
+            ViewBag.ToTal = a.Count();
+            return View(department);
         }
     }
 }
