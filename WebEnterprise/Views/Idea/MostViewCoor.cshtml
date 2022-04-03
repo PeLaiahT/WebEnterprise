@@ -1,0 +1,152 @@
+﻿@*@model WebEnterprise.Models.Idea*@
+@model WebEnterprise.Models.Idea
+@inject SignInManager<CustomUser> SignInManager
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutCoor.cshtml";
+}
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <!-- Topbar Search -->
+    <form class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
+        <div class="input-group">
+            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                   aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-primary border1" type="button">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav">
+
+        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+        <li class="nav-item dropdown no-arrow d-sm-none">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+            </a>
+            <!-- Dropdown - Messages -->
+            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                 aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small"
+                               placeholder="Search for..." aria-label="Search"
+                               aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </li>
+
+
+
+        <div class="topbar-divider d-none d-sm-block"></div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
+                    <img class="img-profile rounded-circle"
+                                    src="~/Img/@ViewBag.image">
+                </a>
+                <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                    <a class="dropdown-item" data-toggle="modal">
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
+                            <button type="submit" class="dropdown-item" data-toggle="modal">Logout</button>
+                        </form>
+                    </a>
+                </div>
+            </li>
+        }
+    </ul>
+
+</nav>
+
+
+<div class="container">
+    <div class="write-post w-100">
+        <div class="f-card d-flex justify-content-between">
+            <div>
+                <h3 class="m-0 font-weight-bold text-primary">Most View Idea</h3>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="right-sidebar">
+            <div class="f-card">
+                <div class="header">
+                    <img class="co-logo" src="~/Img/@Model.IdeaUser.FileName" />
+                    <div class="co-name"><a>@Model.IdeaUser.UserName</a></div>
+                </div>
+                <div class="reference">
+                    <div class="reference-content">
+                        <div class="reference-subtitle font-weight-bold">@Html.DisplayFor(model => model.Category.NameCategory)</div>
+                        <div class="reference-subtitle font-weight-bold">@Html.DisplayFor(model => model.Title)</div>
+                        <div class="reference-subtitle text-uppercase">@Html.DisplayFor(model => model.Content)</div>
+                    </div>
+                    @foreach (var item in @Model.Documments)
+                    {
+                        <div class="reference-title text-info d-flex justify-content-between mt-2">
+                            <a href="/Idea/DownloadFile?NameFile=@item.FileName">
+                                <i class="fa-solid fa-file"></i>@item.FileName
+                            </a>
+                            </div>
+                    }
+                </div>
+
+                <div class="social">
+                    <div class="social-buttons d-flex ">
+                        <span>
+                            <div class="col-sm-9 d-flex">
+                                <i class="fa fa-thumbs-up text-info" style="font-size: 0.8rem;"></i><label>@Html.DisplayFor(model => model.Likecount)</label>
+                            </div>
+                        </span>
+                        <span class=""><i class="fa-solid fa-eye"></i>@Html.DisplayFor(model => model.View)</span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 mx-auto">
+                @foreach (var comment in @Model.Comments)
+                {
+                    <div class="row">
+                        <ul id="list_comment" class="col-md-12" style="background-color:#f0f2f5; border-radius:20px;">
+
+                            <li class="box_result row">
+                                <div class="avatar_comment col-md-1">
+                                    <img src="~/Img/@comment.CommentUser.FileName" alt="avatar" />
+                                </div>
+                                <div class="result_comment col-md-11">
+                                    <h4>@comment.CommentUser.FullName</h4>
+                                    <p>@comment.Content</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+    </div>
+</div>
+
+

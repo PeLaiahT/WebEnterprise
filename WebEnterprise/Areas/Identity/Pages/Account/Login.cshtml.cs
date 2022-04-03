@@ -151,13 +151,13 @@ namespace WebEnterprise.Areas.Identity.Pages.Account
                 if (role == "Assurance")
                 {
                     
-                    return RedirectToAction("IndexUser", "Idea");
+                    return RedirectToAction("IndexManager", "Idea");
                 }
 
                 if (role == "Coordinator")
                 {
                     
-                    return RedirectToAction("IndexUser", "Idea");
+                    return RedirectToAction("IndexCoor", "Idea");
                 }
                 if (role == "Staff")
                 {

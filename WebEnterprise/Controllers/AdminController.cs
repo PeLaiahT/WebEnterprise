@@ -98,6 +98,7 @@ namespace WebEnterprise.Controllers
                 {
                     UserName = staff.UserName,
                     FullName = staff.FullName,
+                    Address = staff.Address,
                     Email = staff.Email,
                     PhoneNumber = staff.PhoneNumber,
                     Image = staff.Image,
@@ -237,6 +238,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult CreateCoor()
         {
+            ViewBag.departments = GetDropDownDepartment();
             return View();
         }
         [Authorize(Roles = "Admin")]
@@ -257,7 +259,7 @@ namespace WebEnterprise.Controllers
                         //chi dinh duong dan se luu
                         string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                             "wwwroot", "Img", f.FileName);
-                        ViewBag.fileName = f.FileName;
+                        coor.FileName = f.FileName;
                         using (var file = new FileStream(fullPath, FileMode.Create))
                         {
                             f.CopyTo(file);
@@ -270,6 +272,9 @@ namespace WebEnterprise.Controllers
                     FullName = coor.FullName,
                     Email = coor.Email,
                     PhoneNumber = coor.PhoneNumber,
+                    Image = coor.Image,
+                    FileName = coor.FileName,
+                    DepartmentID = coor.DepartmentID
                 };
                 var result = await _userManager.CreateAsync(user, "Coor123!");
                 if (result.Succeeded)
@@ -278,7 +283,11 @@ namespace WebEnterprise.Controllers
                 }
                 return RedirectToAction("ViewAllCoordinator");
             }
-            return View("ViewAllCoordinator");
+            else
+            {
+                ViewBag.departments = GetDropDownDepartment();
+                return View(coor);
+            }
         }
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteCoor(string id)
@@ -385,7 +394,6 @@ namespace WebEnterprise.Controllers
             {
                 foreach (IFormFile f in postedFile)
                 {
-
                     using (var dataStream = new MemoryStream())
                     {
                         await f.CopyToAsync(dataStream);
@@ -396,7 +404,7 @@ namespace WebEnterprise.Controllers
                         //chi dinh duong dan se luu
                         string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                             "wwwroot", "Img", f.FileName);
-                        ViewBag.fileName = f.FileName;
+                        coor.FileName = f.FileName;
                         using (var file = new FileStream(fullPath, FileMode.Create))
                         {
                             f.CopyTo(file);
@@ -409,6 +417,8 @@ namespace WebEnterprise.Controllers
                     FullName = coor.FullName,
                     Email = coor.Email,
                     PhoneNumber = coor.PhoneNumber,
+                    Image = coor.Image,
+                    FileName = coor.FileName
                 };
                 var result = await _userManager.CreateAsync(user, "Manager123!");
                 if (result.Succeeded)
@@ -417,7 +427,10 @@ namespace WebEnterprise.Controllers
                 }
                 return RedirectToAction("ViewAllManager");
             }
-            return View("ViewAllManager");
+            else
+            {
+                return View(coor);
+            }
         }
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteManager(string id)

@@ -4,7 +4,7 @@
 @inject SignInManager<CustomUser> SignInManager
 @{
     ViewData["Title"] = "Dashboard";
-    Layout = "~/Views/Shared/_LayoutStaff.cshtml";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
 	    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -101,7 +101,15 @@
 										asp-route-id="@item.DepartmentID" class="text-decoration-none text-white">
 										@Html.DisplayFor(m => item.NameDepartment)</a></button>
 									}
-								<h4 class="modal-header">Total Count: @ViewBag.TotalCount</h4>
+                                    @if(ViewBag.ToTal != null)
+                                    {
+                                    <h4 class="modal-header">Total Ideas: @ViewBag.ToTal</h4>
+                                }
+                                else
+                                {
+                                    <span class="modal-header text-danger"></span>
+                                }
+
 							</form>
 						</div>
 					</div>

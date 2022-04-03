@@ -29,7 +29,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Idea" asp-action="IndexUser">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-controller="Idea" asp-action="IndexManager">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -42,7 +42,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" asp-controller="Idea" asp-action="IndexUser">
+                <a class="nav-link" asp-controller="Idea" asp-action="IndexManager">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Home</span></a>
             </li>
@@ -65,7 +65,26 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Type Idea</h6>
-                        <a class="collapse-item" asp-action="MostLikeStaff" asp-controller="Idea">Most Popular</a>
+                        <a class="collapse-item" asp-action="MostLikeManager" asp-controller="Idea">Most Popular</a>
+                        <a class="collapse-item" asp-action="MostViewManager" asp-controller="Idea">Most Viewers</a>
+                    </div>
+                </div>
+            </li>
+			<li class="nav-item">
+                <a class="nav-link" asp-controller="CategoryForManager" asp-action="Index">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Categories</span></a>
+            </li>
+			<li class="nav-item">
+				<a class="nav-link collapsed" asp-controller="Admin" asp-action="Index" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Dashboard</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">DashBoard</h6>
+                        <a class="collapse-item" asp-action="Dashboard" asp-controller="Idea">db</a>
                         <a class="collapse-item" asp-action="MostViewStaff" asp-controller="Idea">Most Viewers</a>
                     </div>
                 </div>

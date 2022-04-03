@@ -35,6 +35,32 @@ namespace WebEnterprise.Controllers
 
             return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex ?? 1, 5));
         }
+        [Authorize(Roles = "Assurance")]
+        public async Task<IActionResult> IndexManager(int? pageIndex)
+        {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            var listIdea = _db.Ideas.Include(i => i.Category)
+                .Include(i => i.IdeaUser)
+                .Include(i => i.Documments)
+                .OrderByDescending(i => i.CreateAt);
+
+            return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex ?? 1, 5));
+        }
+        [Authorize(Roles = "Coordinator")]
+        public async Task<IActionResult> IndexCoor(int? pageIndex)
+        {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            var listIdea = _db.Ideas.Include(i => i.Category)
+                .Include(i => i.IdeaUser)
+                .Include(i => i.Documments)
+                .OrderByDescending(i => i.CreateAt);
+
+            return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex ?? 1, 5));
+        }
         [Authorize(Roles = "Staff")]
         public async Task<IActionResult> IndexUser(int? pageIndex)
         {
@@ -253,6 +279,38 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
+        [Authorize(Roles = "Coordinator")]
+        public IActionResult DetailCoor(int id)
+        {
+            var idea = _db.Ideas.
+                Include(i => i.Category).
+                Include(i => i.IdeaUser).
+                Include(i => i.Documments).
+                FirstOrDefault(i => i.IdeaID == id);
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
+            idea.View++;
+            _db.SaveChanges();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
+        [Authorize(Roles = "Assurance")]
+        public IActionResult DetailManager(int id)
+        {
+            var idea = _db.Ideas.
+                Include(i => i.Category).
+                Include(i => i.IdeaUser).
+                Include(i => i.Documments).
+                FirstOrDefault(i => i.IdeaID == id);
+            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
+            idea.View++;
+            _db.SaveChanges();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
         [Authorize(Roles = "Admin")]
         public IActionResult DetailForAdmin(int id)
         {
@@ -313,6 +371,60 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
+        public IActionResult MostLikeCoor()
+        {
+
+            var mostLike = _db.Ideas.Max(i => i.Likecount);
+            var idea = _db.Ideas.
+                Include(i => i.IdeaUser).
+                Include(i => i.Category).
+                Include(i => i.Documments).
+                Include(i => i.Comments).ThenInclude(c => c.CommentUser)
+                .Where(i => i.Likecount == mostLike).FirstOrDefault();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
+        public IActionResult MostViewCoor()
+        {
+            var mostView = _db.Ideas.Max(i => i.View);
+            var idea = _db.Ideas.Include(i => i.IdeaUser).
+                Include(i => i.Category).
+                Include(i => i.Documments).
+                Include(i => i.Comments).ThenInclude(c => c.CommentUser).Where(i => i.View == mostView).FirstOrDefault();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
+        public IActionResult MostLikeManager()
+        {
+
+            var mostLike = _db.Ideas.Max(i => i.Likecount);
+            var idea = _db.Ideas.
+                Include(i => i.IdeaUser).
+                Include(i => i.Category).
+                Include(i => i.Documments).
+                Include(i => i.Comments).ThenInclude(c => c.CommentUser)
+                .Where(i => i.Likecount == mostLike).FirstOrDefault();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
+        public IActionResult MostViewManager()
+        {
+            var mostView = _db.Ideas.Max(i => i.View);
+            var idea = _db.Ideas.Include(i => i.IdeaUser).
+                Include(i => i.Category).
+                Include(i => i.Documments).
+                Include(i => i.Comments).ThenInclude(c => c.CommentUser).Where(i => i.View == mostView).FirstOrDefault();
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
+            return View(idea);
+        }
         public IActionResult DeleteDoc(int id)
         {
             var doc = _db.Documments.FirstOrDefault(t => t.DocummentID == id);
@@ -325,16 +437,23 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult Dashboard(int? id)
         {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             var department = _db.Departments.ToList();
-            var a = (from d in _db.Departments
-                     where d.DepartmentID == id
-                     join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
-                     join i in _db.Ideas on u.Id equals i.IdeaUserID
-                     select new Idea
-                     {
-                         Title = i.Title
-                     }).ToList();
-            ViewBag.ToTal = a.Count();
+            if (id != null)
+            {
+                var a = (from d in _db.Departments
+                         where d.DepartmentID == id
+                         join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
+                         join i in _db.Ideas on u.Id equals i.IdeaUserID
+                         select new Idea
+                         {
+                             Title = i.Title
+                         }).ToList();
+                ViewBag.ToTal = a.Count();
+            }
+            else ViewBag.ToTal = null;
             return View(department);
         }
     }
