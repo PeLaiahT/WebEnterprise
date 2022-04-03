@@ -326,7 +326,10 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult Dashboard(int? id)
         {
-            if(id == null)
+            var username = User.Identity.Name;
+            var userimg = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = userimg.FileName;
+            if (id == null)
             {
                 var department = _db.Departments.ToList();
                 return View(department);

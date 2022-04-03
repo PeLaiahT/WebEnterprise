@@ -1,22 +1,121 @@
 ﻿@model IEnumerable<WebEnterprise.Models.Department>
-@*<form method="get">
-	@foreach (var model in Model)
-	{
 
-		<button type="submit" value="@Html.DisplayFor(m => model.DepartmentID)">
-			@Html.DisplayFor(m => model.NameDepartment)
-		</button>
-	}
-</form>*@
-@foreach (var item in Model)
-{
-
-
-<button type="button" class="btn btn-info"><a asp-action="Dashboard" asp-controller="Idea" asp-route-id="@item.DepartmentID" class="text-decoration-none text-white">@Html.DisplayFor(m => item.NameDepartment)</a></button>
-
-
-
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<CustomUser> SignInManager
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutStaff.cshtml";
 }
+	    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-<h4 class="modal-header">Total Count: <span>@ViewBag.ToTal</span></h4>
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <form
+                        class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                                aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary border1" type="button">
+                                    <i class="fas fa-search fa-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </form>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            <!-- Dropdown - Messages -->
+                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form class="form-inline mr-auto w-100 navbar-search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control bg-light border-0 small"
+                                            placeholder="Search for..." aria-label="Search"
+                                            aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="button">
+                                                <i class="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+
+
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
+                                <img class="img-profile rounded-circle"
+                                    src="~/Img/@ViewBag.image">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                 <a class="dropdown-item" data-toggle="modal">
+                                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" >
+                                                <button type="submit" class="dropdown-item" data-toggle="modal" >Logout</button>
+                                            </form>
+                                </a>
+                            </div>
+                        </li>         
+                        }
+                    </ul>
+
+                </nav>
+
+<div class="container tm-mt-big tm-mb-big">
+	<div class="card o-hidden border-0 shadow-lg my-3">
+		<div class="row">
+			<div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+				<div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+					<div class="row">
+						<div class="col-12">
+							<h2 class="d-flex justify-content-center font-weight-bold">DashBoard</h2>
+						</div>
+					</div>
+					<div class="row tm-edit-product-row d-inline">
+						<div class="col-xl-6 col-lg-6 col-md-12 mw-100">
+							<form method="post" enctype="multipart/form-data" class="tm-edit-product-form">
+								@foreach (var item in Model)
+									{
+									<button type="button" class="btn btn-info"><a asp-action="Dashboard" asp-controller="Idea" 
+										asp-route-id="@item.DepartmentID" class="text-decoration-none text-white">
+										@Html.DisplayFor(m => item.NameDepartment)</a></button>
+									}
+								<h4 class="modal-header">Total Count: @ViewBag.TotalCount</h4>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+@section Scripts {
+    @{
+	await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
 

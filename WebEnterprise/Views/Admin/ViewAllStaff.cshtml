@@ -3,6 +3,7 @@
 @inject SignInManager<CustomUser> SignInManager
 @{
     ViewData["Title"] = "ViewAllStaff";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -97,6 +98,9 @@
                                 @Html.DisplayNameFor(model => model.FullName)
                             </th>
                             <th class="text-center">
+                                @Html.DisplayNameFor(model => model.Address)
+                            </th>
+                            <th class="text-center">
                                 @Html.DisplayNameFor(model => model.Email)
                             </th>
                             <th class="text-center">
@@ -123,6 +127,9 @@
                                 </td>
                                 <td class="text-center">
                                     @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Address)
                                 </td>
                                 <td class="text-center">
                                     @Html.DisplayFor(modelItem => item.Email)

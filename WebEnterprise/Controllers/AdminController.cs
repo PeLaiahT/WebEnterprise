@@ -55,6 +55,7 @@ namespace WebEnterprise.Controllers
                               Id = u.Id,
                               UserName = u.UserName,
                               Email = u.Email,
+                              Address= u.Address,
                               PhoneNumber = u.PhoneNumber,
                               FullName = u.FullName,
                               FileName = u.FileName,
@@ -141,6 +142,7 @@ namespace WebEnterprise.Controllers
                     Id = u.Id,
                     UserName = u.UserName,
                     Email = u.Email,
+                    Address = u.Address,
                     PhoneNumber = u.PhoneNumber,
                     FullName = u.FullName,
                     Department = u.Department,
@@ -187,6 +189,7 @@ namespace WebEnterprise.Controllers
                 {
                     newstaff.UserName = staff.UserName;
                     newstaff.Email = staff.Email;
+                    newstaff.Address = staff.Address;
                     newstaff.PhoneNumber = staff.PhoneNumber;
                     newstaff.FullName = staff.FullName;
                     newstaff.Department = staff.Department;
