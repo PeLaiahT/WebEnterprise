@@ -131,9 +131,6 @@
         </div>
     </div>
 </div>
-
-
-<div class="col-sm-9 mx-auto">
     <h2>Comment</h2>
     @using (Html.BeginForm("Create", "Comment", FormMethod.Post))
     {
@@ -158,7 +155,9 @@
 
     }
 </div>
-<div class="col-sm-9 mx-auto pt-2">
+
+
+    <div class="col-sm-9 mx-auto pt-2">
     @foreach (var comment in Model.Comments)
     {
         <div class="row">
@@ -176,12 +175,14 @@
             </ul>
         </div>
     }
-</div>
+    </div>
+
+
 <div class="col-3 mx-auto">
     <button type="button" class="btn btn-danger btn-block text-uppercase "><a asp-action="IndexUser" class="text-decoration-none text-white">Back To list Idea</a></button>
 </div>
 @section Scripts{
-<script>
+<script type="text/javascript">
         function submit_comment(){
       var comment = $('.commentar').val();
       el = document.createElement('li');
@@ -206,7 +207,8 @@
         $('.commentar').val('');
     }
 
-    $(document).ready(function() {
+ 
+
         $('#list_comment').on('click', '.like', function (e) {
             $current = $(this);
             var x = $current.closest('div').find('.like').text().trim();

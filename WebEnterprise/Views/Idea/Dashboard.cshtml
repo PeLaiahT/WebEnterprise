@@ -93,7 +93,15 @@
 						</div>
 					</div>
 					<div class="row tm-edit-product-row d-inline">
-						<div class="col-xl-6 col-lg-6 col-md-12 mw-100">
+                        @using(Html.BeginForm("Dashboard","Idea",FormMethod.Get, new { enctype = "multipart/form-data", @class = "form-control" }))
+                        {
+                            @Html.DropDownList("Year", new List<SelectListItem>{
+                                new SelectListItem {Text ="2018", Value ="2018"},
+                                new SelectListItem {Text ="2019", Value ="2019"},
+                                new SelectListItem {Text ="2020", Value ="2020"}
+                            }, "Select Year")
+                        }
+                        <div class="col-xl-6 col-lg-6 col-md-12 mw-100">
 							<form method="post" enctype="multipart/form-data" class="tm-edit-product-form">
 								@foreach (var item in Model)
 									{
@@ -119,11 +127,14 @@
 	</div>
 </div>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 
 @section Scripts {
     @{
 	await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
 }
+
 
