@@ -110,7 +110,7 @@
                                 </div>
                                 <div class="form-group mb-3">
                                     <label asp-for="Documments" class="control-label font-weight-bold"></label>
-                                    <input type="file" asp-for="Documments" multiple name="postedFile" placeholder="Documment." class="form-control">
+                                    <input type="file" asp-for="Documments" multiple name="postedFile" placeholder="Documment." class="form-control document">
                                     <span asp-validation-for="Documments" class="text-danger"></span>
                                 </div>
                                 <div class="form-group mb-3">
@@ -119,7 +119,7 @@
                                 </div>
                                 <div class="d-flex">
                                     <div class="col-6">
-                                        <button class="btn btn-info btn-block text-uppercase " data-toggle="modal" type="button" data-target="#exampleModal">Post</button>
+                                        <button class="btn btn-info btn-block text-uppercase post" data-toggle="modal" type="button" data-target="#exampleModal">Post</button>
                                     </div>
                                     <hr />
                                     <div class="col-6">
@@ -130,7 +130,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">Term</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -138,7 +138,7 @@
                                             <div class="modal-body">
                                                 <div class="form-group form-check">
                                                     <input type="checkbox" class="form-check-input" id="check">
-                                                    <label class="form-check-label" for="exampleCheck1" >I agree with privacy</label>
+                                                    <label class="form-check-label" for="exampleCheck1" >I agree with <a href="https://en.wikipedia.org/wiki/Privacy_concerns_with_social_networking_services">term & privacy</a></label>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
@@ -161,16 +161,31 @@
     
 <script>
     $(document).ready(function(){
-        $("#btn_save").on("click", function(){
+        $("#btn_save").attr('disabled','disabled');
+       
+        $(".post").on('click',function(){
+            var docVal = $(".document").val();
+            console.log(docVal)
+            if(docVal ==""){
+                console.log("success")
+                $('.modal').remove();
+                $(".post").removeAttr("type").attr("type","submit")
+            }
+        });
+
+        $("#check").on("click", function(){
             var a = $("#check").is(":checked");
             
+           
             if(a){
-                
+                console.log(1)
                 $("#btn_save").removeAttr("type").attr("type","submit")
+                $("#btn_save").removeAttr('disabled','disabled')
             }
             else{
-                
+                console.log(2)
                 $("#btn_save").removeAttr("type").attr("type","button")
+                $("#btn_save").attr('disabled','disabled')
             }
         })
     })
