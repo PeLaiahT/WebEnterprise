@@ -312,7 +312,7 @@ namespace WebEnterprise.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DepartmentID", "Discriminator", "Email", "EmailConfirmed", "FileName", "FullName", "Image", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "1", 0, null, "1e44cc05-d353-430a-806e-851e24204ff0", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAELsQxdR9B0ilyNMewQZLfAelwrIraZf0vZ2PY3+9pYSmE3+NsOLG1T6IsNQQ0HGpug==", null, false, "4c793c79-0743-4787-aabe-9bf5831d6e03", false, "Admin" });
+                values: new object[] { "1", 0, null, "1978fac8-9f0d-4c78-9443-c7c0ecc796ac", null, "CustomUser", "admin@gmail.com", true, null, null, null, true, null, null, "admin", "AQAAAAEAACcQAAAAENYUNNe0DVGEFh22nJ88qEh8pGD1Tl6tKIbZRE/chZ/hADd/IfxkHp7eUq/BZi4qSg==", null, false, "7d8e2a4a-ca74-4436-a34a-7fd832893b1f", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

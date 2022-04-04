@@ -4,80 +4,79 @@
 @{
 	ViewData["Title"] = "EditStaff";
 }
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+	<!-- Sidebar Toggle (Topbar) -->
+	<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+		<i class="fa fa-bars"></i>
+	</button>
 
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary border1" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                    </form>
+	<!-- Topbar Search -->
+	<form class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
+		<div class="input-group">
+			<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+				   aria-label="Search" aria-describedby="basic-addon2">
+			<div class="input-group-append">
+				<button class="btn btn-primary border1" type="button">
+					<i class="fas fa-search fa-sm"></i>
+				</button>
+			</div>
+		</div>
 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav">
+	</form>
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
+	<!-- Topbar Navbar -->
+	<ul class="navbar-nav">
 
+		<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+		<li class="nav-item dropdown no-arrow d-sm-none">
+			<a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+			   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-search fa-fw"></i>
+			</a>
+			<!-- Dropdown - Messages -->
+			<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+				 aria-labelledby="searchDropdown">
+				<form class="form-inline mr-auto w-100 navbar-search">
+					<div class="input-group">
+						<input type="text" class="form-control bg-light border-0 small"
+							   placeholder="Search for..." aria-label="Search"
+							   aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</li>
 
 
-                        <div class="topbar-divider d-none d-sm-block"></div>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
-                                <i class="fa-solid fa-circle-user"></i>
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                 <a class="dropdown-item" data-toggle="modal">
-                                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" >
-                                                <button type="submit" class="dropdown-item" data-toggle="modal" >Logout</button>
-                                            </form>
-                                </a>
-                            </div>
-                        </li>         
-                        }
-                    </ul>
 
-                </nav>
+		<div class="topbar-divider d-none d-sm-block"></div>
+		@if (SignInManager.IsSignedIn(User))
+		{
+			<li class="nav-item dropdown no-arrow">
+				<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+			   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
+					<i class="fa-solid fa-circle-user"></i>
+				</a>
+				<!-- Dropdown - User Information -->
+			<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+				 aria-labelledby="userDropdown">
+					<a class="dropdown-item" data-toggle="modal">
+						<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
+							<button type="submit" class="dropdown-item" data-toggle="modal">Logout</button>
+						</form>
+					</a>
+				</div>
+			</li>
+		}
+	</ul>
+
+</nav>
 <div class="container">
 
 	<div class="card o-hidden border-0 shadow-lg my-5">
@@ -110,10 +109,15 @@
 								<input asp-for="PhoneNumber" type="text" class="form-control form-control-user" id="exampleLastName"
 									   placeholder="PhoneNumber Staff...">
 							</div>
-							<div class="custom-file mb-2">
+							<div class="form-group">
+								<input asp-for="Image" type="file" name="postedFile" class="form-control form-control-user" 
+									   >
+							</div>
+
+	@*						<div class="custom-file mb-2">
 								<input type="file" id="file" asp-for="Image" name="postedFile" class="custom-file-input" multiple onchange="GetFileSize()" />
 								<label class="custom-file-label" for="exampleInputFile">@Model.FileName</label>
-							</div>
+							</div>*@
 							<button type="submit" class="btn btn-primary btn-user btn-block">
 								Update
 							</button>
@@ -134,16 +138,16 @@
 
 </div>
 function GetFileSize() {
-    if (this.files && this.files[0]) {
+	if (this.files && this.files[0]) {
 
-        var FR = new FileReader();
+		var FR = new FileReader();
 
-        FR.addEventListener("load", function (e) {
-            $(".preview-image").attr('src', e.target.result);
-        });
+		FR.addEventListener("load", function (e) {
+			$(".preview-image").attr('src', e.target.result);
+		});
 
-        FR.readAsDataURL(this.files[0]);
-    }
+		FR.readAsDataURL(this.files[0]);
+	}
 
    //your code here
  }

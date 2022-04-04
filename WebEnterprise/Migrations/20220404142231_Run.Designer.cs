@@ -12,7 +12,7 @@ using WebEnterprise.Data;
 namespace WebEnterprise.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220322143548_Run")]
+    [Migration("20220404142231_Run")]
     partial class Run
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -466,14 +466,14 @@ namespace WebEnterprise.Migrations
                         {
                             Id = "1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1e44cc05-d353-430a-806e-851e24204ff0",
+                            ConcurrencyStamp = "1978fac8-9f0d-4c78-9443-c7c0ecc796ac",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELsQxdR9B0ilyNMewQZLfAelwrIraZf0vZ2PY3+9pYSmE3+NsOLG1T6IsNQQ0HGpug==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENYUNNe0DVGEFh22nJ88qEh8pGD1Tl6tKIbZRE/chZ/hADd/IfxkHp7eUq/BZi4qSg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4c793c79-0743-4787-aabe-9bf5831d6e03",
+                            SecurityStamp = "7d8e2a4a-ca74-4436-a34a-7fd832893b1f",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
