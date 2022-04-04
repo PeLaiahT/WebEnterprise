@@ -47,18 +47,18 @@ namespace WebEnterprise.Controllers
         {
             var staffs = (from u in _db.CustomUsers
                           join ur in _db.UserRoles on u.Id equals ur.UserId
-                          join r in _db.Roles on ur.RoleId equals r.Id
+                          join r in _db.Roles on ur.RoleId equals r.Id where r.Name == "Staff"
                           join d in _db.Departments on u.DepartmentID equals d.DepartmentID
-                          where r.Name == "Staff"
                           select new CustomUserDTO
                           {
                               Id = u.Id,
                               UserName = u.UserName,
                               Email = u.Email,
+                              Address= u.Address,
                               PhoneNumber = u.PhoneNumber,
                               FullName = u.FullName,
                               FileName = u.FileName,
-                              Department = _db.Departments.FirstOrDefault(d => d.DepartmentID == d.DepartmentID),
+                              Department = _db.Departments.FirstOrDefault(s => s.DepartmentID == d.DepartmentID),
                           }
                           ).ToList();
             return View(staffs);
@@ -98,12 +98,12 @@ namespace WebEnterprise.Controllers
                 {
                     UserName = staff.UserName,
                     FullName = staff.FullName,
+                    Address = staff.Address,
                     Email = staff.Email,
                     PhoneNumber = staff.PhoneNumber,
                     Image = staff.Image,
                     FileName = staff.FileName,
-                    DepartmentID = staff.DepartmentID
-                    
+                    DepartmentID = staff.DepartmentID 
                 };
                 var result = await _userManager.CreateAsync(user, "Staff123!");
                 if (result.Succeeded)
@@ -122,17 +122,32 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteStaff(string id)
         {
-            var staff = _db.Users.FirstOrDefault(u => u.Id == id);
-            if (staff == null)
+            var staffs = _db.CustomUsers.FirstOrDefault(u => u.Id == id);
+            var ideas = _db.Ideas.Where(i => i.IdeaUserID == id).ToList();
+            var comments = _db.Comments.Where(c => c.CommentUserID == id).ToList();
+            var likes = _db.Likes.Where(l => l.LikeUserID == id).ToList();
+            if (staffs == null)
             {
                 return RedirectToAction("Index");
             }
-            _db.Remove(staff);
+            _db.CustomUsers.Remove(staffs);
+            foreach (var i in ideas)
+            {
+                _db.Ideas.Remove(i);
+            }
+            foreach (var c in comments)
+            {
+                _db.Comments.Remove(c);
+            }
+            foreach (var l in likes)
+            {
+                _db.Likes.Remove(l);
+            }
             _db.SaveChanges();
             return RedirectToAction("ViewAllStaff");
         }
         [Authorize(Roles = "Admin")]
-        public  IActionResult EditStaff(string id )
+        public  IActionResult EditStaff(string id)
         {
             ViewBag.departments = GetDropDownDepartment();
             var staff = _db.CustomUsers.Where(s => s.Id == id).
@@ -141,6 +156,7 @@ namespace WebEnterprise.Controllers
                     Id = u.Id,
                     UserName = u.UserName,
                     Email = u.Email,
+                    Address = u.Address,
                     PhoneNumber = u.PhoneNumber,
                     FullName = u.FullName,
                     Department = u.Department,
@@ -187,6 +203,7 @@ namespace WebEnterprise.Controllers
                 {
                     newstaff.UserName = staff.UserName;
                     newstaff.Email = staff.Email;
+                    newstaff.Address = staff.Address;
                     newstaff.PhoneNumber = staff.PhoneNumber;
                     newstaff.FullName = staff.FullName;
                     newstaff.Department = staff.Department;
@@ -221,6 +238,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult CreateCoor()
         {
+            ViewBag.departments = GetDropDownDepartment();
             return View();
         }
         [Authorize(Roles = "Admin")]
@@ -241,7 +259,7 @@ namespace WebEnterprise.Controllers
                         //chi dinh duong dan se luu
                         string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                             "wwwroot", "Img", f.FileName);
-                        ViewBag.fileName = f.FileName;
+                        coor.FileName = f.FileName;
                         using (var file = new FileStream(fullPath, FileMode.Create))
                         {
                             f.CopyTo(file);
@@ -254,6 +272,9 @@ namespace WebEnterprise.Controllers
                     FullName = coor.FullName,
                     Email = coor.Email,
                     PhoneNumber = coor.PhoneNumber,
+                    Image = coor.Image,
+                    FileName = coor.FileName,
+                    DepartmentID = coor.DepartmentID
                 };
                 var result = await _userManager.CreateAsync(user, "Coor123!");
                 if (result.Succeeded)
@@ -262,7 +283,11 @@ namespace WebEnterprise.Controllers
                 }
                 return RedirectToAction("ViewAllCoordinator");
             }
-            return View("ViewAllCoordinator");
+            else
+            {
+                ViewBag.departments = GetDropDownDepartment();
+                return View(coor);
+            }
         }
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteCoor(string id)
@@ -369,7 +394,6 @@ namespace WebEnterprise.Controllers
             {
                 foreach (IFormFile f in postedFile)
                 {
-
                     using (var dataStream = new MemoryStream())
                     {
                         await f.CopyToAsync(dataStream);
@@ -380,7 +404,7 @@ namespace WebEnterprise.Controllers
                         //chi dinh duong dan se luu
                         string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                             "wwwroot", "Img", f.FileName);
-                        ViewBag.fileName = f.FileName;
+                        coor.FileName = f.FileName;
                         using (var file = new FileStream(fullPath, FileMode.Create))
                         {
                             f.CopyTo(file);
@@ -393,6 +417,8 @@ namespace WebEnterprise.Controllers
                     FullName = coor.FullName,
                     Email = coor.Email,
                     PhoneNumber = coor.PhoneNumber,
+                    Image = coor.Image,
+                    FileName = coor.FileName
                 };
                 var result = await _userManager.CreateAsync(user, "Manager123!");
                 if (result.Succeeded)
@@ -401,7 +427,10 @@ namespace WebEnterprise.Controllers
                 }
                 return RedirectToAction("ViewAllManager");
             }
-            return View("ViewAllManager");
+            else
+            {
+                return View(coor);
+            }
         }
         [Authorize(Roles = "Admin")]
         public IActionResult DeleteManager(string id)

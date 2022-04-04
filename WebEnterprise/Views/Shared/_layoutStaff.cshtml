@@ -65,8 +65,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Type Idea</h6>
-                        <a class="collapse-item" href="buttons.html">Most Viewers</a>
-                        <a class="collapse-item" href="cards.html">Most Populars</a>
+                        <a class="collapse-item" asp-action="MostLikeStaff" asp-controller="Idea">Most Popular</a>
+                        <a class="collapse-item" asp-action="MostViewStaff" asp-controller="Idea">Most Viewers</a>
                     </div>
                 </div>
             </li>
@@ -184,14 +184,14 @@
   });
 
   // Scroll to top button appear
-  $(document).on('scroll', function() {
-    var scrollDistance = $(this).scrollTop();
-    if (scrollDistance > 100) {
-      $('.scroll-to-top').fadeIn();
-    } else {
-      $('.scroll-to-top').fadeOut();
-    }
-  });
+  //$(document).on('scroll', function() {
+  //  var scrollDistance = $(this).scrollTop();
+  //  if (scrollDistance > 100) {
+  //    $('.scroll-to-top').fadeIn();
+  //  } else {
+  //    $('.scroll-to-top').fadeOut();
+  //  }
+  //});
 
   // Smooth scrolling using jQuery easing
   $(document).on('click', 'a.scroll-to-top', function(e) {
@@ -224,7 +224,7 @@
 })(function($){
 
 // Preserve the original jQuery "swing" easing as "jswing"
-$.easing.jswing = $.easing.swing;
+//$.easing.jswing = $.easing.swing;
 
 var pow = Math.pow,
 	sqrt = Math.sqrt,

@@ -3,9 +3,9 @@
 @inject SignInManager<CustomUser> SignInManager
 @{
     ViewData["Title"] = "Detail";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -63,7 +63,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
-                                <i class="fa-solid fa-circle-user"></i>
+                                <img class="img-profile rounded-circle"
+                                    src="~/Img/@ViewBag.image">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -81,23 +82,11 @@
                 </nav>
 <div class="container">
     <div class="f-card w-100">
-        <div class="header d-flex justify-content-between">
-            <div>
-                <img class="co-logo" src="~/Img/@Model.IdeaUser.FileName" />
-                <div class="co-name" style="width: 55vh;"><a href="#">@Model.IdeaUser.UserName</a>
-                   <div class="time">@Html.DisplayFor(model => model.CreateAt) · <i class="fa fa-globe"></i></div> 
-                </div>                
-            </div>
-            <div class="time"> 
-                <div class="text-primary">
-                    · First Date:@Html.DisplayFor(model => model.FirstDate)
-                </div>
-                <div class="text-primary">
-                    · Last Date:@Html.DisplayFor(model => model.LastDate)
-                </div>
+        <div class="header">
 
-                <button type="button" class="btn btn-info text-uppercase w-100" style="font-size: 0.4rem;"><a asp-action="EditClosureDate" asp-route-id="@Model.IdeaID" asp-controller="Idea" class="text-decoration-none text-white">Set Date</a></button>
-            </div>
+            <img class="co-logo" src="~/Img/@Model.IdeaUser.FileName" />
+            <div class="co-name"><a href="#">@Model.IdeaUser.UserName</a></div>
+            <div class="time">@Html.DisplayFor(model => model.CreateAt) · <i class="fa fa-globe"></i></div>
         </div>
         <div class="reference w-100">
             <div class="reference-content ">
@@ -108,24 +97,42 @@
         </div>
         @foreach(var item in Model.Documments)
         {
+             <div class="content">
             <div class="reference-title" style="color:black;">
                 <a href = "#">@item.FileName</a>
             </div>
-        
+        </div>
         }
+       
         <div class="social">
             <div class="social-content"></div>
             <div class="social-buttons d-flex">
-                <span><i class="fa-solid fa-eye"></i>@Html.DisplayFor(model => model.View)</span>
+                <span class=""><i class="fa-solid fa-eye"></i>@Html.DisplayFor(model => model.View)</span>
                 <div class="col-sm-9 padding-right">
                     <label>Like</label>
                     <label>@Html.DisplayFor(model => model.Likecount)</label>
                 </div>
+                @using (Html.BeginForm("UpLike", "Like", FormMethod.Post))
+                {
+                    <label>@ViewBag.likes</label>
+                    @Html.Hidden("IdeaID", Model.IdeaID)
+                    <i class="fa fa-thumbs-up text-info" style="font-size: 1rem;"></i>
+
+                    <input type="submit" value="Like" class="mr-3 border-0 bg-white" />
+                }
+                @using (Html.BeginForm("DownLike", "Like", FormMethod.Post))
+                {
+                    @Html.Hidden("IdeaID", Model.IdeaID)
+                    <i class="fa fa-thumbs-down text-danger" style="font-size: 1rem;"></i>
+
+                    <input type="submit" value="Dislike" class="border-0 bg-white" />
+                }
             </div>
         </div>
     </div>
 </div>
-<div class="col-sm-9 mx-auto">
+
+<div class="col-sm-9 mx-auto pt-2">
     @foreach (var comment in Model.Comments)
     {
         <div class="row">
@@ -136,7 +143,7 @@
                         <img src="~/Img/@comment.CommentUser.FileName" alt="avatar" />
                     </div>
                     <div class="result_comment col-md-11">
-                        <h4>@comment.CommentUser.UserName</h4>
+                        <h4>@comment.CommentUser.FullName</h4>
                         <p>@comment.Content</p>
                     </div>
                 </li>
@@ -145,9 +152,8 @@
     }
 </div>
 <div class="col-3 mx-auto">
-    <button type="button" class="btn btn-danger btn-block text-uppercase "><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
+    <button type="button" class="btn btn-danger btn-block text-uppercase "><a asp-action="IndexCoor" class="text-decoration-none text-white">Back To list Idea</a></button>
 </div>
-
 @section Scripts{
 <script>
         function submit_comment(){

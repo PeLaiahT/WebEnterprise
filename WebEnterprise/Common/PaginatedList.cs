@@ -26,7 +26,8 @@ namespace WebEnterprise.Common
         {
             var count = await source.CountAsync();
             var totalPage = (int)Math.Ceiling(count / (double)pageSize);
-            pageIndex = pageIndex < 1 ? 1 : pageIndex > totalPage ? totalPage : pageIndex;
+            pageIndex = pageIndex > totalPage ? totalPage : pageIndex;
+            pageIndex = pageIndex < 1 ? 1 : pageIndex;
             pageSize = pageSize < 1 ? 10 : pageSize;
             var items = await source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
 

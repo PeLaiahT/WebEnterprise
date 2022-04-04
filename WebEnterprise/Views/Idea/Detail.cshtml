@@ -91,7 +91,7 @@
         <div class="reference w-100">
             <div class="reference-content ">
                 <div class="reference-subtitle font-weight-bold">@Html.DisplayFor(model => model.Category.NameCategory)</div>
-                <div class="reference-subtitle font-weight-bold">@Html.DisplayNameFor(model => model.Title)</div>
+                <div class="reference-subtitle font-weight-bold">@Html.DisplayFor(model => model.Title)</div>
                 <div class="reference-subtitle text-uppercase">@Html.DisplayFor(model => model.Content)</div>
             </div>
         </div>
@@ -158,7 +158,7 @@
 
     }
 </div>
-<div class="col-sm-9 mx-auto">
+<div class="col-sm-9 mx-auto pt-2">
     @foreach (var comment in Model.Comments)
     {
         <div class="row">

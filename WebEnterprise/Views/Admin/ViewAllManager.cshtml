@@ -100,6 +100,9 @@
                                                 @Html.DisplayNameFor(model => model.Email)
                                             </th>
                                             <th class="text-center">
+                                                @Html.DisplayNameFor(model => model.Image)
+                                            </th>
+                                            <th class="text-center">
                                                 @Html.DisplayNameFor(model => model.PhoneNumber)
                                             </th>
                                             <th></th>
@@ -127,9 +130,12 @@
                                                         @Html.DisplayFor(modelItem => item.Email)
                                                     </td>
                                                     <td class="text-center">
+                                                        <img style="width:80px;" src="~/Img/@item.FileName" />
+                                                    </td>
+                                                    <td class="text-center">
                                                         @Html.DisplayFor(modelItem => item.PhoneNumber)
                                                     </td>
-                                                       <td><img class="reference-thumb" src="~/Img/@item.Image" /></td>
+                                                    
                                                     <td class="text-center">
                                                         <button type="button" class="btn btn-info"><a asp-action="EditManager" asp-route-id="@item.Id" class="text-decoration-none text-white">Edit</a></button>
                                                         

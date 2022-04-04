@@ -1,72 +1,162 @@
 ﻿@model WebEnterprise.Models.Idea
-
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<CustomUser> SignInManager
 @{
-    ViewData["Title"] = "EditClosureDate";
+	ViewData["Title"] = "Update";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-<h1>EditClosureDate</h1>
+	<!-- Sidebar Toggle (Topbar) -->
+	<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+		<i class="fa fa-bars"></i>
+	</button>
 
-<h4>Idea</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditClosureDate"  method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdeaID" />
-            <div class="form-group">
+	<!-- Topbar Search -->
+	<form class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
+		<div class="input-group">
+			<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+				   aria-label="Search" aria-describedby="basic-addon2">
+			<div class="input-group-append">
+				<button class="btn btn-primary border1" type="button">
+					<i class="fas fa-search fa-sm"></i>
+				</button>
+			</div>
+		</div>
+
+	</form>
+
+	<!-- Topbar Navbar -->
+	<ul class="navbar-nav">
+
+		<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+		<li class="nav-item dropdown no-arrow d-sm-none">
+			<a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+			   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-search fa-fw"></i>
+			</a>
+			<!-- Dropdown - Messages -->
+			<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+				 aria-labelledby="searchDropdown">
+				<form class="form-inline mr-auto w-100 navbar-search">
+					<div class="input-group">
+						<input type="text" class="form-control bg-light border-0 small"
+							   placeholder="Search for..." aria-label="Search"
+							   aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</li>
+
+
+
+		<div class="topbar-divider d-none d-sm-block"></div>
+		@if (SignInManager.IsSignedIn(User))
+		{
+			<li class="nav-item dropdown no-arrow">
+				<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+			   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
+					<i class="fa-solid fa-circle-user"></i>
+				</a>
+				<!-- Dropdown - User Information -->
+			<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+				 aria-labelledby="userDropdown">
+					<a class="dropdown-item" data-toggle="modal">
+						<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
+							<button type="submit" class="dropdown-item" data-toggle="modal">Logout</button>
+						</form>
+					</a>
+				</div>
+			</li>
+		}
+	</ul>
+
+</nav>
+
+<div class="container tm-mt-big tm-mb-big">
+	<div class="card o-hidden border-0 shadow-lg my-3">
+		<div class="row">
+			<div class="col-xl-9 col-lg-10 col-md-12 col-sm-12 mx-auto">
+				<div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+					<div class="row">
+						<div class="col-12">
+							<h2 class="d-flex justify-content-center font-weight-bold">Set Closuredate</h2>
+						</div>
+					</div>
+					<div class="row tm-edit-product-row d-inline">
+						<div class="col-xl-6 col-lg-6 col-md-12 mw-100">
+							<form method="post" enctype="multipart/form-data" class="tm-edit-product-form">
+								<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+								<input type="hidden" asp-for="IdeaID" />
+								<div class="form-group">
               
-                <input asp-for="Title" type= "hidden" class="form-control" />
+									<input asp-for="Title" type= "hidden" class="form-control" />
       
-            </div>
-            <div class="form-group">
+								</div>
+
+								<div class="form-group">
                 
-                <input asp-for="Content" type= "hidden" class="form-control" />
+									<input asp-for="Content" type= "hidden" class="form-control" />
              
-            </div>
-            <div class="form-group">
-                <label asp-for="CreateAt" class="control-label"></label>
-                <input asp-for="CreateAt" class="form-control" />
-                <span asp-validation-for="CreateAt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstDate" class="control-label"></label>
-                <input asp-for="FirstDate" class="form-control" />
-                <span asp-validation-for="FirstDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastDate" class="control-label"></label>
-                <input asp-for="LastDate" class="form-control" />
-                <span asp-validation-for="LastDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="View" type= "hidden" class="form-control" />
-            </div>
-            <div class="form-group">
-
-                <select asp-for="CategoryID" type= "hidden" class="form-control" asp-items="ViewBag.CategoryID"></select>
-              
-            </div>
-            <div class="form-group">
+								</div>
+   
+								<div class="form-group">
+									<label asp-for="FirstDate" class="control-label"></label>
+									<input asp-for="FirstDate" class="form-control" />
+									<span asp-validation-for="FirstDate" class="text-danger"></span>
+								</div>
+								<div class="form-group">
+									<label asp-for="LastDate" class="control-label"></label>
+									<input asp-for="LastDate" class="form-control" />
+									<span asp-validation-for="LastDate" class="text-danger"></span>
+								</div>
+								 <div class="form-group">
+									<input asp-for="CreateAt" type= "hidden" class="form-control" />
+								</div>
+								<div class="form-group">
+									<input asp-for="View" type= "hidden" class="form-control" />
+								</div>
+								<div class="form-group">
+									<input asp-for="CategoryID" type= "hidden" class="form-control" />
+								</div>
+								<div class="form-group">
             
-                <input asp-for="Likecount" type= "hidden" class="form-control" />
+									<input asp-for="Likecount" type= "hidden" class="form-control" />
             
-            </div>
-            <div class="form-group">
-               
-                <select asp-for="IdeaUserID" type= "hidden" class="form-control" asp-items="ViewBag.IdeaUserID"></select>
-                
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+								</div>
+								<div class="form-group">
+									<input asp-for="IdeaUserID" type= "hidden" class="form-control" />
+								</div>
+								<div class="d-flex">
+									<div class="col-6">
+										<button type="submit" class="btn btn-info btn-block text-uppercase">Save</button>
+									</div>
+									<hr />
+									<div class="col-6">
+										<button type="button" class="btn btn-danger btn-block text-uppercase"><a asp-action="Index" class="text-decoration-none text-white">Back To list Idea</a></button>
+									</div>
+								</div>
+        
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+	await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }
+}
+

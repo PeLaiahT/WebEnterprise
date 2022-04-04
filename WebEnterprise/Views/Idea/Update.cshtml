@@ -1,84 +1,83 @@
-﻿@model WebEnterprise.Models.Idea   
+﻿@model WebEnterprise.Models.Idea
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<CustomUser> SignInManager
 @{
-    ViewData["Title"] = "Update";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Update";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+	<!-- Sidebar Toggle (Topbar) -->
+	<button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+		<i class="fa fa-bars"></i>
+	</button>
 
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary border1" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                    </form>
+	<!-- Topbar Search -->
+	<form class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
+		<div class="input-group">
+			<input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+				   aria-label="Search" aria-describedby="basic-addon2">
+			<div class="input-group-append">
+				<button class="btn btn-primary border1" type="button">
+					<i class="fas fa-search fa-sm"></i>
+				</button>
+			</div>
+		</div>
 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav">
+	</form>
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
+	<!-- Topbar Navbar -->
+	<ul class="navbar-nav">
 
+		<!-- Nav Item - Search Dropdown (Visible Only XS) -->
+		<li class="nav-item dropdown no-arrow d-sm-none">
+			<a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+			   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="fas fa-search fa-fw"></i>
+			</a>
+			<!-- Dropdown - Messages -->
+			<div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+				 aria-labelledby="searchDropdown">
+				<form class="form-inline mr-auto w-100 navbar-search">
+					<div class="input-group">
+						<input type="text" class="form-control bg-light border-0 small"
+							   placeholder="Search for..." aria-label="Search"
+							   aria-describedby="basic-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-primary" type="button">
+								<i class="fas fa-search fa-sm"></i>
+							</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</li>
 
 
-                        <div class="topbar-divider d-none d-sm-block"></div>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
-                                <i class="fa-solid fa-circle-user"></i>
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                 <a class="dropdown-item" data-toggle="modal">
-                                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" >
-                                                <button type="submit" class="dropdown-item" data-toggle="modal" >Logout</button>
-                                            </form>
-                                </a>
-                            </div>
-                        </li>         
-                        }
-                    </ul>
 
-                </nav>
+		<div class="topbar-divider d-none d-sm-block"></div>
+		@if (SignInManager.IsSignedIn(User))
+		{
+			<li class="nav-item dropdown no-arrow">
+				<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+			   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
+					<i class="fa-solid fa-circle-user"></i>
+				</a>
+				<!-- Dropdown - User Information -->
+			<div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+				 aria-labelledby="userDropdown">
+					<a class="dropdown-item" data-toggle="modal">
+						<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
+							<button type="submit" class="dropdown-item" data-toggle="modal">Logout</button>
+						</form>
+					</a>
+				</div>
+			</li>
+		}
+	</ul>
+
+</nav>
 
 <div class="container tm-mt-big tm-mb-big">
     <div class="card o-hidden border-0 shadow-lg my-3">
@@ -97,6 +96,12 @@
                     <label class="font-weight-bold" asp-for="Title"></label>
                     <input asp-for="Title" placeholder="Title..." class="form-control" id="inputEmail4">
                   </div>
+				  <div class="form-group mb-3">
+                    <input asp-for="IdeaID" type="hidden" placeholder="Title..." class="form-control" id="inputEmail4">
+                  </div>
+				  <div class="form-group mb-3">
+                    <input asp-for="IdeaUserID" type="hidden" placeholder="Title..." class="form-control" id="inputEmail4">
+                  </div>
                   <div class="form-group mb-3">
                     <label class="font-weight-bold" for="validationCustom04" asp-for="CategoryID">Category</label>
                     <div >@Html.DropDownListFor(m => m.CategoryID,
@@ -104,13 +109,11 @@
                                     htmlAttributes:new{@class ="form-control"})
                                   </div>
                   </div>
-
                   <div class="form-group mb-3">
                     <label asp-for="Documments" class="control-label font-weight-bold"></label>
-                    <input type="file" asp-for="Documments" name = "postedFile" placeholder="Documment." class="form-control">
+                    <input type="file" asp-for="Documments" name="postedFile" placeholder="Documment." class="form-control">
                     <span asp-validation-for="Documments" class="text-danger"></span>
                   </div>
-
                   <div class="form-group mb-3">
                     <label asp-for="Content" class="control-label font-weight-bold"></label>
                     <textarea asp-for="Content" placeholder="Content..." class="form-control" rows="3"></textarea>
@@ -133,17 +136,19 @@
                   </div>
               </div>
 
-            </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+	await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

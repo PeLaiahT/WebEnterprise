@@ -3,8 +3,8 @@
 @using Microsoft.AspNetCore.Identity
 @using WebEnterprise.Common
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manager";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -63,7 +63,8 @@
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
-                    <i class="fa-solid fa-circle-user"></i>
+                    <img class="img-profile rounded-circle"
+                                    src="~/Img/@ViewBag.image">
                 </a>
                 <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -97,18 +98,6 @@
         {
             <div class="f-card">
                 <div class="header">
-                    <div class="options">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                Settings
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <span><a asp-action="Update" asp-route-id="@m.IdeaID" class="text-decoration-none bg-info text-white dropdown-item">Edit</a></span>
-                                <span><a asp-action="Delete" asp-route-id="@m.IdeaID" class="text-decoration-none bg-danger text-white dropdown-item">Delete</a></span>
-
-                            </div>
-                        </div>
-                    </div>
                     <img class="co-logo" src="~/Img/@m.IdeaUser.FileName" />
                     <div class="co-name"><a>@m.IdeaUser.UserName</a></div>
                 </div>
@@ -124,15 +113,14 @@
                             <a href="/Idea/DownloadFile?NameFile=@item.FileName">
                                 <i class="fa-solid fa-file"></i>@item.FileName
                             </a>
-                            <a type="button" style="font-size: 0.8rem" href="@Url.Action("DeleteDoc",new { id = item.DocummentID })" class="btn btn-danger">Delete</a>
                         </div>
                     }
                 </div>
 
                 <div class="social">
                     <div class="social-buttons ">
-                        <span><a asp-action="DetailForAdmin" asp-route-id="@m.IdeaID" class="text-decoration-none" style="color:#7F7F7F;"><i class="fa fa-thumbs-up"></i>Like</a></span>
-                        <span><a asp-action="DetailForAdmin" asp-route-id="@m.IdeaID" class="text-decoration-none" style="color:#7F7F7F;"><i class="fa fa-comment"></i>Comment</a></span>
+                        <span><a asp-action="DetailManager" asp-route-id="@m.IdeaID" class="text-decoration-none" style="color:#7F7F7F;"><i class="fa fa-thumbs-up"></i>Like</a></span>
+                        <span><a asp-action="DetailManager" asp-route-id="@m.IdeaID" class="text-decoration-none" style="color:#7F7F7F;"><i class="fa fa-comment"></i>Comment</a></span>
 
                     </div>
                 </div>
