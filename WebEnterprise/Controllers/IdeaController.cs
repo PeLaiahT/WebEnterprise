@@ -25,6 +25,16 @@ namespace WebEnterprise.Controllers
             _db = db;
         }
 
+        public void Year()
+        {
+            var years = new List<int>();
+            for(int i = 2018; i <= DateTime.Now.Year; i++)
+            {
+                years.Add(i);
+            }
+            ViewBag.Years = new SelectList(years);
+        }
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(int? pageIndex)
         {
@@ -435,6 +445,14 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        public List<Idea> GetIdea(int? year)
+        {
+            var ideas = _db.Ideas.Where(x => x.CreateAt.Year == year).ToList();
+            return ideas;
+
+        }
+
         public IActionResult Dashboard(int? id)
         {
             var username = User.Identity.Name;
@@ -454,6 +472,7 @@ namespace WebEnterprise.Controllers
                 ViewBag.ToTal = a.Count();
             }
             else ViewBag.ToTal = null;
+            Year();
             return View(department);
         }
     }
