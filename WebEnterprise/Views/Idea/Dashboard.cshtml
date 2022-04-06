@@ -131,7 +131,7 @@
             var year = $(this).val()
             console.log(year)
            $.ajax({
-               url: '@Url.Action("GetIdea", "Idea")' + '?year='+year,
+               url: '@Url.Action("Dashboard", "Idea")' + '?year='+year,
                type: 'GET',
                contentType: 'application/json; charset=utf-8',
                success: function(res){

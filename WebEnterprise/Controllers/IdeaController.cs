@@ -453,13 +453,25 @@ namespace WebEnterprise.Controllers
 
         }
 
-        public IActionResult Dashboard(int? id)
+        public IActionResult Dashboard(int? id, string option)
         {
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
             var department = _db.Departments.ToList();
-            if (id != null)
+            if (id != null && option != null)
+            {
+                var a = (from d in _db.Departments
+                         where d.DepartmentID == id
+                         join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
+                         join i in _db.Ideas on u.Id equals i.IdeaUserID where i.CreateAt.Year == int.Parse(option)
+                         select new Idea
+                         {
+                             Title = i.Title
+                         }).ToList();
+                ViewBag.ToTal = a.Count();
+            }
+            else if(id!= null && option == null)
             {
                 var a = (from d in _db.Departments
                          where d.DepartmentID == id
@@ -470,8 +482,7 @@ namespace WebEnterprise.Controllers
                              Title = i.Title
                          }).ToList();
                 ViewBag.ToTal = a.Count();
-            }
-            else ViewBag.ToTal = null;
+            } else ViewBag.ToTal = null;
             Year();
             return View(department);
         }
