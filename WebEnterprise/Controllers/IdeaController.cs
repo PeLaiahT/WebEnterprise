@@ -105,6 +105,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public IActionResult EditClosureDate(Idea idea)
         {
+            IdeaValidation(idea);
             if (!ModelState.IsValid)
             {
                 return View(idea);
@@ -130,6 +131,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(DocsIdea idea2, List<IFormFile> postedFile)
         {
+            
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
@@ -174,36 +176,6 @@ namespace WebEnterprise.Controllers
                 return View(idea2);
             }
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Download(int id)
-        {
-            var provider = new FileExtensionContentTypeProvider();
-            var documment = await _db.Documments.FindAsync(id);
-            if (documment == null)
-            {
-                return NotFound();
-            }
-            var file = Path.Combine(Directory.GetCurrentDirectory(),
-                        "wwwroot", "MyFiles", documment.FileName);
-            string contentType;
-            if (!provider.TryGetContentType(file, out contentType))
-            {
-                contentType = "application/octet-stream";
-            }
-            byte[] fileBytes;
-            if (System.IO.File.Exists(file))
-            {
-                fileBytes = System.IO.File.ReadAllBytes(file);
-            }
-            else
-            {
-                return NotFound();
-            }
-            return File(fileBytes, contentType, documment.FileName);
-
-
-        }
         public FileResult DownloadFile(string NameFile)
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(),
@@ -230,6 +202,7 @@ namespace WebEnterprise.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+
             ViewBag.categories = GetDropDownCategory();
             var idea = _db.Ideas.Include(i => i.Documments).FirstOrDefault(t => t.IdeaID == id);
             if (idea != null)
@@ -244,6 +217,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(Idea idea, List<IFormFile> postedFile)
         {
+            IdeaValidation(idea);
             ViewBag.categories = GetDropDownCategory();
             if (!ModelState.IsValid)
             {
@@ -495,6 +469,21 @@ namespace WebEnterprise.Controllers
 
             Year();
             return View();
+        }
+        private void IdeaValidation(Idea idea)
+        {
+            if (string.IsNullOrEmpty(idea.Title))
+            {
+                ModelState.AddModelError("Title", "Please Input title");
+            }
+            if (idea.FirstDate >= idea.LastDate)
+            {
+                ModelState.AddModelError("Date", "You should set FirstDate less than LastDate");
+            }
+            if(idea.CreateAt < idea.LastDate && idea.CreateAt < idea.FirstDate)
+            {
+                ModelState.AddModelError("Date", "You should set FirstDate and LastDate more than CreateAt");
+            }
         }
     }
 }
