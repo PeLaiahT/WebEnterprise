@@ -20,6 +20,11 @@ namespace WebEnterprise.Controllers
             var categories = _db.Categories.Select(c => new SelectListItem { Text = c.NameCategory, Value = c.CategoryID.ToString() }).ToList();
             return categories;
         }
+        private List<SelectListItem> ListDepartment()
+        {
+            var department = _db.Departments.Select(c => new SelectListItem { Text = c.NameDepartment, Value = c.DepartmentID.ToString() }).ToList();
+            return department;
+        }
         public IdeaController(ApplicationDbContext db)
         {
             _db = db;
@@ -446,59 +451,50 @@ namespace WebEnterprise.Controllers
             return RedirectToAction("Index");
         }
 
-        public List<Idea> GetIdea(int? year)
+        
+        public List<Idea> GetIdeaDepartment(int? departmentID, int? year)
         {
-            var ideas = _db.Ideas.Where(x => x.CreateAt.Year == year).ToList();
-            return ideas;
-
-        }
-        public List<Idea> GetIdeaDepartment(int? id)
-        {
-            var ideas = (from d in _db.Departments
-                         where d.DepartmentID == id
-                         join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
-                         join i in _db.Ideas on u.Id equals i.IdeaUserID
-                         select new Idea
-                         {
-                             Title = i.Title
-                         }).ToList();
-            return ideas;
-
+            if(year == null && departmentID !=null)
+            {
+                var ideas = (from d in _db.Departments
+                             where d.DepartmentID == departmentID
+                             join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
+                             join i in _db.Ideas on u.Id equals i.IdeaUserID
+                             select new Idea
+                             {
+                                 Title = i.Title
+                             }).ToList();
+                return ideas;
+            }
+            else if( departmentID != null && year != null) 
+            {
+                var ideas = (from d in _db.Departments where d.DepartmentID == departmentID
+                             join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
+                             join i in _db.Ideas on u.Id equals i.IdeaUserID where i.CreateAt.Year == year
+                             select new Idea
+                             {
+                                 Title = i.Title
+                             }).ToList();
+                return ideas;
+            }
+            else if (departmentID == null && year !=null)
+            {
+                var ideas = _db.Ideas.Where(x => x.CreateAt.Year == year).ToList();
+                return ideas;
+            }
+            return null;
+            
         }
 
         public IActionResult Dashboard(int? id, string option)
         {
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.department = ListDepartment();
             ViewBag.image = user.FileName;
-            var department = _db.Departments.ToList();
-            ViewBag.Department = department.Select(d=> new SelectListItem() { Text = d.NameDepartment, Value = (d.DepartmentID).ToString() });
-            if (id != null && option != null)
-            {
-                var a = (from d in _db.Departments
-                         where d.DepartmentID == id
-                         join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
-                         join i in _db.Ideas on u.Id equals i.IdeaUserID where i.CreateAt.Year == int.Parse(option)
-                         select new Idea
-                         {
-                             Title = i.Title
-                         }).ToList();
-                ViewBag.ToTal = a.Count();
-            }
-            else if(id!= null && option == null)
-            {
-                var a = (from d in _db.Departments
-                         where d.DepartmentID == id
-                         join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
-                         join i in _db.Ideas on u.Id equals i.IdeaUserID
-                         select new Idea
-                         {
-                             Title = i.Title
-                         }).ToList();
-                ViewBag.ToTal = a.Count();
-            } else ViewBag.ToTal = null;
+
             Year();
-            return View(department);
+            return View();
         }
     }
 }

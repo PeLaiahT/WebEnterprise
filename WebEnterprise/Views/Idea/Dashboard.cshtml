@@ -94,34 +94,13 @@
                     <div class="row tm-edit-product-row d-inline">
                         
                             <select asp-items="@ViewBag.Years" id="Year">
-                                <option id="default" value="0"></option>
+                                <option id="default" >Year</option>
                             </select>
                             <select id="Department" asp-items="@ViewBag.department">
-                                <option id="default" value="0"></option>
+                                <option id="default" >Department</option>
                             </select>
-                        <div class="col-xl-6 col-lg-6 col-md-12 mw-100">
-                            <form method="post" enctype="multipart/form-data" class="tm-edit-product-form">
-                                @*@foreach (var item in Model)
-                                {
-                                    <button type="button" class="btn btn-info">
-                                        <a asp-action="Dashboard" asp-controller="Idea"
-                                       asp-route-id="@item.DepartmentID" class="text-decoration-none text-white">
-                                            @Html.DisplayFor(m => item.NameDepartment)
-                                        </a>
-                                    </button>
-                                }*@
-                                @if (ViewBag.ToTal != null)
-                                {
-                                    <h4 class="modal-header">Total Ideas: @ViewBag.ToTal</h4>
-                                }
-                                else
-                                {
-                                    <span class="modal-header text-danger"></span>
-                                }
-
-                            </form>
-                        </div>
                     </div>
+                    <div class="tm-edit-product-form"></div>
                 </div>
             </div>
         </div>
@@ -131,14 +110,12 @@
 @section Scripts {
 <script>
     $(document).ready(function(){
+        var year = null;
+        var department = null;
         $('#Year').on("change",function(){
-            var year = $(this).val()
-            console.log(year);
-            $("#Department #default").attr('selected','selected');
-            $("#Year #default").removeAttr('selected','selected');
-            console.log(1);
+            year = $(this).val();
            $.ajax({
-               url: '@Url.Action("GetIdea", "Idea")' + '?year='+year,
+               url: '@Url.Action("GetIdeaDepartment", "Idea")' + '?department' + department + '&year='+year,
                type: 'GET',
                contentType: 'application/json; charset=utf-8',
                success: function(res){
@@ -154,13 +131,9 @@
            })
         });
         $('#Department').on("change",function(){
-            console.log(1);
-            var year = $(this).val();
-            console.log(year);
-            $("#Year #default").attr('selected','selected');
-            $("#Department #default").removeAttr('selected','selected');
+            department = $(this).val();
            $.ajax({
-               url: '@Url.Action("GetIdeaDepartment", "Idea")' + '?id='+year,
+               url: '@Url.Action("GetIdeaDepartment", "Idea")' + '?departmentID='+department + '&year='+year,
                type: 'GET',
                contentType: 'application/json; charset=utf-8',
                success: function(res){
