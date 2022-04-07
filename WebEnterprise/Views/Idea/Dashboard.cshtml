@@ -94,10 +94,14 @@
                     <div class="row tm-edit-product-row d-inline">
                         
                             <select asp-items="@ViewBag.Years" id="Year">
+                                <option id="default" value="0"></option>
+                            </select>
+                            <select id="Department" asp-items="@ViewBag.department">
+                                <option id="default" value="0"></option>
                             </select>
                         <div class="col-xl-6 col-lg-6 col-md-12 mw-100">
                             <form method="post" enctype="multipart/form-data" class="tm-edit-product-form">
-                                @foreach (var item in Model)
+                                @*@foreach (var item in Model)
                                 {
                                     <button type="button" class="btn btn-info">
                                         <a asp-action="Dashboard" asp-controller="Idea"
@@ -105,7 +109,7 @@
                                             @Html.DisplayFor(m => item.NameDepartment)
                                         </a>
                                     </button>
-                                }
+                                }*@
                                 @if (ViewBag.ToTal != null)
                                 {
                                     <h4 class="modal-header">Total Ideas: @ViewBag.ToTal</h4>
@@ -129,13 +133,45 @@
     $(document).ready(function(){
         $('#Year').on("change",function(){
             var year = $(this).val()
-            console.log(year)
+            console.log(year);
+            $("#Department #default").attr('selected','selected');
+            $("#Year #default").removeAttr('selected','selected');
+            console.log(1);
            $.ajax({
-               url: '@Url.Action("Dashboard", "Idea")' + '?year='+year,
+               url: '@Url.Action("GetIdea", "Idea")' + '?year='+year,
                type: 'GET',
                contentType: 'application/json; charset=utf-8',
                success: function(res){
                    console.log(res);
+                   var length=0;
+                   res.map(d=>{
+                        length = length +1;
+
+                   });
+                   
+                   $("form").html(`<h4>Total Count: ${length}</h4>`).addClass("modal-header");
+               }
+           })
+        });
+        $('#Department').on("change",function(){
+            console.log(1);
+            var year = $(this).val();
+            console.log(year);
+            $("#Year #default").attr('selected','selected');
+            $("#Department #default").removeAttr('selected','selected');
+           $.ajax({
+               url: '@Url.Action("GetIdeaDepartment", "Idea")' + '?id='+year,
+               type: 'GET',
+               contentType: 'application/json; charset=utf-8',
+               success: function(res){
+                   console.log(res);
+                   var length=0;
+                   res.map(d=>{
+                        length = length +1;
+
+                   });
+                   
+                   $("form").html(`<h4>Total Count: ${length}</h4>`).addClass("modal-header");
                }
            })
         });

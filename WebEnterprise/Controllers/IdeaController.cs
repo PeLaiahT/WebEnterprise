@@ -452,6 +452,19 @@ namespace WebEnterprise.Controllers
             return ideas;
 
         }
+        public List<Idea> GetIdeaDepartment(int? id)
+        {
+            var ideas = (from d in _db.Departments
+                         where d.DepartmentID == id
+                         join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
+                         join i in _db.Ideas on u.Id equals i.IdeaUserID
+                         select new Idea
+                         {
+                             Title = i.Title
+                         }).ToList();
+            return ideas;
+
+        }
 
         public IActionResult Dashboard(int? id, string option)
         {
@@ -459,6 +472,7 @@ namespace WebEnterprise.Controllers
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
             var department = _db.Departments.ToList();
+            ViewBag.Department = department.Select(d=> new SelectListItem() { Text = d.NameDepartment, Value = (d.DepartmentID).ToString() });
             if (id != null && option != null)
             {
                 var a = (from d in _db.Departments
