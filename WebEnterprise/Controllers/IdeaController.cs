@@ -480,7 +480,6 @@ namespace WebEnterprise.Controllers
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.department = ListDepartment();
             ViewBag.image = user.FileName;
-
             Year();
             return View();
         }
