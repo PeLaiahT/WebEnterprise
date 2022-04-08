@@ -532,7 +532,7 @@ namespace WebEnterprise.Controllers
             {
                 ModelState.AddModelError("Name", "Please Input userName");
             }
-            if (string.IsNullOrEmpty(person.PhoneNumber))
+            if (string.IsNullOrEmpty(person.PhoneNumber) )
             {
                 ModelState.AddModelError("Phone", "Please Input Phone Number");
             }
@@ -540,10 +540,6 @@ namespace WebEnterprise.Controllers
                 
             {
                 ModelState.AddModelError("FullName", "Please Input Fullname");
-            }
-            if (person.FullName.Length <=2)
-            {
-                ModelState.AddModelError("FullName", "You should input Full Name");
             }
             if (!person.PhoneNumber.StartsWith("0"))
             {
