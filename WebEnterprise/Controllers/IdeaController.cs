@@ -88,6 +88,7 @@ namespace WebEnterprise.Controllers
                 .OrderByDescending(i => i.CreateAt);
             return View(await PaginatedList<Idea>.CreateAsync(listIdea, pageIndex ?? 1, 5));
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult EditClosureDate(int id)
         {
@@ -102,6 +103,7 @@ namespace WebEnterprise.Controllers
             }
 
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult EditClosureDate(Idea idea)
         {
@@ -116,7 +118,7 @@ namespace WebEnterprise.Controllers
                 return RedirectToAction("Index");
             }
         }
-        [Authorize]
+        [Authorize(Roles = "Staff")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -126,7 +128,7 @@ namespace WebEnterprise.Controllers
             ViewBag.categories = GetDropDownCategory();
             return View();
         }
-        [Authorize]
+        [Authorize(Roles = "Staff")]
         [HttpPost]
         public async Task<IActionResult> CreateAsync(DocsIdea idea2, List<IFormFile> postedFile)
         {
@@ -174,36 +176,7 @@ namespace WebEnterprise.Controllers
                 return View(idea2);
             }
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Download(int id)
-        {
-            var provider = new FileExtensionContentTypeProvider();
-            var documment = await _db.Documments.FindAsync(id);
-            if (documment == null)
-            {
-                return NotFound();
-            }
-            var file = Path.Combine(Directory.GetCurrentDirectory(),
-                        "wwwroot", "MyFiles", documment.FileName);
-            string contentType;
-            if (!provider.TryGetContentType(file, out contentType))
-            {
-                contentType = "application/octet-stream";
-            }
-            byte[] fileBytes;
-            if (System.IO.File.Exists(file))
-            {
-                fileBytes = System.IO.File.ReadAllBytes(file);
-            }
-            else
-            {
-                return NotFound();
-            }
-            return File(fileBytes, contentType, documment.FileName);
-
-
-        }
+        [Authorize(Roles = "Assurance")]
         public FileResult DownloadFile(string NameFile)
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(),
@@ -217,6 +190,7 @@ namespace WebEnterprise.Controllers
             return File(bytes, contentType, Path.GetFileName(filePath));
 
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var idea = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
@@ -227,6 +201,7 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -241,6 +216,7 @@ namespace WebEnterprise.Controllers
                 return RedirectToAction("Index");
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Update(Idea idea, List<IFormFile> postedFile)
         {
@@ -359,6 +335,7 @@ namespace WebEnterprise.Controllers
 
             return View(idea);
         }
+        [Authorize(Roles = "Staff")]
         public IActionResult MostLikeStaff()
         {
 
@@ -374,6 +351,7 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
+        [Authorize(Roles = "Staff")]
         public IActionResult MostViewStaff()
         {
             var mostView = _db.Ideas.Max(i => i.View);
@@ -386,6 +364,7 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
+        [Authorize(Roles = "Coordinator")]
         public IActionResult MostLikeCoor()
         {
 
@@ -401,6 +380,7 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
+        [Authorize(Roles = "Coordinator")]
         public IActionResult MostViewCoor()
         {
             var mostView = _db.Ideas.Max(i => i.View);
@@ -413,6 +393,7 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
+        [Authorize(Roles = "Assurance")]
         public IActionResult MostLikeManager()
         {
 
@@ -428,6 +409,7 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
+        [Authorize(Roles = "Assurance")]
         public IActionResult MostViewManager()
         {
             var mostView = _db.Ideas.Max(i => i.View);
@@ -440,6 +422,7 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
+        [Authorize(Roles = "Staff")]
         public IActionResult DeleteDoc(int id)
         {
             var doc = _db.Documments.FirstOrDefault(t => t.DocummentID == id);
@@ -451,7 +434,6 @@ namespace WebEnterprise.Controllers
             return RedirectToAction("Index");
         }
 
-        
         public List<Idea> GetIdeaDepartment(int? departmentID, int? year)
         {
             if(year == null && departmentID !=null)
@@ -485,7 +467,7 @@ namespace WebEnterprise.Controllers
             return null;
             
         }
-
+        [Authorize(Roles = "Assurance")]
         public IActionResult Dashboard(int? id, string option)
         {
             var username = User.Identity.Name;

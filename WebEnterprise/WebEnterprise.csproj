@@ -9,9 +9,17 @@
 
   <ItemGroup>
     <Compile Remove="Data\Migrations\**" />
+    <Compile Remove="Views\CategoryForManager\**" />
     <Content Remove="Data\Migrations\**" />
+    <Content Remove="Views\CategoryForManager\**" />
     <EmbeddedResource Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Views\CategoryForManager\**" />
     <None Remove="Data\Migrations\**" />
+    <None Remove="Views\CategoryForManager\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\CategoryForManager.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +35,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
+    <PackageReference Include="Moq" Version="4.17.2" />
     <PackageReference Include="MySqlConnector" Version="2.1.7" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace WebEnterprise.Controllers
         {
             _db = db;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var departments = _db.Departments
@@ -25,11 +27,13 @@ namespace WebEnterprise.Controllers
                              .ToList();
             return View(departments);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create(Department department)
         {
@@ -45,7 +49,7 @@ namespace WebEnterprise.Controllers
             }
 
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var department = _db.Departments.FirstOrDefault(t => t.DepartmentID == id);
@@ -56,6 +60,7 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -69,10 +74,11 @@ namespace WebEnterprise.Controllers
                 return RedirectToAction("Index");
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Update(Department department)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(department);
             }

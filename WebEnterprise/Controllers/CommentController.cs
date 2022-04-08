@@ -14,7 +14,7 @@ namespace WebEnterprise.Controllers
         {
             _db = db;
         }
-        [Authorize]
+        [Authorize(Roles ="Staff")]
         [HttpPost]
         public IActionResult Create(string NoiDung, int IdeaID)
         {

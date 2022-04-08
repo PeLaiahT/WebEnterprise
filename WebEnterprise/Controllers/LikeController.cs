@@ -13,7 +13,7 @@ namespace WebEnterprise.Controllers
         {
             _db = db;
         }
-        [Authorize]
+        [Authorize(Roles ="Staff")]
         [HttpPost]
         public IActionResult UpLike(int IdeaID)
         {
@@ -31,7 +31,7 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("IndexUser", "Idea");
         }
-        [Authorize]
+        [Authorize(Roles = "Staff")]
         [HttpPost]
         public IActionResult DownLike(int IdeaID)
         {
