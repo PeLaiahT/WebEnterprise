@@ -500,10 +500,11 @@ namespace WebEnterprise.Controllers
             {
                 ModelState.AddModelError("Title", "Please Input title");
             }
-            if (idea.FirstDate > idea.LastDate)
+            if (string.IsNullOrEmpty(idea.Content))
             {
-                ModelState.AddModelError("Date", "You should set FirstDate less than LastDate");
+                ModelState.AddModelError("Content", "Please Input content");
             }
+
 
         }
         public void ClosureDateValidation(Idea idea)
