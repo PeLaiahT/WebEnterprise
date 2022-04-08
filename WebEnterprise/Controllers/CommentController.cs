@@ -18,6 +18,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public IActionResult Create(string NoiDung, int IdeaID)
         {
+            CommentValidation(NoiDung);
             var comment = new Comment
             {
                 Content = NoiDung,
@@ -28,5 +29,13 @@ namespace WebEnterprise.Controllers
             _db.SaveChanges();
             return RedirectToAction("Detail", "Idea", new {Id = IdeaID});
         }
-    }
+        private void CommentValidation(string cmt)
+        {
+            if (string.IsNullOrEmpty(cmt))
+            {
+                ModelState.AddModelError("Content", "Please Input Content");
+            }    
+        }
+
+        }
 }

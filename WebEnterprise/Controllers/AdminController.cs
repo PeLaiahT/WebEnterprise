@@ -74,6 +74,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateStaff(CustomUserDTO staff, List<IFormFile> postedFile)
         {
+            IdeaValidation(staff);
             if (ModelState.IsValid)
             {
                 foreach (IFormFile f in postedFile)
@@ -173,6 +174,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> EditStaff(CustomUserDTO staff, List<IFormFile> postedFile)
         {
+            IdeaValidation(staff);
             if (ModelState.IsValid)
             {
                 var newstaff = _db.CustomUsers.Find(staff.Id);
@@ -252,6 +254,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCoor(CustomUserDTO coor, List<IFormFile> postedFile)
         {
+            IdeaValidation(coor);
             if (ModelState.IsValid)
             {
                 foreach (IFormFile f in postedFile)
@@ -330,6 +333,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCoor(CustomUserDTO coor, List<IFormFile> postedFile)
         {
+            IdeaValidation(coor);
             if (ModelState.IsValid)
             {
                 var newcoor = _db.CustomUsers.Find(coor.Id);
@@ -399,8 +403,9 @@ namespace WebEnterprise.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateManager(CustomUserDTO coor, List<IFormFile> postedFile)
+        public async Task<IActionResult> CreateManager(CustomUserDTO manager, List<IFormFile> postedFile)
         {
+            IdeaValidation(manager);
             if (ModelState.IsValid)
             {
                 foreach (IFormFile f in postedFile)
@@ -408,14 +413,14 @@ namespace WebEnterprise.Controllers
                     using (var dataStream = new MemoryStream())
                     {
                         await f.CopyToAsync(dataStream);
-                        coor.Image = dataStream.ToArray();
+                        manager.Image = dataStream.ToArray();
                     }
                     if (postedFile != null)
                     {
                         //chi dinh duong dan se luu
                         string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
                             "wwwroot", "Img", f.FileName);
-                        coor.FileName = f.FileName;
+                        manager.FileName = f.FileName;
                         using (var file = new FileStream(fullPath, FileMode.Create))
                         {
                             f.CopyTo(file);
@@ -424,12 +429,12 @@ namespace WebEnterprise.Controllers
                 }
                 var user = new CustomUser
                 {
-                    UserName = coor.UserName,
-                    FullName = coor.FullName,
-                    Email = coor.Email,
-                    PhoneNumber = coor.PhoneNumber,
-                    Image = coor.Image,
-                    FileName = coor.FileName
+                    UserName = manager.UserName,
+                    FullName = manager.FullName,
+                    Email = manager.Email,
+                    PhoneNumber = manager.PhoneNumber,
+                    Image = manager.Image,
+                    FileName = manager.FileName
                 };
                 var result = await _userManager.CreateAsync(user, "Manager123!");
                 if (result.Succeeded)
@@ -440,7 +445,7 @@ namespace WebEnterprise.Controllers
             }
             else
             {
-                return View(coor);
+                return View(manager);
             }
         }
         [Authorize(Roles = "Admin")]
@@ -477,6 +482,7 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public async Task<IActionResult> EditManager(CustomUserDTO manager, List<IFormFile> postedFile)
         {
+            IdeaValidation(manager);
             if (ModelState.IsValid)
             {
                 var newManager = _db.CustomUsers.Find(manager.Id);
@@ -515,6 +521,42 @@ namespace WebEnterprise.Controllers
                 return RedirectToAction("ViewAllManager");
             }
             return View(manager);
+        }
+        private void IdeaValidation(CustomUserDTO person)
+        {
+            if (string.IsNullOrEmpty(person.Email))
+            {
+                ModelState.AddModelError("Email", "Please Input Email");
+            }
+            if (string.IsNullOrEmpty(person.UserName))
+            {
+                ModelState.AddModelError("Name", "Please Input userName");
+            }
+            if (string.IsNullOrEmpty(person.PhoneNumber))
+            {
+                ModelState.AddModelError("Phone", "Please Input Phone Number");
+            }
+            if(string.IsNullOrEmpty(person.FullName))
+                
+            {
+                ModelState.AddModelError("FullName", "Please Input Fullname");
+            }
+            if (person.FullName.Length <=2)
+            {
+                ModelState.AddModelError("FullName", "You should input Full Name");
+            }
+            if (!person.PhoneNumber.StartsWith("0"))
+            {
+                ModelState.AddModelError("Phone", "You should input correct phone Number");
+            }    
+            if(person.PhoneNumber.Length > 11 && person.PhoneNumber.Length<10)
+            {
+                ModelState.AddModelError("Phone", "You input incorrect Phone Number");
+            }
+            
+
+           
+
         }
     }
 
