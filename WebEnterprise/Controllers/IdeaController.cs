@@ -33,7 +33,7 @@ namespace WebEnterprise.Controllers
         public void Year()
         {
             var years = new List<int>();
-            for(int i = 2018; i <= DateTime.Now.Year; i++)
+            for (int i = 2018; i <= DateTime.Now.Year; i++)
             {
                 years.Add(i);
             }
@@ -440,7 +440,7 @@ namespace WebEnterprise.Controllers
 
         public List<Idea> GetIdeaDepartment(int? departmentID, int? year)
         {
-            if(year == null && departmentID !=null)
+            if (year == null && departmentID != null)
             {
                 var ideas = (from d in _db.Departments
                              where d.DepartmentID == departmentID
@@ -452,24 +452,26 @@ namespace WebEnterprise.Controllers
                              }).ToList();
                 return ideas;
             }
-            else if( departmentID != null && year != null) 
+            else if (departmentID != null && year != null)
             {
-                var ideas = (from d in _db.Departments where d.DepartmentID == departmentID
+                var ideas = (from d in _db.Departments
+                             where d.DepartmentID == departmentID
                              join u in _db.CustomUsers on d.DepartmentID equals u.DepartmentID
-                             join i in _db.Ideas on u.Id equals i.IdeaUserID where i.CreateAt.Year == year
+                             join i in _db.Ideas on u.Id equals i.IdeaUserID
+                             where i.CreateAt.Year == year
                              select new Idea
                              {
                                  Title = i.Title
                              }).ToList();
                 return ideas;
             }
-            else if (departmentID == null && year !=null)
+            else if (departmentID == null && year != null)
             {
                 var ideas = _db.Ideas.Where(x => x.CreateAt.Year == year).ToList();
                 return ideas;
             }
             return null;
-            
+
         }
         [Authorize(Roles = "Assurance")]
         public IActionResult Dashboard(int? id, string option)
