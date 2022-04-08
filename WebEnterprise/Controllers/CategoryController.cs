@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
@@ -19,11 +20,14 @@ namespace WebEnterprise.Controllers
                              .ToList();
             return View(categories);
         }
+        
+        [Authorize(Roles = "Assurance")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+        [Authorize(Roles = "Assurance")]
         [HttpPost]
         public IActionResult Create(Category category)
         {
@@ -39,7 +43,7 @@ namespace WebEnterprise.Controllers
             }
 
         }
-
+        [Authorize(Roles = "Assurance")]
         public IActionResult Delete(int id)
         {
             var courseCategory = _db.Categories.FirstOrDefault(t => t.CategoryID == id);
@@ -50,6 +54,7 @@ namespace WebEnterprise.Controllers
             }
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Assurance")]
         [HttpGet]
         public IActionResult Update( int id)
         {
@@ -63,6 +68,7 @@ namespace WebEnterprise.Controllers
                 return RedirectToAction("Index");
             }
         }
+        [Authorize(Roles = "Assurance")]
         [HttpPost]
         public IActionResult Update(Category category)
         {
