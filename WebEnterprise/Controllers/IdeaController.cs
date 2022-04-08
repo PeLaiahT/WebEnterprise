@@ -426,7 +426,7 @@ namespace WebEnterprise.Controllers
             ViewBag.image = user.FileName;
             return View(idea);
         }
-        [Authorize(Roles = "Staff")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteDoc(int id)
         {
             var doc = _db.Documments.FirstOrDefault(t => t.DocummentID == id);
@@ -510,7 +510,11 @@ namespace WebEnterprise.Controllers
         }
         public void ClosureDateValidation(Idea idea)
         {
-            if (idea.CreateAt < idea.LastDate && idea.CreateAt < idea.FirstDate)
+            if(idea.FirstDate > idea.LastDate)
+            {
+                ModelState.AddModelError("Date", "You should set FirstDate less than LastDate");
+            }
+            if (idea.CreateAt > idea.LastDate && idea.CreateAt > idea.FirstDate)
             {
                 ModelState.AddModelError("Date", "You should set FirstDate and LastDate more than CreateAt");
             }
