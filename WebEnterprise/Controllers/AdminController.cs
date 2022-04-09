@@ -213,6 +213,10 @@ namespace WebEnterprise.Controllers
             {
                 ModelState.AddModelError("Name", "Please Input userName");
             }
+            if (string.IsNullOrEmpty(person.Address))
+            {
+                ModelState.AddModelError("Address", "Please Input address");
+            }
             if (string.IsNullOrEmpty(person.PhoneNumber) )
             {
                 ModelState.AddModelError("Phone", "Please Input Phone Number");
@@ -230,10 +234,6 @@ namespace WebEnterprise.Controllers
             {
                 ModelState.AddModelError("Phone", "You input incorrect Phone Number");
             }
-            
-
-           
-
         }
     }
 

@@ -17,11 +17,10 @@ builder.Services.AddDefaultIdentity<CustomUser>(options => options.SignIn.Requir
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddMvc().AddRazorPagesOptions(options =>
-{
-    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
-}).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-builder.Services.AddScoped<IAdminRespon, AdminRepo>();
+//builder.Services.AddControllersWithViews().AddRazorPagesOptions(options =>
+//{
+//    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
+//});
 
 var app = builder.Build();
 
