@@ -22,6 +22,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
+            
             var departments = _db.Departments
                              .OrderBy(c => c.DepartmentID)
                              .ToList();

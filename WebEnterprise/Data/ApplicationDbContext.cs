@@ -19,6 +19,18 @@ namespace WebEnterprise.Data
             : base(options)
         {
         }
+
+        public ApplicationDbContext()
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder dbContext)
+        {
+            if(!dbContext.IsConfigured)
+            {
+                dbContext.UseSqlServer("Server=ADMIN\\SQLEXPRESS;Database=WebEnterprise;Trusted_Connection=True;MultipleActiveResultSets=true");
+            }
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

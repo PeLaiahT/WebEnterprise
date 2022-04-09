@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
+using WebEnterprise.Respon;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddMvc().AddRazorPagesOptions(options =>
 {
     options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
 }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+builder.Services.AddScoped<IAdminRespon, AdminRepo>();
 
 var app = builder.Build();
 
