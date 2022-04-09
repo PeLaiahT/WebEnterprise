@@ -498,5 +498,10 @@ namespace WebEnterprise.Respon
             context.SaveChanges();
             return true;
         }
+
+        bool IAdminRespon.DeleteStaff(string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

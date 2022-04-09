@@ -51,13 +51,13 @@ namespace TestProject1
             var staffs = adminRepo.GetAllStaff();
             Assert.IsFalse(staffs != null);
         }
-        //[Test]
-        //public void GetEditStaff(string id)
-        //{
-        //    string id1 = "1";
-        //    var staffs = adminRepo.GetEditStaff(id);
-        //    Assert.IsTrue(id1);
-        //}
+        [Test]
+        public void EditStaff()
+        {
+            string id = "1";
+            var staff = adminRepo.GetEditStaff(id);
+            Assert.IsTrue(staff.Id == "1"); 
+        }
 
 
     }

@@ -22,6 +22,7 @@ builder.Services.AddMvc().AddRazorPagesOptions(options =>
     options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
 }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 builder.Services.AddScoped<IAdminRespon, AdminRepo>();
+builder.Services.AddScoped<IIdeaRepo, IdeaRepo>();
 
 var app = builder.Build();
 

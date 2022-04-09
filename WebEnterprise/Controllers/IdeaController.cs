@@ -8,12 +8,14 @@ using WebEnterprise.Common;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
 using WebEnterprise.Models.DTO;
+using WebEnterprise.Respon;
 
 namespace WebEnterprise.Controllers
 {
     public class IdeaController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly IIdeaRepo ideaRepo;
 
         private List<SelectListItem> GetDropDownCategory()
         {
@@ -25,9 +27,10 @@ namespace WebEnterprise.Controllers
             var department = _db.Departments.Select(c => new SelectListItem { Text = c.NameDepartment, Value = c.DepartmentID.ToString() }).ToList();
             return department;
         }
-        public IdeaController(ApplicationDbContext db)
+        public IdeaController(ApplicationDbContext db , IIdeaRepo _ideaRepo)
         {
             _db = db;
+            ideaRepo = _ideaRepo;
         }
 
         public void Year()
@@ -91,15 +94,9 @@ namespace WebEnterprise.Controllers
         [HttpGet]
         public IActionResult EditClosureDate(int id)
         {
-            var idea = _db.Ideas.Where(i => i.IdeaID == id).FirstOrDefault();
-            if (idea != null)
-            {
-                return View(idea);
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            var idea = ideaRepo.GetClosureDate(id);
+            return View(idea);
+
 
         }
         [HttpPost]
@@ -204,7 +201,7 @@ namespace WebEnterprise.Controllers
         {
 
             ViewBag.categories = GetDropDownCategory();
-            var idea = _db.Ideas.Include(i => i.Documments).FirstOrDefault(t => t.IdeaID == id);
+            var idea = ideaRepo.GetUpdate(id);
             if (idea != null)
             {
                 return View(idea);
@@ -255,14 +252,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Staff")]
         public IActionResult Detail(int id)
         {
-            var idea = _db.Ideas.
-                Include(i => i.Category).
-                Include(i => i.IdeaUser).
-                Include(i => i.Documments).
-                FirstOrDefault(i => i.IdeaID == id);
-            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
-            idea.View++;
-            _db.SaveChanges();
+            var idea = ideaRepo.GetDetail(id);
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
@@ -271,13 +261,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Coordinator")]
         public IActionResult DetailCoor(int id)
         {
-            var idea = _db.Ideas.
-                Include(i => i.Category).
-                Include(i => i.IdeaUser).
-                Include(i => i.Documments).
-                FirstOrDefault(i => i.IdeaID == id);
-            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
-            idea.View++;
+            var idea = ideaRepo.GetDetailCoor(id);
             _db.SaveChanges();
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
@@ -287,14 +271,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Assurance")]
         public IActionResult DetailManager(int id)
         {
-            var idea = _db.Ideas.
-                Include(i => i.Category).
-                Include(i => i.IdeaUser).
-                Include(i => i.Documments).
-                FirstOrDefault(i => i.IdeaID == id);
-            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
-            idea.View++;
-            _db.SaveChanges();
+            var idea = ideaRepo.GetDetailManager(id);
             var username = User.Identity.Name;
             var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
             ViewBag.image = user.FileName;
@@ -303,12 +280,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult DetailForAdmin(int id)
         {
-            var idea = _db.Ideas.
-                Include(i => i.Category).
-                Include(i => i.IdeaUser).
-                Include(i => i.Documments).
-                FirstOrDefault(i => i.IdeaID == id);
-            idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
+            var idea = ideaRepo.GetDetailAdmin(id);
             return View(idea);
         }
         public IActionResult MostLike()
