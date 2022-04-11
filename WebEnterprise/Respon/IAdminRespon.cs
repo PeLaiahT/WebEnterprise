@@ -9,7 +9,7 @@ namespace WebEnterprise.Respon
   
         public CustomUserDTO GetEditStaff(string id);
         public Task<CustomUserDTO> PostEditStaff(CustomUserDTO staff , List<IFormFile> postedFile );
-        public Task<CustomUserDTO> PostCreateStaff(CustomUserDTO staff, List<IFormFile> postedFile);
+        public Task<CustomUserDTO> PostCreateStaff(CustomUserDTO staff, IFormFile postedFile);
         public Task<CustomUserDTO> PostCreateManager(CustomUserDTO manager, List<IFormFile> postedFile);
         public Task<CustomUserDTO> PostCreateCoor(CustomUserDTO coor, List<IFormFile> postedFile);
         public List<CustomUserDTO> GetAllCoor();

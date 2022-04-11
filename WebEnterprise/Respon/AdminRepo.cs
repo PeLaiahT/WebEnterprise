@@ -372,7 +372,7 @@ namespace WebEnterprise.Respon
           
         }
 
-       public async Task<CustomUserDTO> PostEditStaff(CustomUserDTO staff, List<IFormFile> postedFile)
+        public async Task<CustomUserDTO> PostEditStaff(CustomUserDTO staff, List<IFormFile> postedFile)
         {
             var newstaff = context.CustomUsers.Find(staff.Id);
             foreach (IFormFile f in postedFile)
@@ -497,6 +497,98 @@ namespace WebEnterprise.Respon
             }
             context.SaveChanges();
             return true;
+        }
+
+        bool IAdminRespon.DeleteStaff(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<CustomUserDTO> PostEditStaff(CustomUserDTO staff, IFormFile postedFile)
+        {
+   
+                using (var dataStream = new MemoryStream())
+                {
+                    await postedFile.CopyToAsync(dataStream);
+                    staff.Image = dataStream.ToArray();
+                }
+                if (postedFile != null)
+                {
+                    //chi dinh duong dan se luu
+                    string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot", "Img", postedFile.FileName);
+                    staff.FileName = postedFile.FileName;
+                    using (var file = new FileStream(fullPath, FileMode.Create))
+                    {
+                        postedFile.CopyTo(file);
+                    }
+                }
+            
+            var user = new CustomUser
+            {
+                UserName = staff.UserName,
+                FullName = staff.FullName,
+                Address = staff.Address,
+                Email = staff.Email,
+                PhoneNumber = staff.PhoneNumber,
+                Image = staff.Image,
+                FileName = staff.FileName,
+                DepartmentID = staff.DepartmentID
+            };
+            var result = await userManager.CreateAsync(user, "Staff123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Staff");
+            }
+            if (staff != null)
+            {
+                return staff;
+            }
+            return null;
+        }
+
+        public async Task<CustomUserDTO> PostCreateStaff(CustomUserDTO staff, IFormFile postedFile)
+        {
+   
+            
+                using (var dataStream = new MemoryStream())
+                {
+                    await postedFile.CopyToAsync(dataStream);
+                    staff.Image = dataStream.ToArray();
+                }
+                if (postedFile != null)
+                {
+                    //chi dinh duong dan se luu
+                    string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot", "Img", postedFile.FileName);
+                    staff.FileName = postedFile.FileName;
+                    using (var file = new FileStream(fullPath, FileMode.Create))
+                    {
+                        postedFile.CopyTo(file);
+                    }
+                }
+            
+            var user = new CustomUser
+            {
+                UserName = staff.UserName,
+                FullName = staff.FullName,
+                Address = staff.Address,
+                Email = staff.Email,
+                PhoneNumber = staff.PhoneNumber,
+                Image = staff.Image,
+                FileName = staff.FileName,
+                DepartmentID = staff.DepartmentID
+            };
+            var result = await userManager.CreateAsync(user, "Staff123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Staff");
+            }
+            if (staff != null)
+            {
+                return staff;
+            }
+            return null;
         }
     }
 }

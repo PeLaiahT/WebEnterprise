@@ -3,21 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
-
+using WebEnterprise.Respon;
 namespace WebEnterprise.Controllers
 {
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _db;
-        public CategoryController(ApplicationDbContext db)
+        private readonly ICategoryRepo categoryRepo;
+        public CategoryController(ApplicationDbContext db , ICategoryRepo _categoryRepo)
         {
             _db = db;
+            categoryRepo = _categoryRepo;
         }
         public IActionResult Index()
         {
-            var categories = _db.Categories
-                             .OrderBy(c => c.CategoryID)
-                             .ToList();
+            var categories = categoryRepo.GetListCategory();
             return View(categories);
         }
         
@@ -58,7 +58,7 @@ namespace WebEnterprise.Controllers
         [HttpGet]
         public IActionResult Update( int id)
         {
-            var category = _db.Categories.FirstOrDefault(t => t.CategoryID == id);
+            var category = categoryRepo.GetUpdate(id);
             if (category != null)
             {
                 return View(category);
