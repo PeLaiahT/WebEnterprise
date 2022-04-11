@@ -146,6 +146,7 @@ namespace WebEnterprise.Respon
                 Id = u.Id,
                 UserName = u.UserName,
                 Email = u.Email,
+                Address = u.Address,
                 PhoneNumber = u.PhoneNumber,
                 FullName = u.FullName
             }).FirstOrDefault();
@@ -165,6 +166,7 @@ namespace WebEnterprise.Respon
                Id = u.Id,
                UserName = u.UserName,
                Email = u.Email,
+               Address = u.Address,
                PhoneNumber = u.PhoneNumber,
                FullName = u.FullName
            }).FirstOrDefault();
@@ -225,6 +227,7 @@ namespace WebEnterprise.Respon
                 FullName = coor.FullName,
                 Email = coor.Email,
                 PhoneNumber = coor.PhoneNumber,
+                Address = coor.Address,
                 Image = coor.Image,
                 FileName = coor.FileName,
                 DepartmentID = coor.DepartmentID
@@ -269,6 +272,7 @@ namespace WebEnterprise.Respon
                 FullName = manager.FullName,
                 Email = manager.Email,
                 PhoneNumber = manager.PhoneNumber,
+                Address = manager.Address,
                 Image = manager.Image,
                 FileName = manager.FileName
             };
@@ -358,6 +362,7 @@ namespace WebEnterprise.Respon
             {
                 newManager.UserName = manager.UserName;
                 newManager.Email = manager.Email;
+                newManager.Address = manager.Address;
                 newManager.PhoneNumber = manager.PhoneNumber;
                 newManager.FullName = manager.FullName;
                 newManager.FileName = manager.FileName;
@@ -453,6 +458,7 @@ namespace WebEnterprise.Respon
             {
                 newcoor.UserName = coor.UserName;
                 newcoor.Email = coor.Email;
+                newcoor.Address = coor.Address;
                 newcoor.PhoneNumber = coor.PhoneNumber;
                 newcoor.FullName = coor.FullName;
                 context.SaveChanges();
