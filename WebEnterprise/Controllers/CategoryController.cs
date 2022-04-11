@@ -9,7 +9,7 @@ namespace WebEnterprise.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly ICategoryRepo categoryRepo;
-        public CategoryController(ApplicationDbContext db , CategoryRepo _categoryRepo)
+        public CategoryController(ApplicationDbContext db , ICategoryRepo _categoryRepo)
         {
             _db = db;
             categoryRepo = _categoryRepo;

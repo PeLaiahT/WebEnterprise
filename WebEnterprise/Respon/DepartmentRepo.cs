@@ -15,6 +15,8 @@ namespace WebEnterprise.Respon
             var department = _db.Departments.FirstOrDefault(t => t.DepartmentID == id);
             if(department!= null)
             {
+                _db.Departments.Remove(department);
+                _db.SaveChanges();
                 return true;
             }    
             return false;
