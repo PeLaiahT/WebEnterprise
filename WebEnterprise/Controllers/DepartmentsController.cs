@@ -8,22 +8,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
+using WebEnterprise.Respon;
 
 namespace WebEnterprise.Controllers
 {
     public class DepartmentsController : Controller
     {
         private readonly ApplicationDbContext _db;
-        public DepartmentsController(ApplicationDbContext db)
+        private readonly IDepartmentRepo departmentRepo;
+        public DepartmentsController(ApplicationDbContext db , IDepartmentRepo _departmentRepo)
         {
             _db = db;
+            departmentRepo = _departmentRepo;
         }
         public IActionResult Index()
         {
             
-            var departments = _db.Departments
-                             .OrderBy(c => c.DepartmentID)
-                             .ToList();
+            var departments = departmentRepo.GetListCategory();
             return View(departments);
         }
         [HttpGet]
@@ -49,18 +50,13 @@ namespace WebEnterprise.Controllers
 
         public IActionResult Delete(int id)
         {
-            var department = _db.Departments.FirstOrDefault(t => t.DepartmentID == id);
-            if (department != null)
-            {
-                _db.Departments.Remove(department);
-                _db.SaveChanges();
-            }
+            var department = departmentRepo.DeleteDepartment(id);
             return RedirectToAction("Index");
         }
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var department = _db.Departments.FirstOrDefault(t => t.DepartmentID == id);
+            var department = departmentRepo.GetUpdate(id);
             if (department != null)
             {
                 return View(department);

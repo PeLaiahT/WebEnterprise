@@ -23,6 +23,8 @@ builder.Services.AddMvc().AddRazorPagesOptions(options =>
 }).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 builder.Services.AddScoped<IAdminRespon, AdminRepo>();
 builder.Services.AddScoped<IIdeaRepo, IdeaRepo>();
+builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+builder.Services.AddScoped<IDepartmentRepo, DepartmentRepo>();
 
 var app = builder.Build();
 
