@@ -17,10 +17,7 @@ builder.Services.AddDefaultIdentity<CustomUser>(options => options.SignIn.Requir
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddMvc().AddRazorPagesOptions(options =>
-{
-    options.Conventions.AddAreaPageRoute("Identity", "/Account/Login", "");
-}).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
 builder.Services.AddScoped<IAdminRespon, AdminRepo>();
 builder.Services.AddScoped<IIdeaRepo, IdeaRepo>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
@@ -49,7 +46,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Idea}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
 
