@@ -5,130 +5,134 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+    </button>
 
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary border1" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                        
-                    </form>
+    <!-- Topbar Search -->
+    <form class="d-flex justify-content-center d-sm-inline-block form-inline mx-auto ml-md-8 w-50 navbar-search border1">
+        <div class="input-group">
+            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                   aria-label="Search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <button class="btn btn-primary border1" type="button">
+                    <i class="fas fa-search fa-sm"></i>
+                </button>
+            </div>
+        </div>
 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav">
+    </form>
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav">
 
-
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
-                                <i class="fa-solid fa-circle-user"></i>
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                 <a class="dropdown-item" data-toggle="modal">
-                                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" >
-                                                <button type="submit" class="dropdown-item" data-toggle="modal" >Logout</button>
-                                            </form>
-                                </a>
-                            </div>
-                        </li>         
-                        }
-                    </ul>
-
-                </nav>
-<div class="container-fluid w-75">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                            <h3 class="m-0 font-weight-bold text-primary">Category</h3>
-                            <button type="button" class="btn btn-secondary"><a asp-action="Create" class="text-decoration-none text-white">Create new Category</a></button>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th class="text-center">
-                                                @Html.DisplayNameFor(model => model.NameCategory)
-                                            </th>
-                                            <th class="text-center">
-                                                @Html.DisplayNameFor(model => model.Desciption)
-                                            </th>
-                                            <th class="text-center">
-                                                Action
-                                            </th>
-                                            
-                                            
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                        @foreach (var item in Model) {
-                                                <tr>
-                                                    <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.NameCategory)
-                                                    </td>
-                                                    <td class="text-center">
-                                                        @Html.DisplayFor(modelItem => item.Desciption)
-                                                    </td>
-                                                    <td class="text-center">
-                                                        
-                                                        <button type="button" class="btn btn-info"><a asp-action="Update" asp-route-id="@item.CategoryID" class="text-decoration-none text-white">Edit</a></button>
-                                                        
-             
-                                                         <button type="button" class="btn btn-danger"><a asp-action="Delete" asp-route-id="@item.CategoryID" class="text-decoration-none text-white">Delete</a></button>
-                                                    </td>
-                                                    
-                                                </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
+        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+        <li class="nav-item dropdown no-arrow d-sm-none">
+            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+            </a>
+            <!-- Dropdown - Messages -->
+            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                 aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-light border-0 small"
+                               placeholder="Search for..." aria-label="Search"
+                               aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search fa-sm"></i>
+                            </button>
                         </div>
                     </div>
-</div>    
+                </form>
+            </div>
+        </li>
+
+
+
+        <div class="topbar-divider d-none d-sm-block"></div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
+                    <i class="fa-solid fa-circle-user"></i>
+                </a>
+                <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                 aria-labelledby="userDropdown">
+                    <a class="dropdown-item" data-toggle="modal">
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout">
+                            <button type="submit" class="dropdown-item" data-toggle="modal">Logout</button>
+                        </form>
+                    </a>
+                </div>
+            </li>
+        }
+    </ul>
+
+</nav>
+<div class="container-fluid w-75">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <h3 class="m-0 font-weight-bold text-primary">Category</h3>
+            <button type="button" class="btn btn-secondary"><a asp-action="Create" class="text-decoration-none text-white">Create new Category</a></button>
+        </div>
+        @if (TempData["Error"] != null)
+        {
+            <p class="alert alert-danger" id="successMessage">@TempData["Error"]</p>
+        }
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="text-center">
+                                @Html.DisplayNameFor(model => model.NameCategory)
+                            </th>
+                            <th class="text-center">
+                                @Html.DisplayNameFor(model => model.Desciption)
+                            </th>
+                            <th class="text-center">
+                                Action
+                            </th>
+
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.NameCategory)
+                                </td>
+                                <td class="text-center">
+                                    @Html.DisplayFor(modelItem => item.Desciption)
+                                </td>
+                                <td class="text-center">
+
+                                    <button type="button" class="btn btn-info"><a asp-action="Update" asp-route-id="@item.CategoryID" class="text-decoration-none text-white">Edit</a></button>
+
+
+                                    <button type="button" class="btn btn-danger"><a asp-action="Delete" asp-route-id="@item.CategoryID" class="text-decoration-none text-white">Delete</a></button>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

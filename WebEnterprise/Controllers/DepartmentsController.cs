@@ -54,7 +54,22 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
-            var department = departmentRepo.DeleteDepartment(id);
+
+            var department = _db.Departments.Include(d => d.CustomUsers).FirstOrDefault(t => t.DepartmentID == id);
+            if(department != null)
+            {
+                if(department.CustomUsers.Count() > 0)
+                {
+                    TempData["Error"] = $"Cannot delete {department.NameDepartment} department";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    _db.Departments.Remove(department);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }else
             return RedirectToAction("Index");
         }
         [Authorize(Roles = "Admin")]

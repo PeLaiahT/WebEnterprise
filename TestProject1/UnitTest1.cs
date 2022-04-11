@@ -20,7 +20,7 @@ namespace TestProject1
     public class Tests
     {
         public List<IFormFile> a = new List<IFormFile>();
-        
+
         private static ApplicationDbContext context;
         private static AdminRepo adminRepo;
         private static LikeRepo likeRepo;
@@ -59,11 +59,11 @@ namespace TestProject1
         }
 
         [Test]
-        public  async Task AddStaff()
+        public async Task AddStaff()
         {
             using var stream = new MemoryStream(File.ReadAllBytes(file).ToArray());
-            var  formFile = new FormFile(stream, 0, stream.Length, "streamFile", file.Split(@"\").Last());
-   
+            var formFile = new FormFile(stream, 0, stream.Length, "streamFile", file.Split(@"\").Last());
+
             var account = new CustomUserDTO
             {
                 UserName = "TestCase1",
@@ -72,7 +72,7 @@ namespace TestProject1
                 DepartmentID = 1
             };
 
-            var result = await adminRepo.PostCreateStaff(account,formFile);
+            var result = await adminRepo.PostCreateStaff(account, formFile);
 
             Assert.IsTrue(result != null);
         }
@@ -115,7 +115,7 @@ namespace TestProject1
         {
             string id = "1";
             var staff = adminRepo.GetEditStaff(id);
-            Assert.IsTrue(staff.Id == "1"); 
+            Assert.IsTrue(staff.Id == "1");
         }
         [Test]
         public void Edit()
@@ -131,7 +131,7 @@ namespace TestProject1
                     Email = "student6@gmail.com",
                     DepartmentID = 1,
                 };
-      
+
                 trans.Rollback();
             }
 
@@ -160,8 +160,131 @@ namespace TestProject1
             bool result;
             using (var trans = context.Database.BeginTransaction())
             {
-                var department = context.Categories.FirstOrDefault(t => t.CategoryID ==1);
+                var department = context.Categories.FirstOrDefault(t => t.CategoryID == 1);
 
+                if (department != null)
+                {
+                    //context.Departments.Remove(department);
+                    context.SaveChanges();
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                }
+                Assert.IsTrue(result);
+            }
+
+
+
+            #endregion
+
+
+            #region Department
+
+        }
+
+            [Test]
+            public void AddDepartTest()
+            {
+                var result = new Department();
+                using (var trans = context.Database.BeginTransaction())
+                {
+                    var depart = new Department
+                    {
+                        NameDepartment = "TestCat1",
+                        Description = "TestDes1"
+                    };
+                    result = departmentRepo.PostCreate(depart);
+                    trans.Rollback();
+                }
+                Assert.IsTrue(result != null);
+            }
+            [Test]
+            public void AddDepartTesFail()
+            {
+                Department result;
+                using (var trans = context.Database.BeginTransaction())
+                {
+                    var depart = new Department
+                    {
+                        Description = "TestDes1",
+                    };
+                    result = departmentRepo.PostCreate(depart);
+
+                    trans.Rollback();
+                }
+                Assert.IsFalse(result != null);
+            }
+
+            [Test]
+            public void EditDepartTest()
+            {
+                var result = new Department();
+                using (var trans = context.Database.BeginTransaction())
+                {
+                    var test = new Department
+                    {
+                        DepartmentID = 1,
+                        NameDepartment = "IT",
+                        Description = "Name"
+                    };
+                    result = departmentRepo.PostCreate(test);
+
+                    trans.Rollback();
+                }
+                Assert.IsTrue(result != null);
+            }
+
+            [Test]
+            public void EditDepartTestFail()
+            {
+                var result = new Department();
+                using (var trans = context.Database.BeginTransaction())
+                {
+                    var test = new Department
+                    {
+                        DepartmentID = 0,
+                        NameDepartment = "IT",
+                        Description = "Coding"
+                    };
+                    result = departmentRepo.PostCreate(test);
+
+                    trans.Rollback();
+                }
+                Assert.IsFalse(result != null);
+            }
+
+            [Test]
+            public void DeleteDepartTest()
+            {
+                bool result;
+                using (var trans = context.Database.BeginTransaction())
+                {
+                    var department = context.Departments.Include(d => d.CustomUsers).FirstOrDefault(t => t.DepartmentID == 2);
+
+                    if (department != null)
+                    {
+                        context.Departments.Remove(department);
+                        context.SaveChanges();
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                    }
+
+                    trans.Rollback();
+                }
+
+                Assert.IsTrue(result);
+            }
+
+            [Test]
+            public void DeleteDepartTestFail()
+            {
+                var department = context.Departments.Include(d => d.CustomUsers).FirstOrDefault(t => t.DepartmentID == 0);
+                bool result;
                 if (department != null)
                 {
                     context.Departments.Remove(department);
@@ -172,173 +295,50 @@ namespace TestProject1
                 {
                     result = false;
                 }
-                Assert.IsTrue(result);
-        }
-
-
-
-        #endregion
-
-
-        #region Department
-
-
-
-        [Test]
-        public void AddDepartTest()
-        {
-            var result = new Department();
-            using (var trans = context.Database.BeginTransaction())
-            {
-                var depart = new Department
-                {
-                    NameDepartment = "TestCat1",
-                    Description = "TestDes1"
-                };
-                result = departmentRepo.PostCreate(depart);
-                trans.Rollback();
-            }
-            Assert.IsTrue(result!=null);
-        }
-        [Test]
-        public void AddDepartTesFail()
-        {
-            Department result;
-            using (var trans = context.Database.BeginTransaction())
-            {
-                var depart = new Department
-                {
-                    Description = "TestDes1",
-                };
-             result = departmentRepo.PostCreate(depart);
-
-                trans.Rollback();
-            }
-            Assert.IsFalse(result!=null);
-        }
-
-        [Test]
-        public void EditDepartTest()
-        {
-            var result = new Department();
-            using (var trans = context.Database.BeginTransaction())
-            {
-                var test = new Department
-                {
-                    DepartmentID = 1,
-                    NameDepartment = "IT",
-                    Description = "Name"
-                };
-                result = departmentRepo.PostCreate(test);
-
-                trans.Rollback();
-            }
-            Assert.IsTrue(result!=null);
-        }
-
-        [Test]
-        public void EditDepartTestFail()
-        {
-            var result = new Department();
-            using (var trans = context.Database.BeginTransaction())
-            {
-                var test = new Department
-                {
-                    DepartmentID = 0,
-                    NameDepartment = "IT",
-                    Description = "Coding"
-                };
-                result = departmentRepo.PostCreate(test);
-
-                trans.Rollback();
-            }
-            Assert.IsFalse(result!=null);
-        }
-
-        [Test]
-        public void DeleteDepartTest()
-        {
-            bool result;
-            using (var trans = context.Database.BeginTransaction())
-            {
-                var department = context.Departments.Include(d=>d.CustomUsers).FirstOrDefault(t => t.DepartmentID == 2);
-               
-                if (department != null)
-                {         
-                    context.Departments.Remove(department);               
-                    context.SaveChanges();
-                    result = true;
-                }
-               else
-                {
-                    result = false;
-                }    
-          
-                trans.Rollback();
+                Assert.IsFalse(result);
             }
 
-            Assert.IsTrue(result);
+            #endregion
+            #region Like
+            //[Test]
+            //public void LikeTest()
+            //{
+            //    Like result;
+            //    Idea a = new Idea();
+
+            //    using (var trans = context.Database.BeginTransaction())
+            //    {
+            //        var like = new Like
+            //        {
+            //           LikeUserID  = "1",
+            //            LikeId = 1,
+            //        };
+
+            //        result = (likeRepo.UpLike(1));
+            //        trans.Rollback();
+            //    }
+            //    Assert.IsTrue(result.Status);
+            //}
+
+            //[Test]
+            //public void DisLikeTest()
+            //{
+            //    UserLikePost result;
+            //    using (var trans = context.Database.BeginTransaction())
+            //    {
+            //        var like = new UserLikePost
+            //        {
+            //            UserId = "1",
+            //            PostId = 1,
+            //        };
+
+            //        result = userRepo.Dislike(like);
+            //        trans.Rollback();
+            //    }
+            //    Assert.IsTrue(!result.Status);
+            //}
+
+            #endregion
+
         }
-
-        [Test]
-        public void DeleteDepartTestFail()
-        {
-            var department = context.Departments.Include(d => d.CustomUsers).FirstOrDefault(t => t.DepartmentID == 0);
-            bool result;
-            if (department != null)
-            {
-                context.Departments.Remove(department);
-                context.SaveChanges();
-                result = true;
-            }
-            else
-            {
-                result = false;
-            }
-            Assert.IsFalse(result);
-        }
-
-        #endregion
-        #region Like
-        //[Test]
-        //public void LikeTest()
-        //{
-        //    Like result;
-        //    Idea a = new Idea();
-           
-        //    using (var trans = context.Database.BeginTransaction())
-        //    {
-        //        var like = new Like
-        //        {
-        //           LikeUserID  = "1",
-        //            LikeId = 1,
-        //        };
-
-        //        result = (likeRepo.UpLike(1));
-        //        trans.Rollback();
-        //    }
-        //    Assert.IsTrue(result.Status);
-        //}
-
-        //[Test]
-        //public void DisLikeTest()
-        //{
-        //    UserLikePost result;
-        //    using (var trans = context.Database.BeginTransaction())
-        //    {
-        //        var like = new UserLikePost
-        //        {
-        //            UserId = "1",
-        //            PostId = 1,
-        //        };
-
-        //        result = userRepo.Dislike(like);
-        //        trans.Rollback();
-        //    }
-        //    Assert.IsTrue(!result.Status);
-        //}
-
-        #endregion
-
     }
-}

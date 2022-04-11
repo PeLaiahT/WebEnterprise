@@ -46,13 +46,23 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Assurance")]
         public IActionResult Delete(int id)
         {
-            var courseCategory = _db.Categories.FirstOrDefault(t => t.CategoryID == id);
-            if (courseCategory != null)
+            var category = _db.Categories.Include(d => d.Ideas).FirstOrDefault(t => t.CategoryID == id);
+            if (category != null)
             {
-                _db.Categories.Remove(courseCategory);
-                _db.SaveChanges();
+                if (category.Ideas.Count() > 0)
+                {
+                    TempData["Error"] = $"Cannot delete {category.NameCategory} category";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    _db.Categories.Remove(category);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-            return RedirectToAction("Index");
+            else
+                return RedirectToAction("Index"); ;
         }
         [Authorize(Roles = "Assurance")]
         [HttpGet]

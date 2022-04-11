@@ -1,4 +1,6 @@
-﻿using WebEnterprise.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
+using WebEnterprise.Data;
 using WebEnterprise.Models;
 
 namespace WebEnterprise.Respon
@@ -13,12 +15,12 @@ namespace WebEnterprise.Respon
         public bool DeleteDepartment(int id)
         {
             var department = _db.Departments.FirstOrDefault(t => t.DepartmentID == id);
-            if(department!= null)
+            if (department != null)
             {
                 _db.Departments.Remove(department);
                 _db.SaveChanges();
                 return true;
-            }    
+            }
             return false;
         }
 
