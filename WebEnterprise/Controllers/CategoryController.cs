@@ -17,6 +17,9 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult Index()
         {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             var categories = categoryRepo.GetListCategory();
             return View(categories);
         }
@@ -25,12 +28,18 @@ namespace WebEnterprise.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             return View();
         }
         [Authorize(Roles = "Assurance")]
         [HttpPost]
         public IActionResult Create(Category category)
         {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             if (ModelState.IsValid)
             {
                 return View(category);
@@ -46,6 +55,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Assurance")]
         public IActionResult Delete(int id)
         {
+
             var category = _db.Categories.Include(d => d.Ideas).FirstOrDefault(t => t.CategoryID == id);
             if (category != null)
             {
@@ -68,6 +78,9 @@ namespace WebEnterprise.Controllers
         [HttpGet]
         public IActionResult Update( int id)
         {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             var category = categoryRepo.GetUpdate(id);
             if (category != null)
             {
@@ -82,6 +95,9 @@ namespace WebEnterprise.Controllers
         [HttpPost]
         public IActionResult Update(Category category)
         {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             if (ModelState.IsValid)
             {
                 return View(category);

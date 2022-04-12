@@ -3,7 +3,7 @@
 @inject SignInManager<CustomUser> SignInManager
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
 }
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
@@ -63,7 +63,8 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">@User.Identity?.Name</span>
-                                <i class="fa-solid fa-circle-user"></i>
+                                <img class="img-profile rounded-circle"
+                                    src="~/Img/@ViewBag.image">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"

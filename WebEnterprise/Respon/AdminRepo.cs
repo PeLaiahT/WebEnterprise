@@ -53,19 +53,21 @@ namespace WebEnterprise.Respon
 
         public List<CustomUserDTO> GetAllCoor()
         {
-            var coor = (from u in context.CustomUsers
+            var coor = (from u in context.CustomUsers 
                         join ur in context.UserRoles on u.Id equals ur.UserId
-                        join r in context.Roles on ur.RoleId equals r.Id
-                        where r.Name == "Coordinator"
+                        join r in context.Roles on ur.RoleId equals r.Id where r.Name == "Coordinator"
+                        join d in context.Departments on u.DepartmentID equals d.DepartmentID
+
                         select new CustomUserDTO
                         {
                             Id = u.Id,
                             UserName = u.UserName,
                             Email = u.Email,
+                            Address = u.Address,
                             PhoneNumber = u.PhoneNumber,
                             FullName = u.FullName,
                             FileName = u.FileName,
-                            Department = context.Departments.FirstOrDefault(d => d.DepartmentID == d.DepartmentID),
+                            Department = context.Departments.FirstOrDefault(s => s.DepartmentID == d.DepartmentID),
                         }
                           ).ToList();
             if (coor != null)
@@ -87,10 +89,10 @@ namespace WebEnterprise.Respon
                                Id = u.Id,
                                UserName = u.UserName,
                                Email = u.Email,
+                               Address = u.Address,
                                PhoneNumber = u.PhoneNumber,
                                FullName = u.FullName,
                                FileName = u.FileName,
-                               Department = context.Departments.FirstOrDefault(d => d.DepartmentID == d.DepartmentID),
                            }
                       ).ToList();
             if(manager != null)
@@ -447,6 +449,7 @@ namespace WebEnterprise.Respon
             {
                 newcoor.UserName = coor.UserName;
                 newcoor.Email = coor.Email;
+                newcoor.DepartmentID = coor.DepartmentID;
                 newcoor.Address = coor.Address;
                 newcoor.PhoneNumber = coor.PhoneNumber;
                 newcoor.FullName = coor.FullName;
@@ -637,6 +640,7 @@ namespace WebEnterprise.Respon
                 UserName = manager.UserName,
                 FullName = manager.FullName,
                 Email = manager.Email,
+                Address = manager.Address,
                 PhoneNumber = manager.PhoneNumber,
                 Image = manager.Image,
                 FileName = manager.FileName
@@ -660,6 +664,7 @@ namespace WebEnterprise.Respon
                 UserName = coor.UserName,
                 FullName = coor.FullName,
                 Email = coor.Email,
+                Address = coor.Address,
                 PhoneNumber = coor.PhoneNumber,
                 Image = coor.Image,
                 FileName = coor.FileName,
@@ -689,6 +694,7 @@ namespace WebEnterprise.Respon
             {
                 newcoor.UserName = coor.UserName;
                 newcoor.Email = coor.Email;
+                newcoor.Address = coor.Address;
                 newcoor.PhoneNumber = coor.PhoneNumber;
                 newcoor.FullName = coor.FullName;
                 context.SaveChanges();
@@ -708,6 +714,8 @@ namespace WebEnterprise.Respon
             {
                 newManager.UserName = manager.UserName;
                 newManager.Email = manager.Email;
+                newManager.DepartmentID = manager.DepartmentID;
+                manager.Address = manager.Address;
                 newManager.PhoneNumber = manager.PhoneNumber;
                 newManager.FullName = manager.FullName;
                 newManager.FileName = manager.FileName;
