@@ -2,7 +2,6 @@
 using WebEnterprise.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNet.Identity;
-
 namespace WebEnterprise.Respon
 {
     public class LikeRepo : ILikeRepo
@@ -17,10 +16,23 @@ namespace WebEnterprise.Respon
         {
             throw new NotImplementedException();
         }
-
-        public Idea UpLike(int IdeaID)
+      
+        public Idea UpLike(int IdeaId)
         {
-            throw new NotImplementedException();
+            var idea = _db.Ideas.FirstOrDefault(i => i.IdeaID == IdeaId);
+            if (idea != null)
+            {
+                var like = new Like
+                {
+                    //LikeUserID = User.Identity.GetUserId(),
+                    IdeaId = IdeaId
+                };
+                _db.Likes.Add(like);
+                idea.Likecount++;
+                _db.SaveChanges();
+                return idea;
+            }
+            return null;
         }
     }
 }

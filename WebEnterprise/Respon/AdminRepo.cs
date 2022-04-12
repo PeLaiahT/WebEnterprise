@@ -15,14 +15,6 @@ namespace WebEnterprise.Respon
             userManager = _userManager;
 
         }
-
-        public AdminRepo(ApplicationDbContext context)
-        {
-            this.context = context;
-        }
-
-
-
         public bool DeleteManager(string id)
         {
             var manager = context.Users.FirstOrDefault(u => u.Id == id);
@@ -35,10 +27,7 @@ namespace WebEnterprise.Respon
             return false;
         }
 
-        public CustomUserDTO DeleteStaff(string id)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public List<CustomUserDTO> GetAllAdmin()
         {
@@ -288,50 +277,50 @@ namespace WebEnterprise.Respon
             return null;
         }
 
-        public async Task<CustomUserDTO> PostCreateStaff(CustomUserDTO staff, List<IFormFile> postedFile)
-        {
-            foreach (IFormFile f in postedFile)
-            {
-                using (var dataStream = new MemoryStream())
-                {
-                    await f.CopyToAsync(dataStream);
-                    staff.Image = dataStream.ToArray();
-                }
-                if (postedFile != null)
-                {
-                    //chi dinh duong dan se luu
-                    string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
-                        "wwwroot", "Img", f.FileName);
-                    staff.FileName = f.FileName;
-                    using (var file = new FileStream(fullPath, FileMode.Create))
-                    {
-                        f.CopyTo(file);
-                    }
-                }
-            }
-            var user = new CustomUser
-            {
-                UserName = staff.UserName,
-                FullName = staff.FullName,
-                Address = staff.Address,
-                Email = staff.Email,
-                PhoneNumber = staff.PhoneNumber,
-                Image = staff.Image,
-                FileName = staff.FileName,
-                DepartmentID = staff.DepartmentID
-            };
-            var result = await userManager.CreateAsync(user, "Staff123!");
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(user, "Staff");
-            }
-            if(staff!= null)
-            {
-                return staff;
-            }
-            return null;
+        //public async Task<CustomUserDTO> PostCreateStaff(CustomUserDTO staff, List<IFormFile> postedFile)
+        //{
+        //    foreach (IFormFile f in postedFile)
+        //    {
+        //        using (var dataStream = new MemoryStream())
+        //        {
+        //            await f.CopyToAsync(dataStream);
+        //            staff.Image = dataStream.ToArray();
+        //        }
+        //        if (postedFile != null)
+        //        {
+        //            //chi dinh duong dan se luu
+        //            string fullPath = Path.Combine(Directory.GetCurrentDirectory(),
+        //                "wwwroot", "Img", f.FileName);
+        //            staff.FileName = f.FileName;
+        //            using (var file = new FileStream(fullPath, FileMode.Create))
+        //            {
+        //                f.CopyTo(file);
+        //            }
+        //        }
+        //    }
+        //    var user = new CustomUser
+        //    {
+        //        UserName = staff.UserName,
+        //        FullName = staff.FullName,
+        //        Address = staff.Address,
+        //        Email = staff.Email,
+        //        PhoneNumber = staff.PhoneNumber,
+        //        Image = staff.Image,
+        //        FileName = staff.FileName,
+        //        DepartmentID = staff.DepartmentID
+        //    };
+        //    var result = await userManager.CreateAsync(user, "Staff123!");
+        //    if (result.Succeeded)
+        //    {
+        //        await userManager.AddToRoleAsync(user, "Staff");
+        //    }
+        //    if(staff!= null)
+        //    {
+        //        return staff;
+        //    }
+        //    return null;
 
-        }
+        //}
 
         public async Task<CustomUserDTO> PostEditManager(CustomUserDTO manager, List<IFormFile> postedFile)
         {
@@ -478,7 +467,7 @@ namespace WebEnterprise.Respon
             return true;
         }
 
-        public bool IDeleteStaff(string id)
+        public bool DeleteStaff(string id)
         {
             var staffs = context.CustomUsers.FirstOrDefault(u => u.Id == id);
             var ideas = context.Ideas.Where(i => i.IdeaUserID == id).ToList();
@@ -505,10 +494,7 @@ namespace WebEnterprise.Respon
             return true;
         }
 
-        bool IAdminRespon.DeleteStaff(string id)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task<CustomUserDTO> PostEditStaff(CustomUserDTO staff, IFormFile postedFile)
         {
@@ -595,6 +581,145 @@ namespace WebEnterprise.Respon
                 return staff;
             }
             return null;
+        }
+
+        public CustomUserDTO PostEditStaff(CustomUserDTO staff)
+        {
+            var newstaff = context.CustomUsers.Find(staff.Id);         
+            if (newstaff == null)
+            {
+                return null;
+            }
+            else
+            {
+                newstaff.UserName = staff.UserName;
+                newstaff.Email = staff.Email;
+                newstaff.Address = staff.Address;
+                newstaff.PhoneNumber = staff.PhoneNumber;
+                newstaff.FullName = staff.FullName;
+                newstaff.Department = staff.Department;
+                newstaff.Image = staff.Image;
+                newstaff.FileName = staff.FileName;
+                context.SaveChanges();
+            }
+            return staff;
+        }
+
+        public async Task<CustomUserDTO> PostCreateStaff(CustomUserDTO staff)
+        {
+            var user = new CustomUser
+            {
+                UserName = staff.UserName,
+                FullName = staff.FullName,
+                Address = staff.Address,
+                Email = staff.Email,
+                PhoneNumber = staff.PhoneNumber,
+                Image = staff.Image,
+                FileName = staff.FileName,
+                DepartmentID = staff.DepartmentID
+            };
+            var result = await userManager.CreateAsync(user, "Staff123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Staff");
+            }
+            if (staff != null)
+            {
+                return staff;
+            }
+            return null;
+        }
+
+        public async Task<CustomUserDTO> PostCreateManager(CustomUserDTO manager)
+        {
+            var user = new CustomUser
+            {
+                UserName = manager.UserName,
+                FullName = manager.FullName,
+                Email = manager.Email,
+                PhoneNumber = manager.PhoneNumber,
+                Image = manager.Image,
+                FileName = manager.FileName
+            };
+            var result = await userManager.CreateAsync(user, "Manager123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Assurance");
+            }
+            if (manager != null)
+            {
+                return manager;
+            }
+            return null;
+        }
+
+        public async Task<CustomUserDTO> PostCreateCoor(CustomUserDTO coor)
+        {
+            var user = new CustomUser
+            {
+                UserName = coor.UserName,
+                FullName = coor.FullName,
+                Email = coor.Email,
+                PhoneNumber = coor.PhoneNumber,
+                Image = coor.Image,
+                FileName = coor.FileName,
+                DepartmentID = coor.DepartmentID
+            };
+            var result = await userManager.CreateAsync(user, "Coor123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Coordinator");
+            }
+            if (coor != null)
+            {
+                return coor;
+            }
+            return null;
+
+        }
+
+        public CustomUserDTO PostEditCoor(CustomUserDTO coor)
+        {
+            var newcoor = context.CustomUsers.Find(coor.Id);
+            if (newcoor == null)
+            {
+                return null;
+            }
+            else
+            {
+                newcoor.UserName = coor.UserName;
+                newcoor.Email = coor.Email;
+                newcoor.PhoneNumber = coor.PhoneNumber;
+                newcoor.FullName = coor.FullName;
+                context.SaveChanges();
+            }
+            return coor;
+        }
+
+        public CustomUserDTO PostEditManager(CustomUserDTO manager)
+        {
+            var newManager = context.CustomUsers.Find(manager.Id);
+           
+            if (manager == null)
+            {
+                return null;
+            }
+            else
+            {
+                newManager.UserName = manager.UserName;
+                newManager.Email = manager.Email;
+                newManager.PhoneNumber = manager.PhoneNumber;
+                newManager.FullName = manager.FullName;
+                newManager.FileName = manager.FileName;
+
+                context.SaveChanges();
+            }
+            if (manager != null)
+            {
+                return manager;
+            }
+            return null;
+
         }
     }
 }

@@ -39,7 +39,14 @@ namespace WebEnterprise.Respon
 
         public Department PostCreate(Department department)
         {
-            throw new NotImplementedException();
+          
+            if (department!=null)
+            {
+                _db.Departments.Add(department);
+                _db.SaveChanges();
+                return department;
+            }
+            return null;
         }
 
         public Department GetUpdate(int id)

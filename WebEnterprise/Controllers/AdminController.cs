@@ -49,7 +49,7 @@ namespace WebEnterprise.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> CreateStaff(CustomUserDTO staff, IFormFile postedFile)
+        public async Task<IActionResult> CreateStaff(CustomUserDTO staff, IFormFile? postedFile)
         {
             IdeaValidation(staff);
             if (ModelState.IsValid)

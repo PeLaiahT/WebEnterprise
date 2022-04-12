@@ -100,18 +100,6 @@ namespace WebEnterprise.Respon
             return null;
         }
 
-        //public async Task<IOrderedQueryable> GetIndexIdea(int? page)
-        //{
-        //    var listIdea = _db.Ideas.Include(i => i.Category)
-        //        .Include(i => i.IdeaUser)
-        //        .Include(i => i.Documments)
-        //        .OrderByDescending(i => i.CreateAt);
-        //    if(listIdea != null)
-        //    {
-        //        return PaginatedList<Idea>.CreateAsync(listIdea, page ?? 1, 5));
-        //    }
-        //    return null;
-        //}
 
         public Task<IOrderedQueryable> GetIndexIdeaCoor(int page)
         {
@@ -138,21 +126,6 @@ namespace WebEnterprise.Respon
             return null;
         }
 
-        //public Idea MostLike()
-        //{
-        //    var mostLike = _db.Ideas.Max(i => i.Likecount);
-        //    var idea = _db.Ideas.
-        //        Include(i => i.IdeaUser).
-        //        Include(i => i.Category).
-        //        Include(i => i.Documments).
-        //        Include(i => i.Comments).ThenInclude(c => c.CommentUser)
-        //        .Where(i => i.Likecount == mostLike).FirstOrDefault();
-        //    if(idea != null)
-        //    {
-        //        return idea;
-        //    }
-        //    return null;
-        //}
 
         public Idea MostLikeCoor()
         {
@@ -191,7 +164,13 @@ namespace WebEnterprise.Respon
 
         public Idea PostClosureDate(Idea idea)
         {
-            throw new NotImplementedException();
+            if(idea != null)
+            {
+                _db.Update(idea);
+                _db.SaveChanges();
+                return idea;
+            }
+            return null;
         }
 
         public Task<Idea> PostCreate(Idea idea, List<IFormFile> postedFile)
@@ -206,12 +185,27 @@ namespace WebEnterprise.Respon
 
         public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            var idea = _db.Ideas.FirstOrDefault(t => t.IdeaID == id);
+            if (idea != null)
+            {
+                _db.Ideas.Remove(idea);
+                _db.SaveChanges();
+                return true;
+            }
+            return false;
+
         }
 
-        bool IIdeaRepo.DeleteDoc(int id)
+        public bool DeleteDoc(int id)
         {
-            throw new NotImplementedException();
+            var doc = _db.Documments.FirstOrDefault(t => t.DocummentID == id);
+            if (doc != null)
+            {
+                _db.Documments.Remove(doc);
+                _db.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public Task<IOrderedQueryable> GetIndexIdea(int page)
@@ -222,6 +216,35 @@ namespace WebEnterprise.Respon
         public Idea MostLike()
         {
             throw new NotImplementedException();
+
+        }
+
+        public Idea PostCreate(Idea idea)
+        {
+            if(idea != null)
+            {
+                var idea1 = new Idea
+                {
+                    Content = idea.Content,
+                    Title = idea.Title,
+                    CategoryID = idea.CategoryID,
+                };
+                _db.Ideas.Add(idea1);
+                _db.SaveChanges();
+                return idea;
+            }
+            return null;
+        }
+
+        public Idea PostUpdate(Idea idea)
+        {
+            if (idea != null)
+            {
+                _db.Update(idea);
+                _db.SaveChanges();
+                return idea;
+            }
+            return null;
         }
     }
 }
