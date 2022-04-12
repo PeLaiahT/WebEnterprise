@@ -100,6 +100,9 @@
                                                 @Html.DisplayNameFor(model => model.Email)
                                             </th>
                                             <th class="text-center">
+                                                @Html.DisplayNameFor(model => model.Address)
+                                            </th>
+                                            <th class="text-center">
                                                 @Html.DisplayNameFor(model => model.Image)
                                             </th>
                                             <th class="text-center">
@@ -128,6 +131,9 @@
                                                     </td>
                                                     <td class="text-center">
                                                         @Html.DisplayFor(modelItem => item.Email)
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @Html.DisplayFor(modelItem => item.Address)
                                                     </td>
                                                     <td class="text-center">
                                                         <img style="width:80px;" src="~/Img/@item.FileName" />

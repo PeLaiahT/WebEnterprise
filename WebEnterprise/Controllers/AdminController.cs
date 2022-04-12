@@ -91,6 +91,7 @@ namespace WebEnterprise.Controllers
                var staff1 = await adminRespon.PostEditStaff(staff, postedFile);
                 return RedirectToAction("ViewAllStaff");
             }
+            ViewBag.departments = GetDropDownDepartment();
             return View(staff);
         }
         [Authorize(Roles = "Admin")]
@@ -130,6 +131,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EditCoor(string id)
         {
+            ViewBag.departments = GetDropDownDepartment();
             var coor = adminRespon.GetEditCoor(id);
             if (coor == null)
             {
@@ -147,6 +149,7 @@ namespace WebEnterprise.Controllers
                 var cor = await adminRespon.PostEditCoor(coor, postedFile);
                 return RedirectToAction("ViewAllCoordinator");
             }
+            ViewBag.departments = GetDropDownDepartment();
             return View(coor);
         }
         [Authorize(Roles = "Admin")]
@@ -184,6 +187,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult EditManager(string id)
         {
+            ViewBag.departments = GetDropDownDepartment();
             var manager = adminRespon.GetEditManager(id);
             if (manager == null)
             {
@@ -201,6 +205,7 @@ namespace WebEnterprise.Controllers
                 var man = await adminRespon.PostEditManager(manager, postedFile);
                 return RedirectToAction("ViewAllManager");
             }
+            ViewBag.departments = GetDropDownDepartment();
             return View(manager);
         }
         private void IdeaValidation(CustomUserDTO person)
