@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System.Data.Entity;
-using WebEnterprise.Common;
+using Microsoft.EntityFrameworkCore;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
-using WebEnterprise.Respon;
 namespace WebEnterprise.Respon
 {
     public class IdeaRepo : IIdeaRepo
@@ -41,8 +39,7 @@ namespace WebEnterprise.Respon
                FirstOrDefault(i => i.IdeaID == id);
             idea.Comments = _db.Comments.Where(i => i.IdeaID == id).Include(i => i.CommentUser).OrderByDescending(x => x.CreateAt).ToList();
             idea.View++;
-            _db.SaveChanges();
-            
+            _db.SaveChanges();       
             if(idea != null)
             {
                 return idea;

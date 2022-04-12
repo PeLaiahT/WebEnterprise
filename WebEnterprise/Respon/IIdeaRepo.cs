@@ -1,4 +1,5 @@
 ﻿using WebEnterprise.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebEnterprise.Respon
 {
