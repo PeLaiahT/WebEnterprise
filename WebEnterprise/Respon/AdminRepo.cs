@@ -416,7 +416,7 @@ namespace WebEnterprise.Respon
                 newstaff.Address = staff.Address;
                 newstaff.PhoneNumber = staff.PhoneNumber;
                 newstaff.FullName = staff.FullName;
-                newstaff.Department = staff.Department;
+                newstaff.DepartmentID = staff.DepartmentID;
                 newstaff.Image = staff.Image;
                 newstaff.FileName = staff.FileName;
                 context.SaveChanges();
