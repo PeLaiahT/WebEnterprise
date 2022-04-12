@@ -8,5 +8,6 @@ namespace WebEnterprise.Respon
         public Category PostCreate(Category category);
         public bool DeleteCategory(int id);
         public Category GetUpdate(int id);
+        public Category PostUpdate(Category category);
     }
 }

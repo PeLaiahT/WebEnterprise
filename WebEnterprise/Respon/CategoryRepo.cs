@@ -50,7 +50,26 @@ namespace WebEnterprise.Respon
 
         public Category PostCreate(Category category)
         {
-            throw new NotImplementedException();
+            
+            if(category!=null)
+            {
+                _db.Categories.Add(category);
+                _db.SaveChanges();
+                return category;
+            }
+            return null;
+        }
+
+        public Category PostUpdate(Category category)
+        {
+            if(category!=null)
+            {
+
+                _db.Update(category);
+                _db.SaveChanges();
+                return category;
+            }
+            return null;
         }
     }
 }

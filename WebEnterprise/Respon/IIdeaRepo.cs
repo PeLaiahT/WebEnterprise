@@ -10,8 +10,7 @@ namespace WebEnterprise.Respon
         public Task<IOrderedQueryable> GetIndexUser(int page);
         public Idea GetClosureDate(int id);
         public Idea PostClosureDate(Idea idea);
-        public Task<Idea> PostCreate(Idea idea, List<IFormFile> postedFile);
-        public Task<Idea> PostUpdate(Idea idea, List<IFormFile> postedFile);
+
         public bool Delete(int id);
         public Idea GetUpdate(int id);
         public Idea GetDetail(int id);
@@ -28,6 +27,10 @@ namespace WebEnterprise.Respon
         public Idea MostLikeManager();
         public Idea MostViewManager();
         public bool DeleteDoc(int id);
+        public Task<Idea> PostCreate(Idea idea, List<IFormFile> postedFile);
+        public Task<Idea> PostUpdate(Idea idea, List<IFormFile> postedFile);
+        public Idea PostCreate(Idea idea);
+        public Idea PostUpdate(Idea idea);
 
 
 
