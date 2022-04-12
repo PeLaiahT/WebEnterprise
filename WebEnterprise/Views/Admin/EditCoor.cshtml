@@ -106,9 +106,21 @@
 										   placeholder="Email Address">
 								</div>
 							</div>
+							<div class="form-group mb-3">
+								<label class="font-weight-bold" for="validationCustom04" asp-for="DepartmentID">Department</label>
+								<div>
+									@Html.DropDownListFor(m => m.DepartmentID,
+									(IEnumerable<SelectListItem>)ViewBag.departments,
+									htmlAttributes:new{@class ="form-control"})
+								</div>
+							</div>
 							<div class="form-group">
 								<input asp-for="UserName" type="text" class="form-control form-control-user" id="exampleLastName"
 									   placeholder="UserName Coor...">
+							</div>
+							<div class="form-group">
+								<input asp-for="Address" type="text" class="form-control form-control-user" id="exampleLastName"
+									   placeholder="Address Coor...">
 							</div>
 							<div class="form-group">
 								<input asp-for="PhoneNumber" type="text" class="form-control form-control-user" id="exampleLastName"
