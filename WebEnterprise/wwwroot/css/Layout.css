@@ -565,8 +565,19 @@ pre {
     .container, .container-sm {
         max-width: 540px;
     }
+    
 }
+@media (max-width: 500px) {
 
+    
+    .abc {
+
+        width: 400px;
+    }
+    .f-card {
+        width: 25rem !important;
+    }
+}
 @media (min-width: 768px) {
     .container, .container-sm, .container-md {
         max-width: 720px;
