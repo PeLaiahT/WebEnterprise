@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using WebEnterprise.Common;
 using WebEnterprise.Data;
 using WebEnterprise.Models;
@@ -445,6 +446,50 @@ namespace WebEnterprise.Controllers
             return null;
 
         }
+
+
+        [Authorize(Roles = "Admin, Assurance")]
+        public FileResult Export()
+        {
+            var posts = _db.Ideas
+                              .OrderBy(c => c.IdeaID).Include(i=> i.IdeaUser).Include(c=>c.Category)
+                              .ToList(); ;
+
+            FileInfo template = new FileInfo(@"wwwroot/template/Post.xlsx");
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using (ExcelPackage excel = new ExcelPackage(template))
+            {
+                ExcelWorksheet worksheet = excel.Workbook.Worksheets[0];
+                var row = 2;
+                foreach (var post in posts)
+                {
+                    worksheet.Cells[row, 1].Value = post.IdeaID;
+                    worksheet.Cells[row, 2].Value = post.IdeaUser;
+                    worksheet.Cells[row, 3].Value = post.Title;
+                    worksheet.Cells[row, 4].Value = post.Likecount;
+                    worksheet.Cells[row, 5].Value = post.View;
+                    worksheet.Cells[row, 6].Value = post.CategoryID;
+                    worksheet.Cells[row, 7].Value = post.CreateAt.ToString();
+                    worksheet.Cells[row, 8].Value = post.FirstDate.ToString();
+                    worksheet.Cells[row, 9].Value = post.LastDate.ToString();
+                    row++;
+                }
+                string contentType = "";
+                new FileExtensionContentTypeProvider().TryGetContentType(template.FullName, out contentType);
+                return File(excel.GetAsByteArray(), contentType);
+            }
+            
+        }
+        public IActionResult GetIdea()
+        {
+            var posts = _db.Ideas
+                             .OrderBy(c => c.IdeaID)
+                             .ToList();
+            return View(posts);
+
+        }
+
+
         [Authorize(Roles = "Assurance")]
         public IActionResult Dashboard(int? id, string option)
         {
