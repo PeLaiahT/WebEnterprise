@@ -453,6 +453,7 @@ namespace WebEnterprise.Respon
                 newcoor.Address = coor.Address;
                 newcoor.PhoneNumber = coor.PhoneNumber;
                 newcoor.FullName = coor.FullName;
+                newcoor.FileName = coor.FileName;
                 context.SaveChanges();
             }
             return coor;

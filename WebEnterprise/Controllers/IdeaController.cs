@@ -451,6 +451,7 @@ namespace WebEnterprise.Controllers
         [Authorize(Roles = "Admin, Assurance")]
         public FileResult Export()
         {
+
             var posts = _db.Ideas
                               .OrderBy(c => c.IdeaID).Include(i=> i.IdeaUser).Include(c=>c.Category)
                               .ToList(); ;
@@ -482,6 +483,9 @@ namespace WebEnterprise.Controllers
         }
         public IActionResult GetIdea()
         {
+            var username = User.Identity.Name;
+            var user = _db.CustomUsers.Where(u => u.UserName.Equals(username)).FirstOrDefault();
+            ViewBag.image = user.FileName;
             var posts = _db.Ideas
                              .OrderBy(c => c.IdeaID)
                              .ToList();

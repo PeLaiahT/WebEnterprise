@@ -1,0 +1,9 @@
+﻿@media screen(min-width: 426px){
+    .f-card{
+        width:400px;
+        
+    }
+    .right-sidebar {
+        margin-left: 10px;
+    }
+}

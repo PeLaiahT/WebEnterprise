@@ -1,12 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk;Microsoft.NET.Sdk.Publish">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
@@ -16,9 +13,12 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\WebEnterprise\WebEnterprise.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Update="Settings.job">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
